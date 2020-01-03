@@ -23,4 +23,14 @@ public class UserBasicInfoServiceImpl implements UserBasicInfoService {
         }
         return userBasicInfoRepository.save(userBasicInfo).getOpenId();
     }
+
+    @Override
+    public UserBasicInfo getUserBasicInfoByOpenid(String openId) {
+        return userBasicInfoRepository.findById(openId).orElse(null);
+    }
+
+    @Override
+    public void deleteOneUserBasicInfoById(String openid) {
+        userBasicInfoRepository.deleteById(openid);
+    }
 }

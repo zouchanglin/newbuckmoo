@@ -4,6 +4,7 @@ import live.lslm.newbuckmoo.config.ProjectUrlConfig;
 import live.lslm.newbuckmoo.convert.WxMpUserConvert;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.service.UserBasicInfoService;
+import live.lslm.newbuckmoo.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -28,10 +29,13 @@ import java.net.URLEncoder;
 public class WeChatController {
     @Autowired
     private ProjectUrlConfig projectUrlConfig;
+
     @Autowired
     private WxMpService wxMpService;
+
     @Autowired
     private UserBasicInfoService userBasicInfoService;
+
     /**
      * 用户信息授权
      * @param returnUrl 重定向的链接
@@ -70,10 +74,7 @@ public class WeChatController {
                 WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(accessToken, null);
                 UserBasicInfo userBasicInfo = WxMpUserConvert.mpUserConvertToUserBasicInfo(wxMpUser);
                 String savedOpenid = userBasicInfoService.updateOrCreateUserBasic(userBasicInfo);
-                Cookie cookie = new Cookie("openid", savedOpenid);
-                cookie.setPath("/");
-                cookie.setMaxAge(Integer.MAX_VALUE);
-                response.addCookie(cookie);
+                CookieUtil.set(response, "openid", savedOpenid, Integer.MAX_VALUE);
             } catch (WxErrorException e) {
                 e.printStackTrace();
             }
