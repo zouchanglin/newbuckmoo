@@ -33,7 +33,21 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.1.10</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.47</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.springboot</groupId>
+            <artifactId>best-pay-sdk</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>3.4.0</version>
+        </dependency>
 
         <!--  -->
         <dependency>

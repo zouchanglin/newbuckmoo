@@ -26,3 +26,15 @@ spring:
     expose-session-attributes: false
     request-context-attribute: request
     suffix: .ftl
+
+wechat:
+  mpAppId: wxb39b42f5fd93c167
+  mpAppSecret: 3d63c96f84e4587baa5e4a6f85d1a515
+  mchId: 1545797881
+  mchKey: lhl123456anxlhl123456anxlhl12345
+  mchPath: D:\develop\wechatPayKey\apiclient_cert.p12
+  notifyUrl: http://tim.natapp1.cc/newbuckmoo/allpay/notify
+
+projecturl:
+  wechatMpAuthorize: http://tim.natapp1.cc
+  newbuckmoo: http://tim.natapp1.cc/newbuckmoo

@@ -13,9 +13,13 @@ spring:
       max-active: 50
       max-wait: 50000
       time-between-eviction-runs-millis: 50000
+  mvc:
+    static-path-pattern: /**
 
   jpa:
     show-sql: true
+  jackson:
+    default-property-inclusion: non_null
   freemarker:
     template-loader-path: classpath:/templates
     cache: false
@@ -26,3 +30,19 @@ spring:
     expose-session-attributes: false
     request-context-attribute: request
     suffix: .ftl
+
+server:
+  servlet:
+    context-path: /newbuckmoo
+
+wechat:
+  mpAppId: wxb39b42f5fd93c167
+  mpAppSecret: 3d63c96f84e4587baa5e4a6f85d1a515
+  mchId: 1545797881
+  mchKey: lhl123456anxlhl123456anxlhl12345
+  mchPath: D:\develop\wechatPayKey\apiclient_cert.p12
+  notifyUrl: http://tim.natapp1.cc/newbuckmoo/allpay/notify
+
+projecturl:
+  wechatMpAuthorize: http://tim.natapp1.cc
+  newbuckmoo: http://tim.natapp1.cc/newbuckmoo

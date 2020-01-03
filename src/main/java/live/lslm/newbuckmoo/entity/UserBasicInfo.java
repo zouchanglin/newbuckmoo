@@ -38,4 +38,14 @@ public class UserBasicInfo {
      * 用户电话
      */
     private String userPhone;
+
+    /**
+     * 用户积分
+     */
+    private Integer userGrade = 0;
+
+    /**
+     * 用户性别
+     */
+    private Integer userSex;
 }
