@@ -6,6 +6,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * 企业信息
+ */
 @Data
 @Entity
 @DynamicUpdate

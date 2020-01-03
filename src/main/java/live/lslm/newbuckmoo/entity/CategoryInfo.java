@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * 兼职标签
+ */
 @Entity
 @Data
 public class CategoryInfo {

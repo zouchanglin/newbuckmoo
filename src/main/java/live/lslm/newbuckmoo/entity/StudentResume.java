@@ -68,4 +68,17 @@ public class StudentResume {
      * 自我描述
      */
     private String resumeAboutMyself;
+
+    /**
+     * 语言能力如：
+     * 2019.02获得 CET4
+     */
+    private String resumeLanguage;
+
+    /**
+     * 获得证书如：
+     * 2019.02 CET4证书
+     * 2019.11 五星级志愿者证书
+     */
+    private String resumeCredential;
 }
