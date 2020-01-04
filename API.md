@@ -7,13 +7,13 @@
 GET newbuckmoo/wechat/authorize
 ```
 
-参数
+参数：
 
 ```
 returnUrl:返回重定向路径
 ```
 
-返回值
+返回值：
 
 ```
 重定向路径
@@ -21,13 +21,13 @@ returnUrl:返回重定向路径
 
 授权完成会在cookie中设置永久cookie，请求其他需要openId的接口时在cookie中取就行了
 
-## 2、具体身份信息注册
+## 2、学生身份信息注册
 
 ```
-POST newbuckmoo/user-basic/student-attestation
+POST newbuckmoo/approve/student
 ```
 
-参数
+参数：
 
 ```json
 {
@@ -46,7 +46,7 @@ POST newbuckmoo/user-basic/student-attestation
 
 * openid：用户的微信openid
 
-返回值
+返回值：
 
 ```json
 {
@@ -63,6 +63,57 @@ POST newbuckmoo/user-basic/student-attestation
 status_code：审核状态
 
 status：审核状态的文字表示
+
+## 3、企业身份信息注册
+
+```
+POST newbuckmoo/approve/student
+```
+
+参数：
+
+```json
+{
+	"openid": "78397897HJIDE78D56D345DEW",
+	"name": "骊山鹿鸣有限公司",
+	"owner": "杨楠",
+	"describe": "骊山鹿鸣通过优质资源的有效整合，更好服务于学生群体",
+	"number": "13JDE9W0D8EW9D90DWE",
+	"certificate": "http://xxxx.png"
+}
+```
+
+参数说明：
+
+* openid：微信用户的openid
+* name：企业名称
+* owner：企业法人姓名
+* describe：经营范围描述
+* number：工商注册号
+
+返回值：
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "status_code": 0,
+        "openID": "78397897HJIDE78D56D345DEW",
+        "status": "未审核"
+    }
+}
+```
+
+和学生信息注册的一样！
+
+
+
+
+
+
+
+
 
 
 

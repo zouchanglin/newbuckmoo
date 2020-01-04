@@ -47,5 +47,10 @@ public class StudentInfo {
     /**
      * 审核状态
      */
-    private Integer auditStatus = AuditStatusEnum.AUDIT_FUTURE.getCode();
+    private Integer auditStatus = AuditStatusEnum.AUDIT_RUNNING.getCode();
+
+    /**
+     * 信息更新时间
+     */
+    private Long updateTime = System.currentTimeMillis();
 }

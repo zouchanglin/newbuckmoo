@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -41,7 +40,7 @@ public class WeChatController {
      * @param returnUrl 重定向的链接
      * @return 合并链接
      */
-    @GetMapping("/authorize")
+    @GetMapping("authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl){
         //1、配置
         //2、调用方法
@@ -63,7 +62,7 @@ public class WeChatController {
      * @param openid Cookie里面存储的openid
      * @return 重新向和并连接
      */
-    @GetMapping("/userInfo")
+    @GetMapping("userInfo")
     public String userInfo(@RequestParam("code") String code,
                            @RequestParam("state") String returnUrl,
                            HttpServletResponse response,

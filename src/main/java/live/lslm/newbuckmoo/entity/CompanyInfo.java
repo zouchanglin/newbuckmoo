@@ -45,5 +45,5 @@ public class CompanyInfo {
     /**
      * 审核状态
      */
-    private Integer auditStatus = AuditStatusEnum.AUDIT_FUTURE.getCode();
+    private Integer auditStatus = AuditStatusEnum.AUDIT_RUNNING.getCode();
 }

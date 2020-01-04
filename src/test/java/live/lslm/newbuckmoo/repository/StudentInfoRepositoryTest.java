@@ -40,6 +40,7 @@ public class StudentInfoRepositoryTest {
         assertNotNull(studentInfoRet);
     }
 
+
     @After
     public void updateAndDelete(){
         Optional<StudentInfo> studentInfo = repository.findById(KEY);
@@ -53,4 +54,7 @@ public class StudentInfoRepositoryTest {
         Optional<StudentInfo> find = repository.findById(KEY);
         assertFalse(find.isPresent());
     }
+
+
+
 }

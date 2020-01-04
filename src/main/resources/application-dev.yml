@@ -12,9 +12,6 @@ spring:
       max-active: 50
       max-wait: 50000
       time-between-eviction-runs-millis: 50000
-  mvc:
-    static-path-pattern: /**
-
   jpa:
     show-sql: true
   jackson:

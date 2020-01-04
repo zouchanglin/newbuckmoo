@@ -1,11 +1,14 @@
 package live.lslm.newbuckmoo.controller;
 
 import com.google.common.collect.Maps;
+import live.lslm.newbuckmoo.entity.CompanyInfo;
 import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
+import live.lslm.newbuckmoo.form.CompanyAttestationForm;
 import live.lslm.newbuckmoo.form.StudentAttestationForm;
+import live.lslm.newbuckmoo.service.CompanyInfoService;
 import live.lslm.newbuckmoo.service.StudentsInfoService;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
@@ -29,9 +32,26 @@ public class AttestationController {
     @Autowired
     private StudentsInfoService studentsInfoService;
 
-    @PostMapping("/company")
-    public ResultVO attestationForCompany(){
+    @Autowired
+    private CompanyInfoService companyInfoService;
 
+
+    @PostMapping(value = "company", produces = "application/json")
+    public ResultVO attestationForCompany(@RequestBody @Valid CompanyAttestationForm companyAttestationForm,
+                                          BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            log.error("参数不正确, companyAttestationForm={}", companyAttestationForm);
+            throw new BuckmooException(ResultEnum.PARAM_ERROR.getCode(),
+                    Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+        }
+        log.info("[AttestationController] companyAttestationForm={}", companyAttestationForm);
+        CompanyInfo savedCompanyInfo = companyInfoService.createOrUpdateInfo(companyAttestationForm);
+        Map<String, Object> resultMap = Maps.newHashMap();
+        resultMap.put("openID", savedCompanyInfo.getOpenId());
+        Integer auditStatus = savedCompanyInfo.getAuditStatus();
+        resultMap.put("status_code", savedCompanyInfo.getAuditStatus());
+        resultMap.put("status", Objects.requireNonNull(EnumUtil.getByCode(auditStatus, AuditStatusEnum.class)).getMessage());
+        return ResultVOUtil.success(resultMap);
     }
 
     /**

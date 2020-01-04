@@ -7,10 +7,9 @@ import lombok.Getter;
  */
 @Getter
 public enum AuditStatusEnum implements CodeEnum {
-    AUDIT_FUTURE(0, "未审核"),
-    AUDIT_RUNNING(1, "审核中"),
-    AUDIT_SUCCESS(2, "审核成功"),
-    AUDIT_FAILED(3, "审核未通过");
+    AUDIT_RUNNING(0, "审核中"),
+    AUDIT_SUCCESS(1, "已通过"),
+    AUDIT_FAILED(2, "未通过");
 
     private Integer code;
     private String message;
