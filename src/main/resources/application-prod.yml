@@ -4,7 +4,6 @@ spring:
     url: jdbc:mysql://lslm.live:3306/buckmoo?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: 123456
-
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 5
@@ -14,8 +13,12 @@ spring:
       max-wait: 50000
       time-between-eviction-runs-millis: 50000
 
+  mvc:
+    static-path-pattern: /**
   jpa:
     show-sql: true
+  jackson:
+    default-property-inclusion: non_null
   freemarker:
     template-loader-path: classpath:/templates
     cache: false
@@ -33,8 +36,8 @@ wechat:
   mchId: 1545797881
   mchKey: lhl123456anxlhl123456anxlhl12345
   mchPath: D:\develop\wechatPayKey\apiclient_cert.p12
-  notifyUrl: http://tim.natapp1.cc/newbuckmoo/allpay/notify
+  notifyUrl: http://lslm.live/newbuckmoo/allpay/notify
 
 projecturl:
-  wechatMpAuthorize: http://tim.natapp1.cc
-  newbuckmoo: http://tim.natapp1.cc/newbuckmoo
+  wechatMpAuthorize: http://lslm.live
+  newbuckmoo: http://lslm.live/newbuckmoo

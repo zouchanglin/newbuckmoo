@@ -10,6 +10,9 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class StudentAttestationForm {
 
+    /**
+     * openid来自于Cookie，{@link live.lslm.newbuckmoo.controller.WeChatController#authorize(String)}
+     */
     @NotEmpty(message = "openId缺失")
     private String openid;
 
