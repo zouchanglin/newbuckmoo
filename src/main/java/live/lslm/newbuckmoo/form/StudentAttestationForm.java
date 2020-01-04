@@ -9,27 +9,31 @@ import javax.validation.constraints.NotEmpty;
  */
 @Data
 public class StudentAttestationForm {
+
+    @NotEmpty(message = "openId缺失")
+    private String openid;
+
     /**
      * 学生学号
      */
     @NotEmpty(message = "学号必填")
-    private String studentId;
+    private String number;
 
     /**
      * 学生姓名
      */
     @NotEmpty(message = "姓名必填")
-    private String studentName;
+    private String name;
 
     /**
      * 学生证照片
      */
     @NotEmpty(message = "学生证必上传")
-    private String studentCertificate;
+    private String certificate;
 
     /**
      * 所在学校
      */
     @NotEmpty(message = "学校必填")
-    private String studentSchool;
+    private String school;
 }

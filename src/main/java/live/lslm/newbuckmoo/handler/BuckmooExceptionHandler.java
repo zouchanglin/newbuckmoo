@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @ControllerAdvice
 public class BuckmooExceptionHandler {
-
     /**
      * 处理控制层 or 服务层异常
      * @param e 捕获的异常

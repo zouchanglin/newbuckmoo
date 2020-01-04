@@ -1,6 +1,7 @@
 package live.lslm.newbuckmoo.entity;
 
 
+import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -42,4 +43,9 @@ public class StudentInfo {
      * 简历Id
      */
     private String studentResume;
+
+    /**
+     * 审核状态
+     */
+    private Integer auditStatus = AuditStatusEnum.AUDIT_FUTURE.getCode();
 }

@@ -1,5 +1,6 @@
 package live.lslm.newbuckmoo.entity;
 
+import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -40,4 +41,9 @@ public class CompanyInfo {
      * 经营范围描述
      */
     private String companyDesc;
+
+    /**
+     * 审核状态
+     */
+    private Integer auditStatus = AuditStatusEnum.AUDIT_FUTURE.getCode();
 }
