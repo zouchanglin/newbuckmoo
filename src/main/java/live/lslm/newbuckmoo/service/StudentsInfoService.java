@@ -22,4 +22,16 @@ public interface StudentsInfoService {
      * @return 分页查询结果
      */
     Page<StudentApproveDTO> getApproveList(Pageable pageable);
+
+    /**
+     * 学生认证通过
+     * @param openid 学生微信Id
+     */
+    void passStudentApprove(String openid);
+
+    /**
+     * 学生认证驳回
+     * @param openid 学生微信Id
+     */
+    void rejectedStudentApprove(String openid);
 }

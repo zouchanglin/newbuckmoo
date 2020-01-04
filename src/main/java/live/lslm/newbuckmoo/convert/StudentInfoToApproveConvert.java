@@ -10,14 +10,13 @@ import java.util.stream.Collectors;
 /**
  * 学生信息对象转 DTO
  */
-public class StudentInfoToStudentApproveConvert {
+public class StudentInfoToApproveConvert {
     public static StudentApproveDTO convert(StudentInfo studentInfo) {
-
         StudentApproveDTO studentApproveDTO = new StudentApproveDTO();
         BeanUtils.copyProperties(studentInfo, studentApproveDTO);
         return studentApproveDTO;
     }
     public static List<StudentApproveDTO> convert(List<StudentInfo> studentInfoList) {
-        return studentInfoList.stream().map(StudentInfoToStudentApproveConvert::convert).collect(Collectors.toList());
+        return studentInfoList.stream().map(StudentInfoToApproveConvert::convert).collect(Collectors.toList());
     }
 }

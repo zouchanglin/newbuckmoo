@@ -1,6 +1,6 @@
 package live.lslm.newbuckmoo.entity;
 
-import live.lslm.newbuckmoo.enums.UserEducationBackgroundEnum;
+import live.lslm.newbuckmoo.enums.UserEducationEnum;
 import live.lslm.newbuckmoo.enums.UserSexEnum;
 import live.lslm.newbuckmoo.enums.WorkExperienceEnum;
 import lombok.Data;
@@ -37,7 +37,7 @@ public class StudentResume {
     /**
      * 学历
      */
-    private Integer resumeEducation = UserEducationBackgroundEnum.REGULAR_COLLEGE.getCode();
+    private Integer resumeEducation = UserEducationEnum.REGULAR_COLLEGE.getCode();
 
     /**
      * 工作经验

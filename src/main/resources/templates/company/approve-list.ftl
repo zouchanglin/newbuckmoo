@@ -8,20 +8,23 @@
         <div class="col-md-12 column">
             <div class="page-header">
                 <h4>
-                    未认证学生列表 <small>List of unaccredited students</small>
+                    未认证企业列表 <small>List of unaccredited company</small>
                 </h4>
             </div>
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>
-                        学号<small> Number</small>
+                        工商注册号<small> Registered No</small>
                     </th>
                     <th>
-                        学校<small> School</small>
+                        企业名称<small> Company Name</small>
                     </th>
                     <th>
-                        姓名<small> Name</small>
+                        企业法人<small> Enterprise Person</small>
+                    </th>
+                    <th>
+                        联系方式<small> Phone</small>
                     </th>
                     <th>
                         申请时间<small> CreateTime</small>
@@ -34,52 +37,53 @@
                 </tr>
                 </thead>
                 <tbody>
-                <#list studentApprovePage.content as approve>
+                <#list companyApprovePage.content as approve>
                     <tr>
-                        <td>${approve.studentId}</td>
-                        <td>${approve.studentSchool}</td>
-                        <td>${approve.studentName}</td>
+                        <td>${approve.companyId}</td>
+                        <td>${approve.companyName}</td>
+                        <td>${approve.companyOwnerName}</td>
+                        <td>${approve.userBasicInfo.userPhone}</td>
                         <td>${approve.getUpdateTime()}</td>
                         <td>${approve.getStatusEnum().getMessage()}</td>
                         <td>
                             <a id="modal-770007" href="#modal-container-770007" role="button" class="btn btn-sm btn-default" data-toggle="modal"
-                               onclick="picture('${approve.studentCertificate}')">详情</a>
-                            <a class="btn btn-sm btn-success" href="${request.contextPath}/admin/approve/student-pass?openid=${approve.openId}">通过</a>
+                               onclick="picture('#')">详情</a>
+                            <a class="btn btn-sm btn-success" href="${request.contextPath}/admin/approve/company-pass?openid=${approve.openId}">通过</a>
                             <#if approve.auditStatus == 2>
                                 <a class="btn btn-sm btn-danger disabled">驳回</a>
                             </#if>
                             <#if approve.auditStatus == 0>
-                                <a class="btn btn-sm btn-danger" href="${request.contextPath}/admin/approve/student-rejected?openid=${approve.openId}">驳回</a>
+                                <a class="btn btn-sm btn-danger" href="${request.contextPath}/admin/approve/company-rejected?openid=${approve.openId}">驳回</a>
                             </#if>
                         </td>
                     </tr>
                 </#list>
                 </tbody>
             </table>
-            <#--分页-->
-            <div class="col-md-12 column">
-                <ul class="pagination pull-right">
-                    <#if currentPage lte 1>
-                        <li class="disabled"><a href="#">上一页</a></li>
-                    <#else>
-                        <li><a href="${request.contextPath}/admin/approve/student-list?page=${currentPage - 1}&size=${size}">上一页</a></li>
-                    </#if>
+<#--            &lt;#&ndash;分页&ndash;&gt;-->
+<#--            <div class="col-md-12 column">-->
+<#--                <ul class="pagination pull-right">-->
+<#--                    <#if currentPage lte 1>-->
+<#--                        <li class="disabled"><a href="#">上一页</a></li>-->
+<#--                    <#else>-->
+<#--                        <li><a href="${request.contextPath}/admin/approve/student-list?page=${currentPage - 1}&size=${size}">上一页</a></li>-->
+<#--                    </#if>-->
 
-                    <#list 1..studentApprovePage.getTotalPages() as index>
-                        <#if currentPage == index>
-                            <li class="disabled"><a href="#">${index}</a></li>
-                        <#else>
-                            <li><a href="${request.contextPath}/admin/approve/student-list?page=${index}&size=${size}">${index}</a></li>
-                        </#if>
-                    </#list>
+<#--                    <#list 1..studentApprovePage.getTotalPages() as index>-->
+<#--                        <#if currentPage == index>-->
+<#--                            <li class="disabled"><a href="#">${index}</a></li>-->
+<#--                        <#else>-->
+<#--                            <li><a href="${request.contextPath}/admin/approve/student-list?page=${index}&size=${size}">${index}</a></li>-->
+<#--                        </#if>-->
+<#--                    </#list>-->
 
-                    <#if currentPage gte studentApprovePage.getTotalPages()>
-                        <li class="disabled"><a href="#">下一页</a></li>
-                    <#else>
-                        <li><a href="${request.contextPath}/admin/approve/student-list?page=${currentPage + 1}&size=${size}">下一页</a></li>
-                    </#if>
-                </ul>
-            </div>
+<#--                    <#if currentPage gte studentApprovePage.getTotalPages()>-->
+<#--                        <li class="disabled"><a href="#">下一页</a></li>-->
+<#--                    <#else>-->
+<#--                        <li><a href="${request.contextPath}/admin/approve/student-list?page=${currentPage + 1}&size=${size}">下一页</a></li>-->
+<#--                    </#if>-->
+<#--                </ul>-->
+<#--            </div>-->
         </div>
     </div>
 </div>

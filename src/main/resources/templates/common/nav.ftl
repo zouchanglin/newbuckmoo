@@ -16,7 +16,7 @@
                 <li class="dropdown-header">用户相关</li>
                 <li><a href="${request.contextPath}/admin/approve/student-list">学生认证</a></li>
                 <li><a href="#">学生管理</a></li>
-                <li><a href="#">企业认证</a></li>
+                <li><a href="${request.contextPath}/admin/approve/company-list">企业认证</a></li>
                 <li><a href="#">企业管理</a></li>
             </ul>
         </li>
