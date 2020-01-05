@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 信息认证控制器
+ * 学生、企业信息认证控制器
  */
 @Slf4j
 @RestController

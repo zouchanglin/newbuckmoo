@@ -47,7 +47,7 @@
                         <td>${approve.getStatusEnum().getMessage()}</td>
                         <td>
                             <a id="modal-770007" href="#modal-container-770007" role="button" class="btn btn-sm btn-default" data-toggle="modal"
-                               onclick="picture('#')">详情</a>
+                               onclick="picture('${approve.companyCertificate}')">详情</a>
                             <a class="btn btn-sm btn-success" href="${request.contextPath}/admin/approve/company-pass?openid=${approve.openId}">通过</a>
                             <#if approve.auditStatus == 2>
                                 <a class="btn btn-sm btn-danger disabled">驳回</a>
@@ -60,30 +60,30 @@
                 </#list>
                 </tbody>
             </table>
-<#--            &lt;#&ndash;分页&ndash;&gt;-->
-<#--            <div class="col-md-12 column">-->
-<#--                <ul class="pagination pull-right">-->
-<#--                    <#if currentPage lte 1>-->
-<#--                        <li class="disabled"><a href="#">上一页</a></li>-->
-<#--                    <#else>-->
-<#--                        <li><a href="${request.contextPath}/admin/approve/student-list?page=${currentPage - 1}&size=${size}">上一页</a></li>-->
-<#--                    </#if>-->
+            <#--分页-->
+            <div class="col-md-12 column">
+                <ul class="pagination pull-right">
+                    <#if currentPage lte 1>
+                        <li class="disabled"><a href="#">上一页</a></li>
+                    <#else>
+                        <li><a href="${request.contextPath}/admin/approve/company-list?page=${currentPage - 1}&size=${size}">上一页</a></li>
+                    </#if>
 
-<#--                    <#list 1..studentApprovePage.getTotalPages() as index>-->
-<#--                        <#if currentPage == index>-->
-<#--                            <li class="disabled"><a href="#">${index}</a></li>-->
-<#--                        <#else>-->
-<#--                            <li><a href="${request.contextPath}/admin/approve/student-list?page=${index}&size=${size}">${index}</a></li>-->
-<#--                        </#if>-->
-<#--                    </#list>-->
+                    <#list 1..companyApprovePage.getTotalPages() as index>
+                        <#if currentPage == index>
+                            <li class="disabled"><a href="#">${index}</a></li>
+                        <#else>
+                            <li><a href="${request.contextPath}/admin/approve/company-list?page=${index}&size=${size}">${index}</a></li>
+                        </#if>
+                    </#list>
 
-<#--                    <#if currentPage gte studentApprovePage.getTotalPages()>-->
-<#--                        <li class="disabled"><a href="#">下一页</a></li>-->
-<#--                    <#else>-->
-<#--                        <li><a href="${request.contextPath}/admin/approve/student-list?page=${currentPage + 1}&size=${size}">下一页</a></li>-->
-<#--                    </#if>-->
-<#--                </ul>-->
-<#--            </div>-->
+                    <#if currentPage gte companyApprovePage.getTotalPages()>
+                        <li class="disabled"><a href="#">下一页</a></li>
+                    <#else>
+                        <li><a href="${request.contextPath}/admin/approve/company-list?page=${currentPage + 1}&size=${size}">下一页</a></li>
+                    </#if>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
@@ -93,7 +93,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" id="myModalLabel">
-                    学生证<small> Student Id Card</small>
+                    企业营业执照<small> Company Id Card</small>
                 </h4>
             </div>
             <div class="modal-body">

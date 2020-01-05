@@ -1,17 +1,45 @@
 package live.lslm.newbuckmoo.service.impl;
 
+import live.lslm.newbuckmoo.catchs.VerifyKeyCatch;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
+import live.lslm.newbuckmoo.enums.ResultEnum;
+import live.lslm.newbuckmoo.exception.BuckmooException;
+import live.lslm.newbuckmoo.form.BindPhoneForm;
 import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
 import live.lslm.newbuckmoo.service.UserBasicInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class UserBasicInfoServiceImpl implements UserBasicInfoService {
     @Autowired
     private UserBasicInfoRepository userBasicInfoRepository;
+
+    @Override
+    public void bindPhoneForUser(BindPhoneForm bindPhoneForm) {
+        Optional<UserBasicInfo> findResult = userBasicInfoRepository.findById(bindPhoneForm.getOpenid());
+        String phone = bindPhoneForm.getPhone();
+        String verifyKey = bindPhoneForm.getVerifyKey();
+        if(findResult.isPresent()){
+            UserBasicInfo userBasicInfo = findResult.get();
+            String findVerifyKey = VerifyKeyCatch.getVerifyKey(phone);
+            if(findVerifyKey != null && findVerifyKey.equals(verifyKey)){
+                userBasicInfo.setUserPhone(phone);
+                UserBasicInfo savedResult = userBasicInfoRepository.save(userBasicInfo);
+                log.info("[UserBasicInfoServiceImpl] savedResult={}", savedResult);
+                boolean rmVerifyKey = VerifyKeyCatch.rmVerifyKey(phone);
+                log.info("[UserBasicInfoServiceImpl] rmVerifyKey={}", rmVerifyKey);
+            }else {
+                throw new BuckmooException(ResultEnum.VERIFY_KEY_ERROR);
+            }
+        }else{
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
+    }
 
     @Override
     public String updateOrCreateUserBasic(UserBasicInfo userBasicInfo) {

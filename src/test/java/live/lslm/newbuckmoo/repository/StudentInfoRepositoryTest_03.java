@@ -28,14 +28,16 @@ public class StudentInfoRepositoryTest_03 {
             StudentInfo studentInfo = new StudentInfo();
             studentInfo.setOpenId(KeyUtil.genUniqueKey());
             studentInfo.setStudentId(KeyUtil.genVerifyKey());
-            if(i%2 == 0){
+            if(i%3 == 0){
                 studentInfo.setStudentSchool("西安工程大学");
-            }else{
+            }else if(i%3 == 1){
                 studentInfo.setStudentSchool("西安科技大学");
+            }else{
+                studentInfo.setStudentSchool("陕西科技大学");
             }
             studentInfo.setAuditStatus(i % 3);
             studentInfo.setStudentName(getChineseName());
-            studentInfo.setStudentCertificate("https://s2.ax1x.com/2020/01/04/l0frcT.png");
+            studentInfo.setStudentCertificate("https://s2.ax1x.com/2020/01/05/lBrMPU.png");
             StudentInfo save = repository.save(studentInfo);
             assertNotNull(save);
         }

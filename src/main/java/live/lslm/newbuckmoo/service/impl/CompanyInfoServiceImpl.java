@@ -5,10 +5,13 @@ import live.lslm.newbuckmoo.convert.CompanyInfoToApproveConvert;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.entity.CompanyInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
+import live.lslm.newbuckmoo.enums.ResultEnum;
+import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.CompanyAttestationForm;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
 import live.lslm.newbuckmoo.service.CompanyInfoService;
 import live.lslm.newbuckmoo.service.UserBasicInfoService;
+import live.lslm.newbuckmoo.utils.EnumUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +29,26 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
     private CompanyInfoRepository companyInfoRepository;
     @Autowired
     private UserBasicInfoService userBasicInfoService;
+
+    @Override
+    public void changeCompanyApprove(String openid, Integer code) {
+        Optional<CompanyInfo> findResult = companyInfoRepository.findById(openid);
+        if(findResult.isPresent()){
+            CompanyInfo companyInfo = findResult.get();
+            if(companyInfo.getAuditStatus().equals(code)){
+                throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
+            }else{
+                if(EnumUtil.getByCode(code, AuditStatusEnum.class) == null){
+                    throw new BuckmooException(ResultEnum.PARAM_ERROR);
+                }
+                companyInfo.setAuditStatus(code);
+                CompanyInfo companyInfoSaved = companyInfoRepository.save(companyInfo);
+                log.info("[CompanyInfoServiceImpl] companyInfoSaved={}", companyInfoSaved);
+            }
+        }else {
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
+    }
 
     @Override
     public CompanyInfo createOrUpdateInfo(CompanyAttestationForm companyAttestationForm) {

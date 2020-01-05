@@ -22,6 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+/**
+ * 微信用户基本信息获取控制器
+ */
 @Controller
 @RequestMapping("/wechat")
 @Slf4j

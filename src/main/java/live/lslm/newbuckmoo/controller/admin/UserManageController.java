@@ -2,7 +2,7 @@ package live.lslm.newbuckmoo.controller.admin;
 
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
-import live.lslm.newbuckmoo.entity.CompanyInfo;
+import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.service.CompanyInfoService;
@@ -36,11 +36,11 @@ public class UserManageController {
         }catch (BuckmooException e){
             log.error("[学生信息通过审核]发生异常{}", e);
             map.put("msg", e.getMessage());
-            map.put("url", "/newbuckmoo/admin/approve/student-list");
+            map.put("url", "admin/approve/student-list");
             return new ModelAndView("common/error");
         }
         map.put("msg", ResultEnum.PASS_AUDIT.getMessage());
-        map.put("url", "/newbuckmoo/admin/approve/student-list");
+        map.put("url", "admin/approve/student-list");
         return new ModelAndView("common/success", map);
     }
 
@@ -52,11 +52,11 @@ public class UserManageController {
         }catch (BuckmooException e){
             log.error("[学生信息驳回审核]发生异常{}", e);
             map.put("msg", e.getMessage());
-            map.put("url", "/newbuckmoo/admin/approve/student-list");
+            map.put("url", "admin/approve/student-list");
             return new ModelAndView("common/error");
         }
         map.put("msg", ResultEnum.NOT_PASS_AUDIT.getMessage());
-        map.put("url", "/newbuckmoo/admin/approve/student-list");
+        map.put("url", "admin/approve/student-list");
         return new ModelAndView("common/success", map);
     }
 
@@ -82,5 +82,37 @@ public class UserManageController {
         map.put("currentPage", page);
         map.put("size", size);
         return new ModelAndView("company/approve-list", map);
+    }
+
+    @GetMapping("company-pass")
+    public ModelAndView companyApprovePass(@RequestParam("openid") String openid,
+                                           Map<String, Object> map){
+        try{
+            companyInfoService.changeCompanyApprove(openid, AuditStatusEnum.AUDIT_SUCCESS.getCode());
+        }catch (BuckmooException e){
+            log.error("[企业信息通过审核]发生异常{}", e);
+            map.put("msg", e.getMessage());
+            map.put("url", "admin/approve/company-list");
+            return new ModelAndView("common/error");
+        }
+        map.put("msg", ResultEnum.PASS_AUDIT.getMessage());
+        map.put("url", "admin/approve/company-list");
+        return new ModelAndView("common/success", map);
+    }
+
+    @GetMapping("company-rejected")
+    public ModelAndView companyApproveRejected(@RequestParam("openid") String openid,
+                                           Map<String, Object> map){
+        try{
+            companyInfoService.changeCompanyApprove(openid, AuditStatusEnum.AUDIT_FAILED.getCode());
+        }catch (BuckmooException e){
+            log.error("[企业信息驳回审核]发生异常{}", e);
+            map.put("msg", e.getMessage());
+            map.put("url", "admin/approve/company-list");
+            return new ModelAndView("common/error");
+        }
+        map.put("msg", ResultEnum.PASS_AUDIT.getMessage());
+        map.put("url", "admin/approve/company-list");
+        return new ModelAndView("common/success", map);
     }
 }

@@ -1,10 +1,10 @@
-# API
+# API 文档
 ## 1、用户基本信息获取
 
 其实就是从微信服务器获取微信授权，和以前一样，现在改为动态获取，不是一开始强制要求用户同意授权
 
 ```
-GET newbuckmoo/wechat/authorize
+GET /newbuckmoo/wechat/authorize
 ```
 
 参数：
@@ -21,10 +21,60 @@ returnUrl:返回重定向路径
 
 授权完成会在cookie中设置永久cookie，请求其他需要openId的接口时在cookie中取就行了
 
-## 2、学生身份信息注册
+## 2、手机号获取验证码
 
 ```
-POST newbuckmoo/approve/student
+POST /newbuckmoo/basic-info/verify-key
+```
+
+参数
+
+```json
+{
+	"phone":"15291418231"
+}
+```
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功"
+}
+```
+
+## 3、系统绑定手机号
+
+修改手机号也是同样的接口
+
+```
+POST /newbuckmoo/basic-info/bind-phone
+```
+
+参数
+
+```json
+{
+	"openid":"78397897HJIDE78D56D345DEW",
+	"phone":"15291418231",
+	"verifyKey":"752682"
+}
+```
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功"
+}
+```
+
+## 4、学生身份信息注册
+
+```
+POST /newbuckmoo/approve/student
 ```
 
 参数：
@@ -64,10 +114,10 @@ status_code：审核状态
 
 status：审核状态的文字表示
 
-## 3、企业身份信息注册
+## 5、企业身份信息注册
 
 ```
-POST newbuckmoo/approve/student
+POST /newbuckmoo/approve/student
 ```
 
 参数：
@@ -108,6 +158,8 @@ POST newbuckmoo/approve/student
 和学生信息注册的一样！
 
 
+
+# 运行参数
 
 
 

@@ -1,6 +1,7 @@
 package live.lslm.newbuckmoo.service;
 
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
+import live.lslm.newbuckmoo.form.BindPhoneForm;
 
 public interface UserBasicInfoService {
     /**
@@ -22,4 +23,10 @@ public interface UserBasicInfoService {
      * @param openId openid
      */
     void deleteOneUserBasicInfoById(String openId);
+
+    /**
+     * 手机号绑定系统
+     * BindPhoneForm {@link live.lslm.newbuckmoo.form.BindPhoneForm}
+     */
+    void bindPhoneForUser(BindPhoneForm bindPhoneForm);
 }
