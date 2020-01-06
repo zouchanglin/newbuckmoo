@@ -56,7 +56,7 @@
                 <i class="fa fa-fw fa-plus"></i>开发者选项<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li class="dropdown-header">数据</li>
-                <li><a href="#">模拟数据生成</a></li>
+                <li><a href="${request.contextPath}/develop/index">模拟数据生成</a></li>
                 <li><a href="#">接口日志查询</a></li>
                 <li><a href="${request.contextPath}/druid/index.html">SQL监控平台</a></li>
                 <li><a href="#">主机监控平台</a></li>
