@@ -18,6 +18,8 @@
                 <li><a href="#">学生管理</a></li>
                 <li><a href="${request.contextPath}/admin/approve/company-list">企业认证</a></li>
                 <li><a href="#">企业管理</a></li>
+                <li><a href="${request.contextPath}/admin/approve/club-list">社团认证</a></li>
+                <li><a href="#">社团管理</a></li>
             </ul>
         </li>
         <li class="dropdown open">
@@ -60,6 +62,7 @@
                 <li><a href="#">接口日志查询</a></li>
                 <li><a href="${request.contextPath}/druid/index.html">SQL监控平台</a></li>
                 <li><a href="#">主机监控平台</a></li>
+                <li><a href="${request.contextPath}/API.md">获取最新API</a></li>
             </ul>
         </li>
 

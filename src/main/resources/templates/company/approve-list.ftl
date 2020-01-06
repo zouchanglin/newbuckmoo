@@ -38,7 +38,13 @@
                 </thead>
                 <tbody>
                 <#list companyApprovePage.content as approve>
-                    <tr>
+                <#if approve.auditStatus == 0>
+                    <tr class="info">
+                <#elseif approve.auditStatus == 1>
+                    <tr class="success">
+                <#elseif approve.auditStatus == 2>
+                    <tr class="warning">
+                </#if>
                         <td>${approve.companyId}</td>
                         <td>${approve.companyName}</td>
                         <td>${approve.companyOwnerName}</td>

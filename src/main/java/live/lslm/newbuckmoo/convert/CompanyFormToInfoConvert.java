@@ -3,7 +3,7 @@ package live.lslm.newbuckmoo.convert;
 import live.lslm.newbuckmoo.entity.CompanyInfo;
 import live.lslm.newbuckmoo.form.CompanyAttestationForm;
 
-public class AttestationConvert {
+public class CompanyFormToInfoConvert {
     public static void formToCompany(CompanyAttestationForm companyAttestationForm, CompanyInfo saveCompany) {
         saveCompany.setCompanyName(companyAttestationForm.getName());
         saveCompany.setCompanyId(companyAttestationForm.getNumber());

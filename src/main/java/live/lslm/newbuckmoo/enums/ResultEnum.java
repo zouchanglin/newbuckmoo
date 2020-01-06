@@ -10,7 +10,8 @@ public enum  ResultEnum {
     PASS_AUDIT(3, "审核通过"),
     NOT_PASS_AUDIT(4, "审核未通过"),
     SEND_MESSAGE_ERROR(5, "短信发送失败"),
-    VERIFY_KEY_ERROR(6, "验证码不正确");
+    VERIFY_KEY_ERROR(6, "验证码不正确"),
+    OPENID_CLUB_ERROR(7, "社团无对应OpenId用户");
 
 
     private Integer code;

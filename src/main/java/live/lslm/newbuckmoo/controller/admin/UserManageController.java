@@ -1,11 +1,14 @@
 package live.lslm.newbuckmoo.controller.admin;
 
+import live.lslm.newbuckmoo.dto.ClubApproveDTO;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
+import live.lslm.newbuckmoo.entity.SchoolClubInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.service.CompanyInfoService;
+import live.lslm.newbuckmoo.service.SchoolClubInfoService;
 import live.lslm.newbuckmoo.service.StudentsInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ public class UserManageController {
     private StudentsInfoService studentsInfoService;
     @Autowired
     private CompanyInfoService companyInfoService;
+    @Autowired
+    private SchoolClubInfoService schoolClubInfoService;
 
     @GetMapping("student-pass")
     public ModelAndView studentApprovePass(@RequestParam("openid") String openid,
@@ -113,6 +118,51 @@ public class UserManageController {
         }
         map.put("msg", ResultEnum.PASS_AUDIT.getMessage());
         map.put("url", "admin/approve/company-list");
+        return new ModelAndView("common/success", map);
+    }
+
+    @GetMapping("club-list")
+    public ModelAndView clubApproveList(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                           @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                           Map<String, Object> map){
+        PageRequest request = PageRequest.of(page-1 ,size);
+        Page<ClubApproveDTO> clubApproveDTOPage = schoolClubInfoService.getApproveList(request);
+        map.put("clubApprovePage", clubApproveDTOPage);
+        map.put("currentPage", page);
+        map.put("size", size);
+        return new ModelAndView("club/approve-list", map);
+    }
+
+
+    @GetMapping("club-pass")
+    public ModelAndView clubApprovePass(@RequestParam("openid") String openid,
+                                           Map<String, Object> map){
+        try{
+            schoolClubInfoService.changeClubApprove(openid, AuditStatusEnum.AUDIT_SUCCESS.getCode());
+        }catch (BuckmooException e){
+            log.error("[社团信息通过审核]发生异常{}", e);
+            map.put("msg", e.getMessage());
+            map.put("url", "admin/approve/club-list");
+            return new ModelAndView("common/error");
+        }
+        map.put("msg", ResultEnum.PASS_AUDIT.getMessage());
+        map.put("url", "admin/approve/club-list");
+        return new ModelAndView("common/success", map);
+    }
+
+    @GetMapping("club-rejected")
+    public ModelAndView clubApproveRejected(@RequestParam("openid") String openid,
+                                               Map<String, Object> map){
+        try{
+            schoolClubInfoService.changeClubApprove(openid, AuditStatusEnum.AUDIT_FAILED.getCode());
+        }catch (BuckmooException e){
+            log.error("[社团信息通过审核]发生异常{}", e);
+            map.put("msg", e.getMessage());
+            map.put("url", "admin/approve/club-list");
+            return new ModelAndView("common/error");
+        }
+        map.put("msg", ResultEnum.PASS_AUDIT.getMessage());
+        map.put("url", "admin/approve/club-list");
         return new ModelAndView("common/success", map);
     }
 }

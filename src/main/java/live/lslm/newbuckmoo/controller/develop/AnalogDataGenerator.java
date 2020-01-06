@@ -1,9 +1,11 @@
 package live.lslm.newbuckmoo.controller.develop;
 
 import live.lslm.newbuckmoo.entity.CompanyInfo;
+import live.lslm.newbuckmoo.entity.SchoolClubInfo;
 import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
+import live.lslm.newbuckmoo.repository.SchoolClubInfoRepository;
 import live.lslm.newbuckmoo.repository.StudentInfoRepository;
 import live.lslm.newbuckmoo.service.UserBasicInfoService;
 import live.lslm.newbuckmoo.utils.ChinsesNameUtils;
@@ -34,13 +36,16 @@ public class AnalogDataGenerator {
     @Autowired
     private CompanyInfoRepository companyInfoRepository;
 
+    @Autowired
+    private SchoolClubInfoRepository schoolClubInfoRepository;
+
     @GetMapping("index")
     public ModelAndView getIndex(Map<String, Object> map){
         return new ModelAndView("develop/simulate-data", map);
     }
 
     @GetMapping("generator-student")
-    public ModelAndView generatorStudent(@RequestParam("number") Integer number, Map<String, Object> map){
+    public ModelAndView generatorStudent(@RequestParam(value = "number" ,defaultValue = "10") Integer number, Map<String, Object> map){
         for (int i = 0; i < number; i++) {
             String openId = KeyUtil.genUniqueKey();
             String studentId = KeyUtil.genUniqueKey();
@@ -78,7 +83,7 @@ public class AnalogDataGenerator {
 
 
     @GetMapping("generator-company")
-    public ModelAndView generatorCompany(@RequestParam("number") Integer number, Map<String, Object> map){
+    public ModelAndView generatorCompany(@RequestParam(value = "number", defaultValue = "10") Integer number, Map<String, Object> map){
         for (int i = 0; i < number; i++) {
             String openId = KeyUtil.genUniqueKey();
             UserBasicInfo userBasicInfo = new UserBasicInfo();
@@ -109,6 +114,43 @@ public class AnalogDataGenerator {
         }
         map.put("msg", "添加"+number+"条数据");
         map.put("url", "admin/approve/company-list");
+        return new ModelAndView("common/success", map);
+    }
+
+    @GetMapping("generator-club")
+    public ModelAndView generatorClub(@RequestParam(value = "number", defaultValue = "10") Integer number, Map<String, Object> map){
+        for (int i = 0; i < number; i++) {
+            String openId = KeyUtil.genUniqueKey();
+            UserBasicInfo userBasicInfo = new UserBasicInfo();
+            userBasicInfo.setOpenId(openId);
+            userBasicInfo.setUserName(ChinsesNameUtils.getChineseName());
+            userBasicInfo.setUserGrade((i + 100) % number);
+            userBasicInfo.setUserSex(i%2 + 1);
+            userBasicInfo.setUserIcon("http://thirdwx.qlogo.cn/mmopen/vi_32/bxVEQxwmOLibgHtYurJxvW0yicXLVcTCUiaDQDqibEyoIKwS7ZRdOsZL02RibF79vdNt6GgFKMr4fuDNV8T7X3ficTfg/132");
+            userBasicInfo.setUserCity("陕西西安");
+            userBasicInfo.setUserPhone(KeyUtil.genUniqueKey());
+            userBasicInfoService.updateOrCreateUserBasic(userBasicInfo);
+
+            SchoolClubInfo schoolClubInfo = new SchoolClubInfo();
+            schoolClubInfo.setOpenId(openId);
+            schoolClubInfo.setClubCode(KeyUtil.genVerifyKey());
+            String chineseName = ChinsesNameUtils.getChineseName();
+            schoolClubInfo.setClubDesc(chineseName + "是一个懂学生的社团，旗下有课外兼职、品牌活动和研学旅行三大产品");
+            schoolClubInfo.setClubName(chineseName+"社团");
+            schoolClubInfo.setUpdateTime(System.currentTimeMillis());
+            schoolClubInfo.setOwnerName(chineseName);
+            if(i%3 == 0){
+                schoolClubInfo.setSchoolName("西安工程大学");
+            }else if(i%3 == 1){
+                schoolClubInfo.setSchoolName("西安科技大学");
+            }else{
+                schoolClubInfo.setSchoolName("陕西科技大学");
+            }
+            schoolClubInfo.setAuditStatus(i%2);
+            schoolClubInfoRepository.save(schoolClubInfo);
+        }
+        map.put("msg", "添加"+number+"条数据");
+        map.put("url", "admin/approve/club-list");
         return new ModelAndView("common/success", map);
     }
 }

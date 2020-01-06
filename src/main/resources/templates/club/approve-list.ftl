@@ -8,54 +8,62 @@
         <div class="col-md-12 column">
             <div class="page-header">
                 <h4>
-                    未认证学生列表 <small>List of unaccredited students</small>
+                    未认证社团列表 <small>List of unaccredited club</small>
                 </h4>
             </div>
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>
-                        学号<small> Number</small>
+                        学校
                     </th>
                     <th>
-                        学校<small> School</small>
+                        社团名称
                     </th>
                     <th>
-                        姓名<small> Name</small>
+                        联系人
                     </th>
                     <th>
-                        申请时间<small> CreateTime</small>
+                        联系方式
                     </th>
                     <th>
-                        审核状态<small> Review status</small>
+                        申请时间
+                    </th>
+                    <th>
+                        邀请码
+                    </th>
+                    <th>
+                        审核状态
                     </th>
                     <th>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <#list studentApprovePage.content as approve>
-                <#if approve.auditStatus == 0>
-                    <tr class="info">
-                <#elseif approve.auditStatus == 1>
-                    <tr class="success">
-                <#elseif approve.auditStatus == 2>
-                    <tr class="warning">
-                </#if>
-                        <td>${approve.studentId}</td>
-                        <td>${approve.studentSchool}</td>
-                        <td>${approve.studentName}</td>
+                <#list clubApprovePage.content as approve>
+                    <#if approve.auditStatus == 0>
+                        <tr class="info">
+                    <#elseif approve.auditStatus == 1>
+                        <tr class="success">
+                    <#elseif approve.auditStatus == 2>
+                        <tr class="warning">
+                    </#if>
+                        <td>${approve.schoolName}</td>
+                        <td>${approve.clubName}</td>
+                        <td>${approve.ownerName}</td>
+                        <td>${approve.userBasicInfo.userPhone}</td>
                         <td>${approve.getUpdateTime()}</td>
+                        <td>${approve.clubCode}</td>
                         <td>${approve.getStatusEnum().getMessage()}</td>
                         <td>
                             <a id="modal-770007" href="#modal-container-770007" role="button" class="btn btn-sm btn-default" data-toggle="modal"
-                               onclick="picture('${approve.studentCertificate}')">详情</a>
-                            <a class="btn btn-sm btn-success" href="${request.contextPath}/admin/approve/student-pass?openid=${approve.openId}">通过</a>
+                               onclick="picture('${approve.clubDesc}')">社团简介</a>
+                            <a class="btn btn-sm btn-success" href="${request.contextPath}/admin/approve/club-pass?openid=${approve.openId}">通过</a>
                             <#if approve.auditStatus == 2>
                                 <a class="btn btn-sm btn-danger disabled">驳回</a>
                             </#if>
                             <#if approve.auditStatus == 0>
-                                <a class="btn btn-sm btn-danger" href="${request.contextPath}/admin/approve/student-rejected?openid=${approve.openId}">驳回</a>
+                                <a class="btn btn-sm btn-danger" href="${request.contextPath}/admin/approve/club-rejected?openid=${approve.openId}">驳回</a>
                             </#if>
                         </td>
                     </tr>
@@ -68,21 +76,21 @@
                     <#if currentPage lte 1>
                         <li class="disabled"><a href="#">上一页</a></li>
                     <#else>
-                        <li><a href="${request.contextPath}/admin/approve/student-list?page=${currentPage - 1}&size=${size}">上一页</a></li>
+                        <li><a href="${request.contextPath}/admin/approve/club-list?page=${currentPage - 1}&size=${size}">上一页</a></li>
                     </#if>
 
-                    <#list 1..studentApprovePage.getTotalPages() as index>
+                    <#list 1..clubApprovePage.getTotalPages() as index>
                         <#if currentPage == index>
                             <li class="disabled"><a href="#">${index}</a></li>
                         <#else>
-                            <li><a href="${request.contextPath}/admin/approve/student-list?page=${index}&size=${size}">${index}</a></li>
+                            <li><a href="${request.contextPath}/admin/approve/club-list?page=${index}&size=${size}">${index}</a></li>
                         </#if>
                     </#list>
 
-                    <#if currentPage gte studentApprovePage.getTotalPages()>
+                    <#if currentPage gte clubApprovePage.getTotalPages()>
                         <li class="disabled"><a href="#">下一页</a></li>
                     <#else>
-                        <li><a href="${request.contextPath}/admin/approve/student-list?page=${currentPage + 1}&size=${size}">下一页</a></li>
+                        <li><a href="${request.contextPath}/admin/approve/club-list?page=${currentPage + 1}&size=${size}">下一页</a></li>
                     </#if>
                 </ul>
             </div>
@@ -95,11 +103,11 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" id="myModalLabel">
-                    学生证<small> Student Id Card</small>
+                    社团简介<small>The School Club</small>
                 </h4>
             </div>
             <div class="modal-body">
-                <img id="myImg" src="" class="img-rounded"  alt=""/>
+                <span id="myImg" style="font-size: large"></span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -109,7 +117,7 @@
 </div>
 <script>
     function picture(pictUrl) {
-        $('#myImg').attr('src', pictUrl);
+        $('#myImg').text(pictUrl);
     }
 </script>
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>

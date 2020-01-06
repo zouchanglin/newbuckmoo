@@ -1,6 +1,6 @@
 package live.lslm.newbuckmoo.service.impl;
 
-import live.lslm.newbuckmoo.convert.AttestationConvert;
+import live.lslm.newbuckmoo.convert.CompanyFormToInfoConvert;
 import live.lslm.newbuckmoo.convert.CompanyInfoToApproveConvert;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.entity.CompanyInfo;
@@ -60,7 +60,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
             saveCompany = new CompanyInfo();
             saveCompany.setOpenId(companyAttestationForm.getOpenid());
         }
-        AttestationConvert.formToCompany(companyAttestationForm, saveCompany);
+        CompanyFormToInfoConvert.formToCompany(companyAttestationForm, saveCompany);
         saveCompany.setUpdateTime(System.currentTimeMillis());
         saveCompany.setAuditStatus(AuditStatusEnum.AUDIT_RUNNING.getCode());
         log.info("[CompanyInfoServiceImpl] saveCompany={}", saveCompany);
