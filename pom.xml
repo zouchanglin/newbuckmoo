@@ -129,7 +129,7 @@
                     <!-- 指定标签 -->
                     <imageTags>
                         <!-- <imageTag>latest</imageTag> -->
-                        <imageTag>2020.1.7.1</imageTag>
+                        <imageTag>2020.1.7.2</imageTag>
                     </imageTags>
                     <!-- 基础镜像版本JDK1.8 -->
                     <baseImage>java:8</baseImage>

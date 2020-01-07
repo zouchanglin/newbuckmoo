@@ -47,3 +47,4 @@ aliyun:
 projecturl:
   wechatMpAuthorize: http://tim.natapp1.cc
   newbuckmoo: http://tim.natapp1.cc/newbuckmoo
+  websocket: localhost:8080

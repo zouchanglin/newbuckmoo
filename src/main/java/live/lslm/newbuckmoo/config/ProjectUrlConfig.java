@@ -19,4 +19,9 @@ public class ProjectUrlConfig {
      * 项目的Url
      */
     public String newbuckmoo;
+
+    /**
+     * websocket地址
+     */
+    private String websocket;
 }
