@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
-public class CompanyApproveDTO {
+public class CompanyApproveDTO implements ApproveDTO{
     private String openId;
     /**
      * 公司名称

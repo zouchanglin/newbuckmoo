@@ -24,6 +24,13 @@ public interface StudentsInfoService {
     Page<StudentApproveDTO> getApproveList(Pageable pageable);
 
     /**
+     * 分页获取学生列表
+     * @param pageable 分页参数
+     * @return 分页查询结果
+     */
+    Page<StudentApproveDTO> getStudentList(Pageable pageable);
+
+    /**
      * 学生认证通过
      * @param openid 学生微信Id
      */

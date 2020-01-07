@@ -27,8 +27,19 @@ import java.util.Optional;
 public class CompanyInfoServiceImpl implements CompanyInfoService {
     @Autowired
     private CompanyInfoRepository companyInfoRepository;
+
     @Autowired
     private UserBasicInfoService userBasicInfoService;
+
+    @Override
+    public Page<CompanyApproveDTO> getCompanyList(Pageable pageable) {
+        Page<CompanyInfo> companyInfoPage = companyInfoRepository.findAllByAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageable);
+        List<CompanyApproveDTO> dTOList = CompanyInfoToApproveConvert.convert(companyInfoPage.getContent());
+        for(CompanyApproveDTO companyApproveDTO: dTOList){
+            companyApproveDTO.setUserBasicInfo(userBasicInfoService.getUserBasicInfoByOpenid(companyApproveDTO.getOpenId()));
+        }
+        return new PageImpl<>(dTOList, pageable, companyInfoPage.getTotalElements());
+    }
 
     @Override
     public void changeCompanyApprove(String openid, Integer code) {

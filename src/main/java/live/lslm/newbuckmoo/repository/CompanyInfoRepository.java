@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CompanyInfoRepository extends JpaRepository<CompanyInfo, String> {
     Page<CompanyInfo> findAllByAuditStatusIsNot(Integer status, Pageable pageable);
+
+    Page<CompanyInfo> findAllByAuditStatus(Integer status, Pageable pageable);
 }

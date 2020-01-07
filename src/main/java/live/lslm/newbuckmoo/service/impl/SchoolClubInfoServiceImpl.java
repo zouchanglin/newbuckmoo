@@ -2,22 +2,22 @@ package live.lslm.newbuckmoo.service.impl;
 
 import com.google.common.collect.Lists;
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
-import live.lslm.newbuckmoo.entity.CompanyInfo;
 import live.lslm.newbuckmoo.entity.SchoolClubInfo;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
+import live.lslm.newbuckmoo.form.SchoolClubForm;
 import live.lslm.newbuckmoo.repository.SchoolClubInfoRepository;
 import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
 import live.lslm.newbuckmoo.service.SchoolClubInfoService;
-import live.lslm.newbuckmoo.service.UserBasicInfoService;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +32,44 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
     private SchoolClubInfoRepository schoolClubInfoRepository;
     @Autowired
     private UserBasicInfoRepository userBasicInfoRepository;
+
+    @Override
+    public Page<ClubApproveDTO> getClubList(Pageable pageable) {
+        Page<SchoolClubInfo> schoolClubInfoPage = schoolClubInfoRepository.findAllByAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageable);
+        List<SchoolClubInfo> schoolClubInfoList = schoolClubInfoPage.getContent();
+        ArrayList<ClubApproveDTO> descList = Lists.newArrayList();
+
+        for(SchoolClubInfo schoolClubInfo: schoolClubInfoList){
+            ClubApproveDTO clubApproveDTO = new ClubApproveDTO();
+            BeanUtils.copyProperties(schoolClubInfo, clubApproveDTO);
+            Optional<UserBasicInfo> basicInfo = userBasicInfoRepository.findById(clubApproveDTO.getOpenId());
+            if(basicInfo.isPresent()){
+                clubApproveDTO.setUserBasicInfo(basicInfo.get());
+            }else{
+                throw new BuckmooException(ResultEnum.PARAM_ERROR);
+            }
+            descList.add(clubApproveDTO);
+        }
+        return new PageImpl<>(descList, pageable, schoolClubInfoPage.getTotalElements());
+    }
+
+    @Override
+    public SchoolClubInfo createOrUpdateInfo(SchoolClubForm schoolClubForm) {
+        String openId = schoolClubForm.getOpenId();
+        Optional<SchoolClubInfo> findSchoolRet = schoolClubInfoRepository.findById(openId);
+        SchoolClubInfo schoolClubInfo;
+        if(findSchoolRet.isPresent()){
+            //存在
+            schoolClubInfo = findSchoolRet.get();
+        }else{
+            schoolClubInfo = new SchoolClubInfo();
+            schoolClubInfo.setOpenId(openId);
+        }
+        BeanUtils.copyProperties(schoolClubForm, schoolClubInfo);
+        schoolClubInfo.setAuditStatus(AuditStatusEnum.AUDIT_RUNNING.getCode());
+        schoolClubInfo.setUpdateTime(System.currentTimeMillis());
+        return schoolClubInfoRepository.save(schoolClubInfo);
+    }
 
     @Override
     public void changeClubApprove(String openid, Integer code) {

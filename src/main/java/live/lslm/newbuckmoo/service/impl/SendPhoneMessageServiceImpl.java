@@ -1,4 +1,4 @@
-package live.lslm.newbuckmoo.utils;
+package live.lslm.newbuckmoo.service.impl;
 
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
@@ -7,16 +7,22 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import live.lslm.newbuckmoo.config.AliyunMessageConfig;
+import live.lslm.newbuckmoo.service.SendPhoneMessageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-/**
- * 发送短信的工具类
- * 弃用，推荐使用发送短信的服务对象
- * {@link live.lslm.newbuckmoo.service.SendPhoneMessageService#sendMsg(String, String)}
- */
-@Deprecated
-public class SendMessageUtil {
-    public static void sendMsg(String phoneNumber, String msg){
-        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAIAlvA2P2ekeha", "6KIoQD2X33V78JSYbp0wGLaUMUm18l");
+@Service
+public class SendPhoneMessageServiceImpl implements SendPhoneMessageService {
+    @Autowired
+    private AliyunMessageConfig aliyunMessageConfig;
+
+    @Override
+    public void sendMsg(String phoneNumber, String msg){
+        //DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAIAlvA2P2ekeha", "6KIoQD2X33V78JSYbp0wGLaUMUm18l");
+        DefaultProfile profile = DefaultProfile.getProfile(aliyunMessageConfig.getRegionId(),
+                                                           aliyunMessageConfig.getAccessKeyId(),
+                                                           aliyunMessageConfig.getSecret());
         IAcsClient client = new DefaultAcsClient(profile);
 
         CommonRequest request = new CommonRequest();

@@ -29,4 +29,11 @@ public interface CompanyInfoService {
      * @param code 认证状态
      */
     void changeCompanyApprove(String openid, Integer code);
+
+    /**
+     * 分页查询审核通过的企业列表
+     * @param pageable 分页参数
+     * @return 查询分页结果
+     */
+    Page<CompanyApproveDTO> getCompanyList(Pageable pageable);
 }

@@ -45,7 +45,7 @@ public class AnalogDataGenerator {
     }
 
     @GetMapping("generator-student")
-    public ModelAndView generatorStudent(@RequestParam(value = "number" ,defaultValue = "10") Integer number, Map<String, Object> map){
+    public ModelAndView generatorStudent(@RequestParam(value = "number" ,defaultValue = "30") Integer number, Map<String, Object> map){
         for (int i = 0; i < number; i++) {
             String openId = KeyUtil.genUniqueKey();
             String studentId = KeyUtil.genUniqueKey();
@@ -56,9 +56,7 @@ public class AnalogDataGenerator {
             userBasicInfo.setUserSex(i%2 + 1);
             userBasicInfo.setUserIcon("http://thirdwx.qlogo.cn/mmopen/vi_32/bxVEQxwmOLibgHtYurJxvW0yicXLVcTCUiaDQDqibEyoIKwS7ZRdOsZL02RibF79vdNt6GgFKMr4fuDNV8T7X3ficTfg/132");
             userBasicInfo.setUserCity("陕西西安");
-            if(i % 3 == 0){
-                userBasicInfo.setUserPhone(KeyUtil.genUniqueKey());
-            }
+            userBasicInfo.setUserPhone(KeyUtil.genUniqueKey());
             userBasicInfoService.updateOrCreateUserBasic(userBasicInfo);
 
             StudentInfo studentInfo = new StudentInfo();
@@ -83,7 +81,7 @@ public class AnalogDataGenerator {
 
 
     @GetMapping("generator-company")
-    public ModelAndView generatorCompany(@RequestParam(value = "number", defaultValue = "10") Integer number, Map<String, Object> map){
+    public ModelAndView generatorCompany(@RequestParam(value = "number", defaultValue = "30") Integer number, Map<String, Object> map){
         for (int i = 0; i < number; i++) {
             String openId = KeyUtil.genUniqueKey();
             UserBasicInfo userBasicInfo = new UserBasicInfo();
@@ -118,7 +116,7 @@ public class AnalogDataGenerator {
     }
 
     @GetMapping("generator-club")
-    public ModelAndView generatorClub(@RequestParam(value = "number", defaultValue = "10") Integer number, Map<String, Object> map){
+    public ModelAndView generatorClub(@RequestParam(value = "number", defaultValue = "30") Integer number, Map<String, Object> map){
         for (int i = 0; i < number; i++) {
             String openId = KeyUtil.genUniqueKey();
             UserBasicInfo userBasicInfo = new UserBasicInfo();

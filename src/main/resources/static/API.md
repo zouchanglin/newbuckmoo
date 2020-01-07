@@ -75,7 +75,7 @@ POST /newbuckmoo/basic-info/verify-key
 }
 ```
 
-## 3、系统绑定手机号
+## 3、WeChat绑定手机
 
 修改手机号也是同样的接口
 
@@ -188,6 +188,48 @@ POST /newbuckmoo/approve/student
 
 和学生信息注册的一样！
 
+## 6、社团身份信息注册
+
+```
+POST /newbuckmoo/approve/club
+```
+
+参数
+
+```json
+{
+	"openId":"1578372062890510227",
+	"clubName":"读书奋进会",
+	"clubDesc": "读书XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+	"schoolName": "西安工程大学",
+	"ownerName":"张三",
+	"clubCode":"123456"
+}
+```
+
+参数解释
+
+* openId 微信用户OpenId
+* clubName 社团名称
+* clubDesc 社团描述
+* schoolName 社团所在学校
+* ownerName 社团负责人
+* clubCode 邀请码
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "status_code": 0,
+        "openId": "1578372062890510227",
+        "status": "未审核"
+    }
+}
+```
+
 
 
 # 三、运行参数
@@ -220,16 +262,6 @@ http://lslm.live/newbuckmoo/
 ```
 http://lslm.live/newbuckmoo/druid/index.html  
 ```
-
-
-
- 
-
-
-
-
-
-
 
 
 

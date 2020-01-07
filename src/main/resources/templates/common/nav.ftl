@@ -15,11 +15,11 @@
             <ul class="dropdown-menu" role="menu">
                 <li class="dropdown-header">用户相关</li>
                 <li><a href="${request.contextPath}/admin/approve/student-list">学生认证</a></li>
-                <li><a href="#">学生管理</a></li>
+                <li><a href="${request.contextPath}/admin/manage/student-list">学生管理</a></li>
                 <li><a href="${request.contextPath}/admin/approve/company-list">企业认证</a></li>
-                <li><a href="#">企业管理</a></li>
+                <li><a href="${request.contextPath}/admin/manage/company-list">企业管理</a></li>
                 <li><a href="${request.contextPath}/admin/approve/club-list">社团认证</a></li>
-                <li><a href="#">社团管理</a></li>
+                <li><a href="${request.contextPath}/admin/manage/club-list">社团管理</a></li>
             </ul>
         </li>
         <li class="dropdown open">
@@ -62,6 +62,7 @@
                 <li><a href="#">接口日志查询</a></li>
                 <li><a href="${request.contextPath}/druid/index.html">SQL监控平台</a></li>
                 <li><a href="#">主机监控平台</a></li>
+                <li><a href="${request.contextPath}/develop/websocket">WebSocket</a></li>
                 <li><a href="${request.contextPath}/API.md">获取最新API</a></li>
             </ul>
         </li>

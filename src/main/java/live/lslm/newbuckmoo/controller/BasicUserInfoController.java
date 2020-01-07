@@ -4,10 +4,10 @@ import live.lslm.newbuckmoo.catchs.VerifyKeyCatch;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.BindPhoneForm;
+import live.lslm.newbuckmoo.service.SendPhoneMessageService;
 import live.lslm.newbuckmoo.service.UserBasicInfoService;
 import live.lslm.newbuckmoo.utils.KeyUtil;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
-import live.lslm.newbuckmoo.utils.SendMessageUtil;
 import live.lslm.newbuckmoo.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,9 @@ public class BasicUserInfoController {
     @Autowired
     private UserBasicInfoService userBasicInfoService;
 
+    @Autowired
+    private SendPhoneMessageService phoneMessageService;
+
     /**
      * 获取验证码
      * @param map 其中的唯一字段：手机号
@@ -39,7 +42,7 @@ public class BasicUserInfoController {
         }
         try{
             String verifyKey = KeyUtil.genVerifyKey();
-            SendMessageUtil.sendMsg(phone, verifyKey);
+            phoneMessageService.sendMsg(phone, verifyKey);
             VerifyKeyCatch.putVerifyKey(phone, verifyKey);
             return ResultVOUtil.success();
         }catch (Exception e){

@@ -16,7 +16,7 @@
                         <h3>生成学生数据</h3>
                         <form role="form" action="${request.contextPath}/develop/generator-student">
                             <div class="form-group">
-                                <input type="number" name="number" placeholder="生成数量" class="form-control" id="exampleInputEmail1"/>
+                                <input type="number" name="number" placeholder="生成数量 (默认30)" class="form-control" id="exampleInputEmail1"/>
                             </div>
                             <button type="submit" class="btn btn-default">生成</button>
                         </form>
@@ -25,7 +25,7 @@
                         <h3>生成企业数据</h3>
                         <form role="form" action="${request.contextPath}/develop/generator-company" method="get">
                             <div class="form-group">
-                                <input type="number" name="number" placeholder="生成数量 (默认10)" class="form-control" id="exampleInputEmail1"/>
+                                <input type="number" name="number" placeholder="生成数量 (默认30)" class="form-control" id="exampleInputEmail1"/>
                             </div>
                             <button type="submit" class="btn btn-default">生成</button>
                         </form>
@@ -34,7 +34,7 @@
                         <h3>生成社团数据</h3>
                         <form role="form" action="${request.contextPath}/develop/generator-club">
                             <div class="form-group">
-                                <input type="number"  name="number" placeholder="生成数量 (默认10)" class="form-control" id="exampleInputEmail1"/>
+                                <input type="number"  name="number" placeholder="生成数量 (默认30)" class="form-control" id="exampleInputEmail1"/>
                             </div>
                             <button type="submit" class="btn btn-default">生成</button>
                         </form>
@@ -43,7 +43,7 @@
                         <h3>生成XX数据</h3>
                         <form role="form">
                             <div class="form-group">
-                                <input type="number" name="number" placeholder="生成数量  (默认10)" class="form-control" id="exampleInputEmail1"/>
+                                <input type="number" name="number" placeholder="生成数量  (默认30)" class="form-control" id="exampleInputEmail1"/>
                             </div>
                             <button type="submit" class="btn btn-default">生成</button>
                         </form>

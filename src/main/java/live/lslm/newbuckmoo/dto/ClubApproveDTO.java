@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
-public class ClubApproveDTO {
+public class ClubApproveDTO implements ApproveDTO{
 
 
     private String openId;

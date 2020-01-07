@@ -1,6 +1,7 @@
 package live.lslm.newbuckmoo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import lombok.Data;
@@ -9,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
-public class StudentApproveDTO {
+public class StudentApproveDTO implements ApproveDTO{
     private String openId;
 
     /**
@@ -46,6 +47,11 @@ public class StudentApproveDTO {
      * 信息更新时间
      */
     private Long updateTime;
+
+    /**
+     * 用户原始信息
+     */
+    private UserBasicInfo userBasicInfo;
 
     @JsonIgnore
     public AuditStatusEnum getStatusEnum() {

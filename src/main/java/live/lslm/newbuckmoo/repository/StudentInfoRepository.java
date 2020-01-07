@@ -10,4 +10,10 @@ public interface StudentInfoRepository extends JpaRepository<StudentInfo, String
      * 分页查找未通过审核的学生信息
      */
     Page<StudentInfo> findAllByAuditStatusIsNot(Integer notStatus, Pageable pageable);
+
+    /**
+     * 分页查找通过审核的学生信息
+     */
+    Page<StudentInfo> findAllByAuditStatus(Integer status, Pageable pageable);
+
 }
