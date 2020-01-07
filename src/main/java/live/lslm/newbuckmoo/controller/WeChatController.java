@@ -1,6 +1,7 @@
 package live.lslm.newbuckmoo.controller;
 
 import live.lslm.newbuckmoo.config.ProjectUrlConfig;
+import live.lslm.newbuckmoo.constant.CookieConstant;
 import live.lslm.newbuckmoo.convert.WxMpUserConvert;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.service.UserBasicInfoService;
@@ -76,7 +77,7 @@ public class WeChatController {
                 WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(accessToken, null);
                 UserBasicInfo userBasicInfo = WxMpUserConvert.mpUserConvertToUserBasicInfo(wxMpUser);
                 String savedOpenid = userBasicInfoService.updateOrCreateUserBasic(userBasicInfo);
-                CookieUtil.set(response, "openid", savedOpenid, Integer.MAX_VALUE);
+                CookieUtil.set(response, CookieConstant.TOKEN, savedOpenid, Integer.MAX_VALUE);
             } catch (WxErrorException e) {
                 e.printStackTrace();
             }

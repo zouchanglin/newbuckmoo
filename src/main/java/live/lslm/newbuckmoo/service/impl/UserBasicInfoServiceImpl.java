@@ -21,7 +21,7 @@ public class UserBasicInfoServiceImpl implements UserBasicInfoService {
 
     @Override
     public void bindPhoneForUser(BindPhoneForm bindPhoneForm) {
-        Optional<UserBasicInfo> findResult = userBasicInfoRepository.findById(bindPhoneForm.getOpenid());
+        Optional<UserBasicInfo> findResult = userBasicInfoRepository.findById(bindPhoneForm.getOpenId());
         String phone = bindPhoneForm.getPhone();
         String verifyKey = bindPhoneForm.getVerifyKey();
         if(findResult.isPresent()){

@@ -8,13 +8,13 @@ import javax.validation.constraints.NotEmpty;
  * 企业注册信息的表单
  */
 @Data
-public class CompanyAttestationForm {
+public class CompanyAttestationForm implements BasicForm{
 
     /**
      * openid来自于Cookie，{@link live.lslm.newbuckmoo.controller.WeChatController#authorize(String)}
      */
-    @NotEmpty(message = "openid丢失")
-    private String openid;
+    @NotEmpty(message = "openId丢失")
+    private String openId;
 
     /**
      * 公司名称

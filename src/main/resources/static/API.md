@@ -87,7 +87,7 @@ POST /newbuckmoo/basic-info/bind-phone
 
 ```json
 {
-	"openid":"78397897HJIDE78D56D345DEW",
+	"openId":"78397897HJIDE78D56D345DEW",
 	"phone":"15291418231",
 	"verifyKey":"752682"
 }
@@ -112,7 +112,7 @@ POST /newbuckmoo/approve/student
 
 ```json
 {
-	"openid": "78397897HJIDE78D56D345DEW",
+	"openId": "78397897HJIDE78D56D345DEW",
 	"certificate": "https://s2.ax1x.com/2020/01/04/ldYcI1.png",
 	"name": "邹长林",
 	"school": "西安工程大学",
@@ -155,7 +155,7 @@ POST /newbuckmoo/approve/student
 
 ```json
 {
-	"openid": "78397897HJIDE78D56D345DEW",
+	"openId": "78397897HJIDE78D56D345DEW",
 	"name": "骊山鹿鸣有限公司",
 	"owner": "杨楠",
 	"describe": "骊山鹿鸣通过优质资源的有效整合，更好服务于学生群体",
@@ -263,9 +263,17 @@ http://lslm.live/newbuckmoo/
 http://lslm.live/newbuckmoo/druid/index.html  
 ```
 
+# 四、接口更新说明
 
+## 1、参数由openid改为openId
 
+改变的接口：
 
+3、WeChat绑定手机
 
+4、学生身份信息注册
 
+5、企业身份信息注册
+
+6、社团身份信息注册
 

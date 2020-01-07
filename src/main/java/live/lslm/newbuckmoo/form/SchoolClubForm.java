@@ -5,7 +5,8 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class SchoolClubForm {
+public class SchoolClubForm implements BasicForm{
+
     /**
      * openid来自于Cookie，{@link live.lslm.newbuckmoo.controller.WeChatController#authorize(String)}
      */

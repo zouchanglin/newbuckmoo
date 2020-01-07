@@ -12,7 +12,9 @@ public enum  ResultEnum {
     SEND_MESSAGE_ERROR(5, "短信发送失败"),
     VERIFY_KEY_ERROR(6, "验证码不正确"),
     OPENID_CLUB_ERROR(7, "社团无对应OpenId用户"),
-    OPENID_STUDENT_ERROR(8, "学生无对应OpenId用户");
+    OPENID_STUDENT_ERROR(8, "学生无对应OpenId用户"),
+    NOT_BIND_PHONE(9, "请先绑定手机"),
+    COOKIE_NOT_EXIST(10, "Cookie(openId)不存在");
 
 
     private Integer code;

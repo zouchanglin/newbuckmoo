@@ -63,13 +63,13 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 
     @Override
     public CompanyInfo createOrUpdateInfo(CompanyAttestationForm companyAttestationForm) {
-        Optional<CompanyInfo> companyInfoFindRet = companyInfoRepository.findById(companyAttestationForm.getOpenid());
+        Optional<CompanyInfo> companyInfoFindRet = companyInfoRepository.findById(companyAttestationForm.getOpenId());
         CompanyInfo saveCompany;
         if (companyInfoFindRet.isPresent()) {
             saveCompany = companyInfoFindRet.get();
         } else {
             saveCompany = new CompanyInfo();
-            saveCompany.setOpenId(companyAttestationForm.getOpenid());
+            saveCompany.setOpenId(companyAttestationForm.getOpenId());
         }
         CompanyFormToInfoConvert.formToCompany(companyAttestationForm, saveCompany);
         saveCompany.setUpdateTime(System.currentTimeMillis());

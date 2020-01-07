@@ -8,13 +8,13 @@ import javax.validation.constraints.NotEmpty;
  * 学生信息认证表单
  */
 @Data
-public class StudentAttestationForm {
+public class StudentAttestationForm implements BasicForm{
 
     /**
      * openid来自于Cookie，{@link live.lslm.newbuckmoo.controller.WeChatController#authorize(String)}
      */
     @NotEmpty(message = "openId缺失")
-    private String openid;
+    private String openId;
 
     /**
      * 学生学号

@@ -63,7 +63,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
     }
 
     @Override
-    public void passStudentApprove(String openid) {
+    public StudentApproveDTO passStudentApprove(String openid) {
         Optional<StudentInfo> findResult = studentRepository.findById(openid);
         if(findResult.isPresent()){
             StudentInfo studentInfo = findResult.get();
@@ -73,6 +73,10 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
             studentInfo.setAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode());
             StudentInfo saved = studentRepository.save(studentInfo);
             log.info("[StudentsInfoServiceImpl] saved={}", saved);
+
+            Optional<UserBasicInfo> userBasicInfo = userBasicInfoRepository.findById(openid);
+            if(!userBasicInfo.isPresent()){ throw new BuckmooException(ResultEnum.PARAM_ERROR); }
+            return convert(saved);
         }else{
             throw new BuckmooException(ResultEnum.PARAM_ERROR);
         }
@@ -80,7 +84,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
 
     @Override
     public StudentInfo createOrUpdateInfo(StudentAttestationForm studentAttestationForm) {
-        String openid = studentAttestationForm.getOpenid();
+        String openid = studentAttestationForm.getOpenId();
         Optional<StudentInfo> findStudentRet = studentRepository.findById(openid);
         StudentInfo studentInfo;
         if(findStudentRet.isPresent()){
@@ -88,7 +92,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
             studentInfo = findStudentRet.get();
         }else{
             studentInfo = new StudentInfo();
-            studentInfo.setOpenId(studentAttestationForm.getOpenid());
+            studentInfo.setOpenId(studentAttestationForm.getOpenId());
         }
 
         studentInfo.setAuditStatus(AuditStatusEnum.AUDIT_RUNNING.getCode());

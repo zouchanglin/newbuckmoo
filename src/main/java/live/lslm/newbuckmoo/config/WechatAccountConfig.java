@@ -5,6 +5,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Data
 @Component
 @Configuration
@@ -40,4 +42,9 @@ public class WechatAccountConfig {
      * 支付结果异步通知地址
      */
     private String notifyUrl;
+
+    /**
+     * 微信模板消息Id
+     */
+    private Map<String, String> templateId;
 }

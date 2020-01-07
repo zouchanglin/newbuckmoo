@@ -10,6 +10,7 @@ import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.service.CompanyInfoService;
 import live.lslm.newbuckmoo.service.SchoolClubInfoService;
 import live.lslm.newbuckmoo.service.StudentsInfoService;
+import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,11 +34,15 @@ public class UserApproveController {
     @Autowired
     private SchoolClubInfoService schoolClubInfoService;
 
+    @Autowired
+    private WechatPushMessageService wechatPushMessageService;
+
     @GetMapping("student-pass")
     public ModelAndView studentApprovePass(@RequestParam("openid") String openid,
                                            Map<String, Object> map){
         try{
-            studentsInfoService.passStudentApprove(openid);
+            StudentApproveDTO studentApproveDTO = studentsInfoService.passStudentApprove(openid);
+            wechatPushMessageService.studentApproveResultStatus(studentApproveDTO);
         }catch (BuckmooException e){
             log.error("[学生信息通过审核]发生异常{}", e);
             map.put("msg", e.getMessage());
@@ -46,6 +51,7 @@ public class UserApproveController {
         }
         map.put("msg", ResultEnum.PASS_AUDIT.getMessage());
         map.put("url", "admin/approve/student-list");
+
         return new ModelAndView("common/success", map);
     }
 
@@ -147,6 +153,7 @@ public class UserApproveController {
         }
         map.put("msg", ResultEnum.PASS_AUDIT.getMessage());
         map.put("url", "admin/approve/club-list");
+
         return new ModelAndView("common/success", map);
     }
 

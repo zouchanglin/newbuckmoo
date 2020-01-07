@@ -34,7 +34,7 @@ public interface StudentsInfoService {
      * 学生认证通过
      * @param openid 学生微信Id
      */
-    void passStudentApprove(String openid);
+    StudentApproveDTO passStudentApprove(String openid);
 
     /**
      * 学生认证驳回

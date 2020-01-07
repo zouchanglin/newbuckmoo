@@ -6,11 +6,11 @@ import lombok.Data;
  * 绑定手机号的表单
  */
 @Data
-public class BindPhoneForm {
+public class BindPhoneForm implements BasicForm{
     /**
      * openid
      */
-    private String openid;
+    private String openId;
 
     /**
      * 手机号
