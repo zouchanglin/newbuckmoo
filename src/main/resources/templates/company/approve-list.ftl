@@ -48,7 +48,7 @@
                         <td>${approve.companyId}</td>
                         <td>${approve.companyName}</td>
                         <td>${approve.companyOwnerName}</td>
-                        <td>${approve.userBasicInfo.userPhone}</td>
+                        <td>${approve.userBasicInfo.userPhone !}</td>
                         <td>${approve.getUpdateTime()}</td>
                         <td>${approve.getStatusEnum().getMessage()}</td>
                         <td>

@@ -51,7 +51,7 @@
                         <td>${approve.schoolName}</td>
                         <td>${approve.clubName}</td>
                         <td>${approve.ownerName}</td>
-                        <td>${approve.userBasicInfo.userPhone}</td>
+                        <td>${approve.userBasicInfo.userPhone !}</td>
                         <td>${approve.getUpdateTime()}</td>
                         <td>${approve.clubCode}</td>
                         <td>${approve.getStatusEnum().getMessage()}</td>

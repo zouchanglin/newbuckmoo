@@ -130,6 +130,15 @@
                     <imageTags>
                         <imageTag>latest</imageTag>
                     </imageTags>
+                    <!-- 强制覆盖 -->
+                    <forceTags>true</forceTags>
+                    <!--时区配置-->
+                    <env>
+                        <TZ>Asia/Shanghai</TZ>
+                    </env>
+                    <runs>
+                        <run>echo $TZ > /etc/timezone</run>
+                    </runs>
                     <!-- 基础镜像版本JDK1.8 -->
                     <baseImage>java:8</baseImage>
                     <!-- 作者本人信息 -->
