@@ -30,6 +30,7 @@ spring:
 server:
   servlet:
     context-path: /newbuckmoo
+  port: 8080
 
 wechat:
   mpAppId: wxb39b42f5fd93c167

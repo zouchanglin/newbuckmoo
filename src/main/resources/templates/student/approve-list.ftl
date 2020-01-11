@@ -24,6 +24,9 @@
                         姓名<small> Name</small>
                     </th>
                     <th>
+                        联系方式<small> Phone</small>
+                    </th>
+                    <th>
                         申请时间<small> CreateTime</small>
                     </th>
                     <th>
@@ -45,6 +48,7 @@
                         <td>${approve.studentId}</td>
                         <td>${approve.studentSchool}</td>
                         <td>${approve.studentName}</td>
+                        <td>${approve.userBasicInfo.userPhone !}</td>
                         <td>${approve.getUpdateTime()}</td>
                         <td>${approve.getStatusEnum().getMessage()}</td>
                         <td>
