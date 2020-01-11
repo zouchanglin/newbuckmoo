@@ -24,13 +24,13 @@ public class AttestationAspect {
     public void toBindPhone(JoinPoint joinPoint){
         BasicForm basicForm = (BasicForm)joinPoint.getArgs()[0];
         String openId = basicForm.getOpenId();
-        log.info("[切面拦截未绑定用户注册其他高级用户] OpenId={}", openId);
         UserBasicInfo userBasicInfoByOpenid = userBasicInfoService.getUserBasicInfoByOpenid(openId);
         if(userBasicInfoByOpenid == null) {
             //参数OpenId错误
             throw new BuckmooException(ResultEnum.PARAM_ERROR);
         }
         if(StringUtils.isEmpty(userBasicInfoByOpenid.getUserPhone())){
+            log.info("[切面拦截未绑定用户注册其他高级用户] OpenId={}", openId);
             //未绑定手机
             throw new BuckmooException(ResultEnum.NOT_BIND_PHONE);
         }

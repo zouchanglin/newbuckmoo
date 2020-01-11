@@ -90,6 +90,11 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
         if(findStudentRet.isPresent()){
             //存在
             studentInfo = findStudentRet.get();
+            //数据库中存在，但是处于未通过状态才可以继续提交
+            //校验是否处于正在审核的状态，未通过审核时才能继续提交
+            if(AuditStatusEnum.AUDIT_RUNNING.getCode().equals(studentInfo.getAuditStatus())){
+                throw new BuckmooException(ResultEnum.AUDITING_NOT_ALLOWED);
+            }
         }else{
             studentInfo = new StudentInfo();
             studentInfo.setOpenId(studentAttestationForm.getOpenId());

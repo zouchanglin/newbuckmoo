@@ -139,6 +139,16 @@ POST /newbuckmoo/approve/student
         "status": "未审核"
     }
 }
+
+{
+    "code": 9,
+    "msg": "请先绑定手机"
+}
+
+{
+    "code": 11,
+    "msg": "审核中不允许更改信息"
+}
 ```
 
 status_code：审核状态
@@ -184,6 +194,16 @@ POST /newbuckmoo/approve/student
         "status": "未审核"
     }
 }
+
+{
+    "code": 9,
+    "msg": "请先绑定手机"
+}
+
+{
+    "code": 11,
+    "msg": "审核中不允许更改信息"
+}
 ```
 
 和学生信息注册的一样！
@@ -228,6 +248,16 @@ POST /newbuckmoo/approve/club
         "status": "未审核"
     }
 }
+
+{
+    "code": 9,
+    "msg": "请先绑定手机"
+}
+
+{
+    "code": 11,
+    "msg": "审核中不允许更改信息"
+}
 ```
 
 
@@ -270,6 +300,28 @@ http://lslm.live/newbuckmoo/druid/index.html
 改变的接口：
 
 3、WeChat绑定手机
+
+4、学生身份信息注册
+
+5、企业身份信息注册
+
+6、社团身份信息注册
+
+## 2、信息注册新增出错返回值
+
+像这种，改变的接口有：
+
+```json
+{
+    "code": 9,
+    "msg": "请先绑定手机"
+}
+
+{
+    "code": 11,
+    "msg": "审核中不允许更改信息"
+}
+```
 
 4、学生身份信息注册
 

@@ -113,8 +113,8 @@ public class AttestationController {
                     Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         log.info("[StudentAttestationController] studentAttestationForm={}", studentAttestationForm);
-        StudentInfo studentInfo = studentsInfoService.createOrUpdateInfo(studentAttestationForm);
 
+        StudentInfo studentInfo = studentsInfoService.createOrUpdateInfo(studentAttestationForm);
         Map<String, Object> map = Maps.newHashMap();
         map.put("openId", studentInfo.getOpenId());
         map.put("status", Objects.requireNonNull(EnumUtil.getByCode(studentInfo.getAuditStatus(), AuditStatusEnum.class)).getMessage());
