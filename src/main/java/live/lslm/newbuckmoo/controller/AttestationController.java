@@ -1,19 +1,16 @@
 package live.lslm.newbuckmoo.controller;
 
 import com.google.common.collect.Maps;
-import live.lslm.newbuckmoo.entity.CompanyInfo;
-import live.lslm.newbuckmoo.entity.SchoolClubInfo;
-import live.lslm.newbuckmoo.entity.StudentInfo;
+import live.lslm.newbuckmoo.dto.ClubApproveDTO;
+import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
+import live.lslm.newbuckmoo.dto.StudentApproveDTO;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.CompanyAttestationForm;
 import live.lslm.newbuckmoo.form.SchoolClubForm;
 import live.lslm.newbuckmoo.form.StudentAttestationForm;
-import live.lslm.newbuckmoo.service.CompanyInfoService;
-import live.lslm.newbuckmoo.service.SchoolClubInfoService;
-import live.lslm.newbuckmoo.service.StudentsInfoService;
-import live.lslm.newbuckmoo.service.WebSocket;
+import live.lslm.newbuckmoo.service.*;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
 import live.lslm.newbuckmoo.vo.ResultVO;
@@ -45,6 +42,9 @@ public class AttestationController {
     @Autowired
     private WebSocket webSocket;
 
+    @Autowired
+    private WechatPushMessageService wechatPushMessageService;
+
     /**
      * 社团信息注册
      * @param schoolClubForm 社团信息注册
@@ -60,15 +60,19 @@ public class AttestationController {
                     Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         log.info("[AttestationController] schoolClubForm={}", schoolClubForm);
-        SchoolClubInfo schoolClubInfo = schoolClubInfoService.createOrUpdateInfo(schoolClubForm);
+        ClubApproveDTO clubApproveDTO = schoolClubInfoService.createOrUpdateInfo(schoolClubForm);
+
         Map<String, Object> resultMap = Maps.newHashMap();
-        resultMap.put("openId", schoolClubInfo.getOpenId());
-        Integer auditStatus = schoolClubInfo.getAuditStatus();
+        resultMap.put("openId", clubApproveDTO.getOpenId());
+        Integer auditStatus = clubApproveDTO.getAuditStatus();
         resultMap.put("status_code", auditStatus);
         resultMap.put("status", Objects.requireNonNull(EnumUtil.getByCode(auditStatus, AuditStatusEnum.class)).getMessage());
 
         //通知后台管理
         webSocket.sendMessage("新的社团注册信息有待审核哟 &/admin/approve/club-list");
+
+        //通知微信用户端
+        wechatPushMessageService.clubApproveResultStatus(clubApproveDTO);
         return ResultVOUtil.success(resultMap);
     }
 
@@ -86,15 +90,24 @@ public class AttestationController {
             throw new BuckmooException(ResultEnum.PARAM_ERROR.getCode(),
                     Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
+
         log.info("[AttestationController] companyAttestationForm={}", companyAttestationForm);
-        CompanyInfo savedCompanyInfo = companyInfoService.createOrUpdateInfo(companyAttestationForm);
+
+        CompanyApproveDTO approveDTO = companyInfoService.createOrUpdateInfo(companyAttestationForm);
+
+        //返回数据填充
         Map<String, Object> resultMap = Maps.newHashMap();
-        resultMap.put("openID", savedCompanyInfo.getOpenId());
-        Integer auditStatus = savedCompanyInfo.getAuditStatus();
+        resultMap.put("openID", approveDTO.getOpenId());
+        Integer auditStatus = approveDTO.getAuditStatus();
         resultMap.put("status_code", auditStatus);
         resultMap.put("status", Objects.requireNonNull(EnumUtil.getByCode(auditStatus, AuditStatusEnum.class)).getMessage());
+
         //通知后台管理
-        webSocket.sendMessage("新的社团注册信息有待审核哟 &/admin/approve/company-list");
+        webSocket.sendMessage("新的企业注册信息有待审核哟 &/admin/approve/company-list");
+
+        //通知微信用户端
+        wechatPushMessageService.companyApproveResultStatus(approveDTO);
+
         return ResultVOUtil.success(resultMap);
     }
 
@@ -114,14 +127,20 @@ public class AttestationController {
         }
         log.info("[StudentAttestationController] studentAttestationForm={}", studentAttestationForm);
 
-        StudentInfo studentInfo = studentsInfoService.createOrUpdateInfo(studentAttestationForm);
+        StudentApproveDTO approveDTO = studentsInfoService.createOrUpdateInfo(studentAttestationForm);
+
+        //返回数据填充
         Map<String, Object> map = Maps.newHashMap();
-        map.put("openId", studentInfo.getOpenId());
-        map.put("status", Objects.requireNonNull(EnumUtil.getByCode(studentInfo.getAuditStatus(), AuditStatusEnum.class)).getMessage());
-        map.put("status_code", studentInfo.getAuditStatus());
+        map.put("openId", approveDTO.getOpenId());
+        map.put("status", Objects.requireNonNull(EnumUtil.getByCode(approveDTO.getAuditStatus(), AuditStatusEnum.class)).getMessage());
+        map.put("status_code", approveDTO.getAuditStatus());
 
         //通知后台管理
-        webSocket.sendMessage("新的社团注册信息有待审核哟 &/admin/approve/student-list");
+        webSocket.sendMessage("新的学生注册信息有待审核哟 &/admin/approve/student-list");
+
+        //通知注册用户状态
+        wechatPushMessageService.studentApproveResultStatus(approveDTO);
+
         return ResultVOUtil.success(map);
     }
 }

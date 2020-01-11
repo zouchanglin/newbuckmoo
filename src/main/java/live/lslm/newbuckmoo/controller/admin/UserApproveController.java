@@ -3,7 +3,6 @@ package live.lslm.newbuckmoo.controller.admin;
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
-import live.lslm.newbuckmoo.entity.SchoolClubInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
@@ -27,10 +26,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin/approve")
 public class UserApproveController {
+
     @Autowired
     private StudentsInfoService studentsInfoService;
+
     @Autowired
     private CompanyInfoService companyInfoService;
+
     @Autowired
     private SchoolClubInfoService schoolClubInfoService;
 
@@ -51,7 +53,6 @@ public class UserApproveController {
         }
         map.put("msg", ResultEnum.PASS_AUDIT.getMessage());
         map.put("url", "admin/approve/student-list");
-
         return new ModelAndView("common/success", map);
     }
 
@@ -59,7 +60,8 @@ public class UserApproveController {
     public ModelAndView studentApproveRejected(@RequestParam("openid") String openid,
                                            Map<String, Object> map){
         try{
-            studentsInfoService.rejectedStudentApprove(openid);
+            StudentApproveDTO studentApproveDTO = studentsInfoService.rejectedStudentApprove(openid);
+            wechatPushMessageService.studentApproveResultStatus(studentApproveDTO);
         }catch (BuckmooException e){
             log.error("[学生信息驳回审核]发生异常{}", e);
             map.put("msg", e.getMessage());
@@ -83,6 +85,7 @@ public class UserApproveController {
         return new ModelAndView("student/approve-list", map);
     }
 
+    //-------------------------------------------------------------------------------------------------------
     @GetMapping("company-list")
     public ModelAndView companyApproveList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                            @RequestParam(value = "size", defaultValue = "10") Integer size,
@@ -99,7 +102,8 @@ public class UserApproveController {
     public ModelAndView companyApprovePass(@RequestParam("openid") String openid,
                                            Map<String, Object> map){
         try{
-            companyInfoService.changeCompanyApprove(openid, AuditStatusEnum.AUDIT_SUCCESS.getCode());
+            CompanyApproveDTO companyApproveDTO = companyInfoService.changeCompanyApprove(openid, AuditStatusEnum.AUDIT_SUCCESS.getCode());
+            wechatPushMessageService.companyApproveResultStatus(companyApproveDTO);
         }catch (BuckmooException e){
             log.error("[企业信息通过审核]发生异常{}", e);
             map.put("msg", e.getMessage());
@@ -115,7 +119,8 @@ public class UserApproveController {
     public ModelAndView companyApproveRejected(@RequestParam("openid") String openid,
                                            Map<String, Object> map){
         try{
-            companyInfoService.changeCompanyApprove(openid, AuditStatusEnum.AUDIT_FAILED.getCode());
+            CompanyApproveDTO companyApproveDTO = companyInfoService.changeCompanyApprove(openid, AuditStatusEnum.AUDIT_FAILED.getCode());
+            wechatPushMessageService.companyApproveResultStatus(companyApproveDTO);
         }catch (BuckmooException e){
             log.error("[企业信息驳回审核]发生异常{}", e);
             map.put("msg", e.getMessage());
@@ -127,6 +132,7 @@ public class UserApproveController {
         return new ModelAndView("common/success", map);
     }
 
+    //-------------------------------------------------------------------------------------------------------
     @GetMapping("club-list")
     public ModelAndView clubApproveList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                            @RequestParam(value = "size", defaultValue = "10") Integer size,
@@ -144,7 +150,8 @@ public class UserApproveController {
     public ModelAndView clubApprovePass(@RequestParam("openid") String openid,
                                            Map<String, Object> map){
         try{
-            schoolClubInfoService.changeClubApprove(openid, AuditStatusEnum.AUDIT_SUCCESS.getCode());
+            ClubApproveDTO clubApproveDTO = schoolClubInfoService.changeClubApprove(openid, AuditStatusEnum.AUDIT_SUCCESS.getCode());
+            wechatPushMessageService.clubApproveResultStatus(clubApproveDTO);
         }catch (BuckmooException e){
             log.error("[社团信息通过审核]发生异常{}", e);
             map.put("msg", e.getMessage());
@@ -161,7 +168,8 @@ public class UserApproveController {
     public ModelAndView clubApproveRejected(@RequestParam("openid") String openid,
                                                Map<String, Object> map){
         try{
-            schoolClubInfoService.changeClubApprove(openid, AuditStatusEnum.AUDIT_FAILED.getCode());
+            ClubApproveDTO clubApproveDTO = schoolClubInfoService.changeClubApprove(openid, AuditStatusEnum.AUDIT_FAILED.getCode());
+            wechatPushMessageService.clubApproveResultStatus(clubApproveDTO);
         }catch (BuckmooException e){
             log.error("[社团信息通过审核]发生异常{}", e);
             map.put("msg", e.getMessage());

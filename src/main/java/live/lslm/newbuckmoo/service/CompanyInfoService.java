@@ -14,7 +14,7 @@ public interface CompanyInfoService {
      * @param companyAttestationForm 企业信息表单
      * @return 保存后的企业信息
      */
-    CompanyInfo createOrUpdateInfo(CompanyAttestationForm companyAttestationForm);
+    CompanyApproveDTO createOrUpdateInfo(CompanyAttestationForm companyAttestationForm);
 
     /**
      * 分页查询待审核企业列表
@@ -28,7 +28,7 @@ public interface CompanyInfoService {
      * @param openid 企业管理员OpenId
      * @param code 认证状态
      */
-    void changeCompanyApprove(String openid, Integer code);
+    CompanyApproveDTO changeCompanyApprove(String openid, Integer code);
 
     /**
      * 分页查询审核通过的企业列表

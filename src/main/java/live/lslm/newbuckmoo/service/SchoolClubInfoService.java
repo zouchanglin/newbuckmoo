@@ -20,14 +20,14 @@ public interface SchoolClubInfoService {
      * @param openid openId
      * @param code 修改审核结果
      */
-    void changeClubApprove(String openid, Integer code);
+    ClubApproveDTO changeClubApprove(String openid, Integer code);
 
     /**
      * 创建或者修改社团信息
      * @param schoolClubForm 社团信息表单
      * @return 保存后的信息
      */
-    SchoolClubInfo createOrUpdateInfo(SchoolClubForm schoolClubForm);
+    ClubApproveDTO createOrUpdateInfo(SchoolClubForm schoolClubForm);
 
     /**
      * 页查询社团审核通过的数据

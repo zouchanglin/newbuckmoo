@@ -1,6 +1,5 @@
 package live.lslm.newbuckmoo.service.impl;
 
-import live.lslm.newbuckmoo.convert.StudentInfoToApproveConvert;
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
 import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
@@ -47,7 +46,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
     }
 
     @Override
-    public void rejectedStudentApprove(String openid) {
+    public StudentApproveDTO rejectedStudentApprove(String openid) {
         Optional<StudentInfo> findResult = studentRepository.findById(openid);
         if(findResult.isPresent()){
             StudentInfo studentInfo = findResult.get();
@@ -57,6 +56,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
             studentInfo.setAuditStatus(AuditStatusEnum.AUDIT_FAILED.getCode());
             StudentInfo saved = studentRepository.save(studentInfo);
             log.info("[StudentsInfoServiceImpl] saved={}", saved);
+            return convert(saved);
         }else{
             throw new BuckmooException(ResultEnum.PARAM_ERROR);
         }
@@ -83,7 +83,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
     }
 
     @Override
-    public StudentInfo createOrUpdateInfo(StudentAttestationForm studentAttestationForm) {
+    public StudentApproveDTO createOrUpdateInfo(StudentAttestationForm studentAttestationForm) {
         String openid = studentAttestationForm.getOpenId();
         Optional<StudentInfo> findStudentRet = studentRepository.findById(openid);
         StudentInfo studentInfo;
@@ -106,7 +106,8 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
         studentInfo.setStudentId(studentAttestationForm.getNumber());
         studentInfo.setStudentSchool(studentAttestationForm.getSchool());
         studentInfo.setUpdateTime(System.currentTimeMillis());
-        return studentRepository.save(studentInfo);
+
+        return convert(studentRepository.save(studentInfo));
     }
 
 

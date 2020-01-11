@@ -14,7 +14,7 @@ public interface StudentsInfoService {
      * @param studentAttestationForm 学生信息表单
      * @return 返回保存后的学生信息
      */
-    StudentInfo createOrUpdateInfo(StudentAttestationForm studentAttestationForm);
+    StudentApproveDTO createOrUpdateInfo(StudentAttestationForm studentAttestationForm);
 
     /**
      * 分页获取学生认证请求列表
@@ -40,5 +40,5 @@ public interface StudentsInfoService {
      * 学生认证驳回
      * @param openid 学生微信Id
      */
-    void rejectedStudentApprove(String openid);
+    StudentApproveDTO rejectedStudentApprove(String openid);
 }

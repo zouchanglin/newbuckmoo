@@ -54,7 +54,7 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
     }
 
     @Override
-    public SchoolClubInfo createOrUpdateInfo(SchoolClubForm schoolClubForm) {
+    public ClubApproveDTO createOrUpdateInfo(SchoolClubForm schoolClubForm) {
         String openId = schoolClubForm.getOpenId();
         Optional<SchoolClubInfo> findSchoolRet = schoolClubInfoRepository.findById(openId);
         SchoolClubInfo schoolClubInfo;
@@ -73,11 +73,12 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
         BeanUtils.copyProperties(schoolClubForm, schoolClubInfo);
         schoolClubInfo.setAuditStatus(AuditStatusEnum.AUDIT_RUNNING.getCode());
         schoolClubInfo.setUpdateTime(System.currentTimeMillis());
-        return schoolClubInfoRepository.save(schoolClubInfo);
+        SchoolClubInfo schoolClubInfoSaved = schoolClubInfoRepository.save(schoolClubInfo);
+        return convert(schoolClubInfoSaved);
     }
 
     @Override
-    public void changeClubApprove(String openid, Integer code) {
+    public ClubApproveDTO changeClubApprove(String openid, Integer code) {
         Optional<SchoolClubInfo> findResult = schoolClubInfoRepository.findById(openid);
         if(findResult.isPresent()){
             SchoolClubInfo schoolClubInfo = findResult.get();
@@ -90,6 +91,7 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
                 schoolClubInfo.setAuditStatus(code);
                 SchoolClubInfo schoolClubInfoSaved = schoolClubInfoRepository.save(schoolClubInfo);
                 log.info("[SchoolClubInfoServiceImpl] schoolClubInfoSaved={}", schoolClubInfoSaved);
+                return convert(schoolClubInfoSaved);
             }
         }else {
             throw new BuckmooException(ResultEnum.PARAM_ERROR);
@@ -114,5 +116,17 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
             descList.add(clubApproveDTO);
         }
         return new PageImpl<>(descList, pageable, schoolClubInfoPage.getTotalElements());
+    }
+
+    private ClubApproveDTO convert(SchoolClubInfo schoolClubInfo){
+        ClubApproveDTO clubApproveDTO = new ClubApproveDTO();
+        BeanUtils.copyProperties(schoolClubInfo, clubApproveDTO);
+        Optional<UserBasicInfo> userBasicInfo = userBasicInfoRepository.findById(schoolClubInfo.getOpenId());
+        if(userBasicInfo.isPresent()){
+            clubApproveDTO.setUserBasicInfo(userBasicInfo.get());
+            return clubApproveDTO;
+        }else {
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
     }
 }
