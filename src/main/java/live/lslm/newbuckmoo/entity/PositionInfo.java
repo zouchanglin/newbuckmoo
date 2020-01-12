@@ -25,7 +25,7 @@ public class PositionInfo {
     /**
      * 薪酬：2000/天
      */
-    private Integer positionMoney;
+    private String positionMoney;
 
     /**
      * 结算方式：默认 日结

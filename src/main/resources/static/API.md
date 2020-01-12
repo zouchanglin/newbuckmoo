@@ -260,7 +260,7 @@ POST /newbuckmoo/approve/club
 }
 ```
 
-## 7、学生简历上传
+## 7、学生简历信息上传
 
 ```
 POST newbuckmoo/student/resume/upload
@@ -315,6 +315,72 @@ POST newbuckmoo/student/resume/upload
     "msg": "参数错误"
 }
 ```
+
+## 8、获取用户详细信息
+
+根据OpenID，可以获取用户基本信息，当前方式是直接获取到用户的所有信息，如果是企业用户的话就获得企业相关信息、如果还有学生的身份的话就是还包含学生的信息、如果还是社团的注册人的话就还包含社团的信息
+
+```
+GET newbuckmoo/basic-info/getUserInfo
+```
+
+参数
+
+```json
+{
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk"
+}
+```
+
+返回值
+
+下面是一个比如邹长林即是社团负责人、又是企业负责人的情况：
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "club": {
+            "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+            "studentId": "41604090109",
+            "studentName": "邹长林",
+            "studentCertificate": "https://s2.ax1x.com/2020/01/05/lBrMPU.png",
+            "studentSchool": "西安工程大学",
+            "auditStatus": 0,
+            "userBasicInfo": {
+                "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+                "userName": "Tim",
+                "userIcon": "http://thirdwx.qlogo.cn/mmopen/vi_32/bxVEQxwmOL",
+                "userCity": "泽西岛",
+                "userPhone": "15291418231",
+                "userGrade": 0,
+                "userSex": 1
+            }
+        },
+        "company": {
+            "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+            "companyName": "骊山鹿鸣有限公司",
+            "companyId": "13JDE9W0D8EW9D90DWE",
+            "companyOwnerName": "杨楠",
+            "companyCertificate": "https://s2.ax1x.com/2020/01/05/lBDRgJ.png",
+            "companyDesc": "骊山鹿鸣通过优质资源的有效整合，更好服务于学生群体",
+            "auditStatus": 0,
+            "userBasicInfo": {
+                "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+                "userName": "Tim",
+                "userIcon": "http://thirdwx.qlogo.cn/mmopen/vi_32/bxVEQxwmOL",
+                "userCity": "泽西岛",
+                "userPhone": "15291418231",
+                "userGrade": 0,
+                "userSex": 1
+            }
+        }
+    }
+}
+```
+
+
 
 
 

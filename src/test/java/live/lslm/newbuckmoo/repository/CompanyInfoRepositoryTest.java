@@ -18,9 +18,9 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Slf4j
 public class CompanyInfoRepositoryTest {
     @Autowired
     private CompanyInfoRepository repository;

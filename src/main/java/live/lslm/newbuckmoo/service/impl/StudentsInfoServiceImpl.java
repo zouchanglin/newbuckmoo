@@ -32,6 +32,12 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
     private UserBasicInfoRepository userBasicInfoRepository;
 
     @Override
+    public StudentApproveDTO getStudentInfoByOpenId(String openId) {
+        Optional<StudentInfo> studentInfo = studentRepository.findById(openId);
+        return studentInfo.map(this::convert).orElse(null);
+    }
+
+    @Override
     public Page<StudentApproveDTO> getStudentList(Pageable pageable) {
         Page<StudentInfo> studentInfoPage = studentRepository.findAllByAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageable);
         List<StudentApproveDTO> orderDTOList = convert(studentInfoPage.getContent());

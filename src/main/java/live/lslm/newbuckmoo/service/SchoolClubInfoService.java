@@ -35,4 +35,11 @@ public interface SchoolClubInfoService {
      * @return 分页查询结果
      */
     Page<ClubApproveDTO> getClubList(Pageable pageable);
+
+    /**
+     * 根据OpenId查询社团信息
+     * @param openId openId
+     * @return 查询结果DTO对象
+     */
+    ClubApproveDTO getClubInfoByOpenId(String openId);
 }

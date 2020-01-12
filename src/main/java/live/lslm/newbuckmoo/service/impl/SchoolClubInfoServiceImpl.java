@@ -32,6 +32,13 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
     @Autowired
     private UserBasicInfoRepository userBasicInfoRepository;
 
+
+    @Override
+    public ClubApproveDTO getClubInfoByOpenId(String openId) {
+        Optional<SchoolClubInfo> clubInfo = schoolClubInfoRepository.findById(openId);
+        return clubInfo.map(this::convert).orElse(null);
+    }
+
     @Override
     public Page<ClubApproveDTO> getClubList(Pageable pageable) {
         Page<SchoolClubInfo> schoolClubInfoPage = schoolClubInfoRepository.findAllByAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageable);

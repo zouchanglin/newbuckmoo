@@ -41,4 +41,11 @@ public interface StudentsInfoService {
      * @param openid 学生微信Id
      */
     StudentApproveDTO rejectedStudentApprove(String openid);
+
+    /**
+     * 根据OpenId查询学信息
+     * @param openId 学生微信Id
+     * @return 查询结果DTO对象
+     */
+    StudentApproveDTO getStudentInfoByOpenId(String openId);
 }

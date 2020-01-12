@@ -1,11 +1,16 @@
 package live.lslm.newbuckmoo.controller;
 
+import com.google.common.collect.Maps;
 import live.lslm.newbuckmoo.catchs.VerifyKeyCatch;
+import live.lslm.newbuckmoo.dto.ClubApproveDTO;
+import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
+import live.lslm.newbuckmoo.dto.StudentApproveDTO;
+import live.lslm.newbuckmoo.entity.CompanyInfo;
+import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.BindPhoneForm;
-import live.lslm.newbuckmoo.service.SendPhoneMessageService;
-import live.lslm.newbuckmoo.service.UserBasicInfoService;
+import live.lslm.newbuckmoo.service.*;
 import live.lslm.newbuckmoo.utils.KeyUtil;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
 import live.lslm.newbuckmoo.vo.ResultVO;
@@ -28,6 +33,35 @@ public class BasicUserInfoController {
 
     @Autowired
     private SendPhoneMessageService phoneMessageService;
+
+    @Autowired
+    private CompanyInfoService companyInfoService;
+
+    @Autowired
+    private SchoolClubInfoService clubInfoService;
+
+    @Autowired
+    private StudentsInfoService studentInfoService;
+
+    /**
+     * TODO是学生、企业、社团都要展示出来
+     */
+    //TODO 一个一个展示还是直接展示
+    @GetMapping("/getUserInfo")
+    public ResultVO getUserInfo(@RequestBody Map<String, Object> map){
+        String openId = (String) map.get("openId");
+        if(StringUtils.isEmpty(openId)) throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        CompanyApproveDTO companyApproveDTO = companyInfoService.getCompanyByOpenId(openId);
+        ClubApproveDTO clubApproveDTO = clubInfoService.getClubInfoByOpenId(openId);
+        StudentApproveDTO studentApproveDTO = studentInfoService.getStudentInfoByOpenId(openId);
+
+        Map<String, Object> resultMap = Maps.newHashMap();
+        if(companyApproveDTO != null) resultMap.put("company", companyApproveDTO);
+        if(clubApproveDTO != null) resultMap.put("student", clubApproveDTO);
+        if(studentApproveDTO != null) resultMap.put("club", studentApproveDTO);
+        return ResultVOUtil.success(resultMap);
+    }
+
 
     /**
      * 获取验证码

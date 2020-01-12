@@ -33,6 +33,13 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
     @Autowired
     private UserBasicInfoService userBasicInfoService;
 
+
+    @Override
+    public CompanyApproveDTO getCompanyByOpenId(String openId) {
+        Optional<CompanyInfo> companyInfo = companyInfoRepository.findById(openId);
+        return companyInfo.map(this::convert).orElse(null);
+    }
+
     @Override
     public Page<CompanyApproveDTO> getCompanyList(Pageable pageable) {
         Page<CompanyInfo> companyInfoPage = companyInfoRepository.findAllByAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageable);

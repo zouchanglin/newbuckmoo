@@ -36,4 +36,11 @@ public interface CompanyInfoService {
      * @return 查询分页结果
      */
     Page<CompanyApproveDTO> getCompanyList(Pageable pageable);
+
+    /**
+     * 根据openId查询企业信息
+     * @param openId openId
+     * @return DTO对象
+     */
+    CompanyApproveDTO getCompanyByOpenId(String openId);
 }
