@@ -7,7 +7,7 @@ import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
-import live.lslm.newbuckmoo.form.SchoolClubForm;
+import live.lslm.newbuckmoo.form.SchoolClubAttestationForm;
 import live.lslm.newbuckmoo.repository.SchoolClubInfoRepository;
 import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
 import live.lslm.newbuckmoo.service.SchoolClubInfoService;
@@ -17,7 +17,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +53,7 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
     }
 
     @Override
-    public ClubApproveDTO createOrUpdateInfo(SchoolClubForm schoolClubForm) {
+    public ClubApproveDTO createOrUpdateInfo(SchoolClubAttestationForm schoolClubForm) {
         String openId = schoolClubForm.getOpenId();
         Optional<SchoolClubInfo> findSchoolRet = schoolClubInfoRepository.findById(openId);
         SchoolClubInfo schoolClubInfo;

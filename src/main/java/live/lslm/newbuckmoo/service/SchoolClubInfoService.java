@@ -2,7 +2,7 @@ package live.lslm.newbuckmoo.service;
 
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
 import live.lslm.newbuckmoo.entity.SchoolClubInfo;
-import live.lslm.newbuckmoo.form.SchoolClubForm;
+import live.lslm.newbuckmoo.form.SchoolClubAttestationForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +27,7 @@ public interface SchoolClubInfoService {
      * @param schoolClubForm 社团信息表单
      * @return 保存后的信息
      */
-    ClubApproveDTO createOrUpdateInfo(SchoolClubForm schoolClubForm);
+    ClubApproveDTO createOrUpdateInfo(SchoolClubAttestationForm schoolClubForm);
 
     /**
      * 页查询社团审核通过的数据

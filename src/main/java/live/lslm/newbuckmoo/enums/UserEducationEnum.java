@@ -10,9 +10,7 @@ public enum UserEducationEnum implements CodeEnum{
     DOCTORAL(1, "博士"),
     POSTGRADUATE(2, "硕士"),
     REGULAR_COLLEGE(3, "本科"),
-    ASSOCIATE_DEGREE(4, "大专"),
-    TECHNICAL_SECONDARY(5, "高中及中专"),
-    JUNIOR_HIGH_SCHOOL(6, "初中");
+    ASSOCIATE_DEGREE(4, "大专");
 
     private Integer code;
     private String message;

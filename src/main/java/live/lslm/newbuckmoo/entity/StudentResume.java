@@ -40,9 +40,9 @@ public class StudentResume {
     private Integer resumeEducation = UserEducationEnum.REGULAR_COLLEGE.getCode();
 
     /**
-     * 工作经验
+     * 校园经历
      */
-    private Integer resumeWorkExperience = WorkExperienceEnum.IN_SCHOOL.getCode();
+    private String resumeHistory;
 
     /**
      * 居住地
@@ -60,9 +60,9 @@ public class StudentResume {
     private Integer resumeWorkCategory;
 
     /**
-     * 期望月薪
+     * 期望薪资
      */
-    private Integer resumeHopeMoney;
+    private String resumeHopeMoney;
 
     /**
      * 自我描述
@@ -81,4 +81,9 @@ public class StudentResume {
      * 2019.11 五星级志愿者证书
      */
     private String resumeCredential;
+
+    /**
+     * 信息更新时间
+     */
+    private Long updateTime;
 }

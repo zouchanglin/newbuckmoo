@@ -260,6 +260,62 @@ POST /newbuckmoo/approve/club
 }
 ```
 
+## 7、学生简历上传
+
+```
+POST newbuckmoo/student/resume/upload
+```
+
+参数
+
+```json
+{
+	"openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+	"resumeName": "邹长林",
+	"resumeSex": 1,
+	"resumeAge": 22,
+	"resumeEducation": 1,
+	"resumeHistory": "2016年学生会副会长",
+	"resumeAddress": "陕鼓大道58号，西安工程大学临潼校区",
+	"resumeWork": "作业、辅导、家教",
+	"resumeWorkCategory": 1,
+	"resumeHopeMoney": "150元/天",
+	"resumeAboutMyself": "我个性开放，活泼好动",
+	"resumeLanguage":"CET4 2020.08.01获得",
+	"resumeCredential": "2020.01.02获得辩论赛冠军"
+}
+```
+
+参数说明：
+
+* openId：openid
+* resumeName：姓名
+* resumeSex：性别
+* resumeAge：年龄
+* resumeEducation：学历（1博士、2硕士、3本科、4大专）
+* resumeHistory：校园经历（没有就填无）
+* resumeAddress：现居住地
+* resumeWork：期望职位
+* resumeWorkCategory：期望职位分类（从分类信息里选择）
+* resumeHopeMoney：期望薪资（自己想怎么写就怎么写吧）
+* resumeAboutMyself：自我简介1-100字
+* resumeLanguage：语言能力（如获得CET4/6等等）
+* resumeCredential：获奖经历
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功"
+}
+
+{
+    "code": 1,
+    "msg": "参数错误"
+}
+```
+
 
 
 # 三、运行参数

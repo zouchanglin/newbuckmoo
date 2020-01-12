@@ -8,7 +8,7 @@ import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.CompanyAttestationForm;
-import live.lslm.newbuckmoo.form.SchoolClubForm;
+import live.lslm.newbuckmoo.form.SchoolClubAttestationForm;
 import live.lslm.newbuckmoo.form.StudentAttestationForm;
 import live.lslm.newbuckmoo.service.*;
 import live.lslm.newbuckmoo.utils.EnumUtil;
@@ -52,7 +52,7 @@ public class AttestationController {
      * @return openId和审核状态
      */
     @PostMapping(value = "club", produces = "application/json")
-    public ResultVO attestationForClub(@RequestBody @Valid SchoolClubForm schoolClubForm,
+    public ResultVO attestationForClub(@RequestBody @Valid SchoolClubAttestationForm schoolClubForm,
                                           BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             log.error("参数不正确, schoolClubForm={}", schoolClubForm);
