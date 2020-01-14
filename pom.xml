@@ -16,8 +16,6 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <!-- Docker镜像上传的用户名 -->
-        <docker.image.prefix>zouchanglin</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -118,59 +116,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <!-- 镜像名称 -->
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                    <!-- 指定标签 -->
-                    <imageTags>
-                        <imageTag>latest</imageTag>
-                    </imageTags>
-                    <!-- 强制覆盖 -->
-                    <forceTags>true</forceTags>
-                    <!--时区配置-->
-                    <env>
-                        <TZ>Asia/Shanghai</TZ>
-                    </env>
-                    <runs>
-                        <run>echo $TZ > /etc/timezone</run>
-                    </runs>
-                    <!-- 基础镜像版本JDK1.8 -->
-                    <baseImage>java:8</baseImage>
-                    <!-- 作者本人信息 -->
-                    <maintainer>zouchanglin zchanglin3@gmail.com</maintainer>
-                    <!-- 切换到ROOT目录 -->
-                    <workdir>/ROOT</workdir>
-                    <cmd>["java", "-version"]</cmd>
-                    <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
-                    <!-- 指定远程 Docker api地址 -->
-                    <dockerHost>http://lslm.live:2375</dockerHost>
-                    <!-- 复制Jar包到指定的Docker容器 -->
-                    <resources>
-                        <resource>
-                            <targetPath>/ROOT</targetPath>
-                            <!-- 用于指定用于复制的根目录 -->
-                            <directory>${project.build.directory}</directory>
-                            <!-- 用于指定需要复制的文件 -->
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
-
-                <executions>
-                    <!-- 当执行maven package时，执行maven clean package：build -->
-                    <execution>
-                        <id>build-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
