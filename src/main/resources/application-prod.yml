@@ -14,6 +14,10 @@ spring:
       time-between-eviction-runs-millis: 50000
   jpa:
     show-sql: true
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 1Lslm.live$
   jackson:
     default-property-inclusion: non_null
   freemarker:

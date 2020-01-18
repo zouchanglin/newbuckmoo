@@ -77,7 +77,7 @@ public class WeChatController {
                 WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(accessToken, null);
                 UserBasicInfo userBasicInfo = WxMpUserConvert.mpUserConvertToUserBasicInfo(wxMpUser);
                 String savedOpenid = userBasicInfoService.updateOrCreateUserBasic(userBasicInfo);
-                CookieUtil.set(response, CookieConstant.TOKEN, savedOpenid, Integer.MAX_VALUE);
+                CookieUtil.set(response, CookieConstant.OPENID, savedOpenid, CookieConstant.EXPIRE);
             } catch (WxErrorException e) {
                 e.printStackTrace();
             }
