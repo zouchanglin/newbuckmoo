@@ -70,5 +70,9 @@
         <li>
             <a href=""><i class="fa fa-fw fa-list-alt"></i> 登出</a>
         </li>
+
+        <li>
+            <a href=""><i class="fa fa-fw fa-list-alt"></i> 关于我们</a>
+        </li>
     </ul>
 </nav>

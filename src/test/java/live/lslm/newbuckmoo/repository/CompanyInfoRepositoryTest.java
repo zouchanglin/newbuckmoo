@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CompanyInfoRepositoryTest {
     @Autowired
     private CompanyInfoRepository repository;
