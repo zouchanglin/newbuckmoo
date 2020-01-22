@@ -41,7 +41,6 @@ public class StudentResumeServiceImpl implements StudentResumeService {
     public StudentResumeDTO createOrUpdateResume(StudentResumeForm studentResumeForm) {
         StudentResume studentResume = new StudentResume();
         BeanUtils.copyProperties(studentResumeForm, studentResume);
-
         StudentResume studentResumeSaved = resumeRepository.save(studentResume);
         log.info("[简历存储] studentResumeSaved={}", studentResumeSaved);
         return convert(studentResumeSaved);

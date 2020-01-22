@@ -1,7 +1,6 @@
 package live.lslm.newbuckmoo.repository;
 
 import live.lslm.newbuckmoo.entity.PositionInfo;
-import live.lslm.newbuckmoo.enums.ClearingWayEnum;
 import live.lslm.newbuckmoo.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
@@ -29,6 +28,8 @@ public class PositionInfoRepositoryTest {
     public void init(){
         PositionInfo positionInfo = new PositionInfo();
         positionInfo.setPositionId(KEY);
+        positionInfo.setCreateTime(System.currentTimeMillis());
+        positionInfo.setUpdateTime(System.currentTimeMillis());
         PositionInfo save = repository.save(positionInfo);
         assertNotNull(save);
     }

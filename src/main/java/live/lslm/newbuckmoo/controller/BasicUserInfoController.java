@@ -57,8 +57,8 @@ public class BasicUserInfoController {
 
         Map<String, Object> resultMap = Maps.newHashMap();
         if(companyApproveDTO != null) resultMap.put("company", companyApproveDTO);
-        if(clubApproveDTO != null) resultMap.put("student", clubApproveDTO);
-        if(studentApproveDTO != null) resultMap.put("club", studentApproveDTO);
+        if(clubApproveDTO != null) resultMap.put("club", clubApproveDTO);
+        if(studentApproveDTO != null) resultMap.put("student", studentApproveDTO);
         return ResultVOUtil.success(resultMap);
     }
 

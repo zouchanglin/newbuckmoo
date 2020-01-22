@@ -34,6 +34,8 @@
 
 其实就是从微信服务器获取微信授权，和以前一样，现在改为动态获取，不是一开始强制要求用户同意授权
 
+其实就是获取用户微信基本信息，openId、昵称、地址等信息
+
 ```
 GET /newbuckmoo/wechat/authorize
 ```
@@ -341,7 +343,7 @@ GET newbuckmoo/basic-info/getUserInfo
     "code": 0,
     "msg": "成功",
     "data": {
-        "club": {
+        "student": {
             "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
             "studentId": "41604090109",
             "studentName": "邹长林",
@@ -380,7 +382,15 @@ GET newbuckmoo/basic-info/getUserInfo
 }
 ```
 
+返回值字段解释：
 
+//TODO 解释
+
+
+
+## 9、企业发布兼职信息
+
+//TODO 。。。
 
 
 
@@ -450,4 +460,18 @@ http://lslm.live/newbuckmoo/druid/index.html
 5、企业身份信息注册
 
 6、社团身份信息注册
+
+## 3、获取用户详细信息的返回值
+
+原本是学生信息结果对应到了社团信息，现在把club对应到了社团信息，student对应到了学生信息
+
+改变的接口：
+
+8、获取用户详细信息
+
+
+
+
+
+
 

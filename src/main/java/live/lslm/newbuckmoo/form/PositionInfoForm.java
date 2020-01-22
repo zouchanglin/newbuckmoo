@@ -1,22 +1,10 @@
-package live.lslm.newbuckmoo.entity;
+package live.lslm.newbuckmoo.form;
 
-import live.lslm.newbuckmoo.enums.ClearingWayEnum;
+
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-/**
- * 职位信息
- */
-@Entity
 @Data
-@DynamicUpdate
-public class PositionInfo {
-    @Id
-    private String positionId;
-
+public class PositionInfoForm implements BasicForm{
     /**
      * 职位名称
      */
@@ -30,17 +18,12 @@ public class PositionInfo {
     /**
      * 结算方式：默认 日结
      */
-    private Integer positionClearingWay = ClearingWayEnum.DAY_CLEARING.getCode();
+    private Integer positionClearingWay;
 
     /**
      * 职位发布企业
      */
     private String positionCompanyId;
-
-    /**
-     * 职位发布时间 2020-01-10
-     */
-    private Long positionTime;
 
     /**
      * 兼职信息是否置顶
@@ -73,22 +56,7 @@ public class PositionInfo {
     private String positionPhone;
 
     /**
-     * 职位浏览量
-     */
-    private Long positionBrowse;
-
-    /**
      * 用户openId
      */
     private String openId;
-
-    /**
-     * 创建时间
-     */
-    private Long createTime;
-
-    /**
-     * 修改时间
-     */
-    private Long updateTime;
 }

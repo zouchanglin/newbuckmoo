@@ -14,6 +14,7 @@ import java.util.Map;
 public class SocketController {
     @Autowired
     private ProjectUrlConfig projectUrlConfig;
+
     @GetMapping("websocket")
     public ModelAndView getIndex(Map<String, Object> map){
         //map.put("projectUrl", "localhost:8080");
