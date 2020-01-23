@@ -1,6 +1,8 @@
 package live.lslm.newbuckmoo.entity;
 
+import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ClearingWayEnum;
+import live.lslm.newbuckmoo.enums.PositionTopEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -10,8 +12,8 @@ import javax.persistence.Id;
 /**
  * 职位信息
  */
-@Entity
 @Data
+@Entity
 @DynamicUpdate
 public class PositionInfo {
     @Id
@@ -38,19 +40,14 @@ public class PositionInfo {
     private String positionCompanyId;
 
     /**
-     * 职位发布时间 2020-01-10
-     */
-    private Long positionTime;
-
-    /**
      * 兼职信息是否置顶
      */
-    private Integer positionTop;
+    private Integer positionTop = PositionTopEnum.NTO_TOP.getCode();
 
     /**
-     * 职位类型
+     * 职位类型（做成标签的形式：1#5#6）以#分割
      */
-    private Integer positionCategory;
+    private String positionCategory;
 
     /**
      * 职位描述
@@ -91,4 +88,14 @@ public class PositionInfo {
      * 修改时间
      */
     private Long updateTime;
+
+    /**
+     * 审核状态
+     */
+    private Integer auditStatus = AuditStatusEnum.AUDIT_RUNNING.getCode();
+
+    /**
+     * 审核结论
+     */
+    private String auditRemark;
 }

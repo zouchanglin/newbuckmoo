@@ -30,6 +30,7 @@ public class PositionInfoRepositoryTest {
         positionInfo.setPositionId(KEY);
         positionInfo.setCreateTime(System.currentTimeMillis());
         positionInfo.setUpdateTime(System.currentTimeMillis());
+        positionInfo.setPositionCategory("1#4#8#9");
         PositionInfo save = repository.save(positionInfo);
         assertNotNull(save);
     }

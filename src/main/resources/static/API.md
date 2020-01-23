@@ -388,9 +388,102 @@ GET newbuckmoo/basic-info/getUserInfo
 
 
 
-## 9、企业发布兼职信息
+## 9、企业发布/修改兼职信息
 
-//TODO 。。。
+```
+POST newbuckmoo/company/position/create
+```
+
+参数
+
+```json
+{
+    "positionId": "1579755815901769118",
+	"positionName":"周末影院兼职",
+	"positionMoney": "900元/天",
+	"positionClearingWay":0,
+	"positionCompanyId":"13JDE9W0D8EW9D90DWE",
+	"positionTop":1,
+	"positionCategory":[1,3,5,7],
+	"positionDesc":"周末影院兼职,负责检验票据等简单的工作",
+	"positionAddress": "临潼太平洋影城3层7号厅",
+	"positionPeopleNum": 12,
+	"positionPhone": "15291418231",
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk"
+}
+```
+
+参数解释：
+
+positionId ：此字段代表兼职信息的ID，可以为空，positionId为空就代表新增兼职信息，不为空即是修改兼职
+
+positionName：兼职名称
+
+positionMoney：薪酬情况，可以是"200/天"，也可以是"面议"，"至少500/周" 等用户自定义的字符串
+
+positionClearingWay：工资结算方式，0 日结、1 周结、 2 月结、3 完工结算
+
+positionCompanyId：企业ID，意思就是这条兼职信息是哪个企业发的
+
+positionTop：是否需要置顶，0 置顶、1不置顶
+
+positionCategory：兼职标签集合（实际上是标签ID的集合），获取所有标签的接口后续会给出
+
+positionDesc：兼职具体工作的描述
+
+positionAddress：兼职的地点
+
+positionPeopleNum：兼职需要的人数
+
+positionPhone：兼职信息联系方式（目前只对学生可见）
+
+openId：兼职的发布者的OpenID，虽然已知企业信息就可以知道openId，但是为了安全起见还是openId字段和企业ID字段做联合校验
+
+
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功"
+}
+```
+
+## 10、获取兼职标签列表
+
+```
+GET newbuckmoo/company/position/categories
+```
+
+参数
+
+```
+无
+```
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": [
+        {
+            "categoryId": 1,
+            "categoryName": "附近兼职"
+        },
+        {
+            "categoryId": 2,
+            "categoryName": "线上兼职"
+        },
+        {
+            "categoryId": 3,
+            "categoryName": "高薪兼职"
+        }
+    ]
+}
+```
 
 
 

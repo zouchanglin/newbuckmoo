@@ -15,7 +15,6 @@ public enum  ResultEnum {
     OPENID_STUDENT_ERROR(8, "学生无对应OpenId用户"),
     NOT_BIND_PHONE(9, "请先绑定手机"),
     COOKIE_NOT_EXIST(10, "Cookie(openId)不存在"),
-
     AUDITING_NOT_ALLOWED(11, "审核中不允许更改信息");
 
 
