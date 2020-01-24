@@ -30,7 +30,7 @@ public class PositionController {
     @PostMapping("create")
     public ResultVO createOrUpdatePosition(@RequestBody @Valid PositionInfoForm positionInfoForm,
                                BindingResult bindingResult){
-        //TODO 判断权限和审核
+        log.info("[新增兼职信息] positionInfoForm={}", positionInfoForm);
         if (bindingResult.hasErrors()) {
             log.error("参数不正确, schoolClubForm={}", positionInfoForm);
             throw new BuckmooException(ResultEnum.PARAM_ERROR.getCode(),

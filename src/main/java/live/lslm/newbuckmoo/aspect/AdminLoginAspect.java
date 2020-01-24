@@ -17,6 +17,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 管理员操作拦截器
+ */
 @Slf4j
 @Aspect
 @Component

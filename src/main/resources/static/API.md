@@ -384,7 +384,37 @@ GET newbuckmoo/basic-info/getUserInfo
 
 返回值字段解释：
 
-//TODO 解释
+student里面时学生信息：
+
+openId：学生用户的openId
+
+studentId：学号
+
+staudentName：姓名
+
+studentCertificate：学生证照片URL
+
+studentSchool：学生学校
+
+auditStatus：信息审核状态
+
+userBasicInfo：用户基本信息
+
+company里面的信息：
+
+companyName：企业名称
+
+companyId：企业的Id注册号
+
+companyOwnerName：企业法人
+
+companyCertificate：营业执照的图片URL
+
+companyDesc：经营范围的描述
+
+auditStatus：企业信息审核状态
+
+userBasicInfo：用户基本信息
 
 
 
@@ -447,6 +477,16 @@ openId：兼职的发布者的OpenID，虽然已知企业信息就可以知道op
 {
     "code": 0,
     "msg": "成功"
+}
+
+{
+    "code": 2,
+    "msg": "审核状态错误"
+}
+
+{
+    "code": 12,
+    "msg": "审核状态拒绝"
 }
 ```
 
@@ -558,11 +598,20 @@ http://lslm.live/newbuckmoo/druid/index.html
 
 原本是学生信息结果对应到了社团信息，现在把club对应到了社团信息，student对应到了学生信息
 
-改变的接口：
+影响的接口：
 
 8、获取用户详细信息
 
+## 4、返回值新增几种错误说明
 
+增加了可能失败的情况：
+
+* openId与companyId对应不上
+* openId与companyId可以对应上，但是企业信息审核还未通过
+
+影响的接口：
+
+9、企业发布兼职信息
 
 
 

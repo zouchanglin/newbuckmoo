@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+/**
+ * 用户注册时绑定手机的拦截器
+ */
 @Slf4j
 @Aspect
 @Component
