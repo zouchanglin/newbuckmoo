@@ -61,7 +61,8 @@
                 <li><a href="${request.contextPath}/develop/index">模拟数据生成</a></li>
                 <li><a href="#">接口日志查询</a></li>
                 <li><a href="${request.contextPath}/druid/index.html">SQL监控平台</a></li>
-                <li><a href="http://lslm.live:8080">容器监控平台</a></li>
+                <li><a href="#">容器监控平台</a></li>
+                <li><a href="http://lslm.live:8080">持续集成CI/DI</a></li>
                 <li><a href="${request.contextPath}/develop/websocket">WebSocket</a></li>
                 <li><a href="${request.contextPath}/API.md">获取最新API</a></li>
             </ul>
