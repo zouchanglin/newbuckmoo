@@ -2,6 +2,7 @@ package live.lslm.newbuckmoo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import live.lslm.newbuckmoo.entity.CategoryInfo;
+import live.lslm.newbuckmoo.entity.CompanyInfo;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ClearingWayEnum;
@@ -90,6 +91,11 @@ public class PositionInfoDTO {
      * 用户原始信息
      */
     private UserBasicInfo userBasicInfo;
+
+    /**
+     * 企业信息
+     */
+    private CompanyInfo companyInfo;
 
     /**
      * 职位类型

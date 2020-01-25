@@ -29,6 +29,7 @@ import java.util.Optional;
 public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
     @Autowired
     private SchoolClubInfoRepository schoolClubInfoRepository;
+
     @Autowired
     private UserBasicInfoRepository userBasicInfoRepository;
 
@@ -123,6 +124,7 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
         }
         return new PageImpl<>(descList, pageable, schoolClubInfoPage.getTotalElements());
     }
+
 
     private ClubApproveDTO convert(SchoolClubInfo schoolClubInfo){
         ClubApproveDTO clubApproveDTO = new ClubApproveDTO();

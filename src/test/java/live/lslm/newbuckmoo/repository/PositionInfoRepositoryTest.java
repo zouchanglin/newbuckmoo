@@ -1,6 +1,7 @@
 package live.lslm.newbuckmoo.repository;
 
 import live.lslm.newbuckmoo.entity.PositionInfo;
+import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
@@ -9,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
@@ -39,6 +42,12 @@ public class PositionInfoRepositoryTest {
     public void find(){
         Optional<PositionInfo> info = repository.findById(KEY);
         assertTrue(info.isPresent());
+    }
+
+    @Test
+    public void findByStatus(){
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Page<PositionInfo> allByAuditStatus = repository.findAllByAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageRequest);
     }
 
     @After

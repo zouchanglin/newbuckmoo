@@ -27,8 +27,8 @@
                 <i class="fa fa-fw fa-plus"></i>兼职管理<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li class="dropdown-header">兼职相关</li>
-                <li><a href="#">兼职审核</a></li>
-                <li><a href="#">兼职列表</a></li>
+                <li><a href="${request.contextPath}/admin/position/audit-list">兼职审核</a></li>
+                <li><a href="${request.contextPath}/admin/position/list">兼职列表</a></li>
             </ul>
         </li>
 
@@ -62,7 +62,7 @@
                 <li><a href="#">接口日志查询</a></li>
                 <li><a href="${request.contextPath}/druid/index.html">SQL监控平台</a></li>
                 <li><a href="#">容器监控平台</a></li>
-                <li><a href="http://lslm.live:8080">持续集成CI/DI</a></li>
+                <li><a href="http://lslm.live:8080">持续集成 CI/DI</a></li>
                 <li><a href="${request.contextPath}/develop/websocket">WebSocket</a></li>
                 <li><a href="${request.contextPath}/API.md">获取最新API</a></li>
             </ul>
