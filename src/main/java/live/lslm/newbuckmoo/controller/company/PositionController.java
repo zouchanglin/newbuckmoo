@@ -49,6 +49,7 @@ public class PositionController {
         return exeResult != null ? ResultVOUtil.success(): ResultVOUtil.error(1, "保存失败");
     }
 
+
     /**
      * 获取兼职分类信息
      * @return 兼职分类信息
