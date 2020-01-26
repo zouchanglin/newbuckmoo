@@ -1,10 +1,7 @@
 package live.lslm.newbuckmoo.service.impl;
 
 import live.lslm.newbuckmoo.config.WechatAccountConfig;
-import live.lslm.newbuckmoo.dto.ApproveDTO;
-import live.lslm.newbuckmoo.dto.ClubApproveDTO;
-import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
-import live.lslm.newbuckmoo.dto.StudentApproveDTO;
+import live.lslm.newbuckmoo.dto.*;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import lombok.extern.slf4j.Slf4j;
@@ -155,6 +152,53 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
                     new WxMpTemplateData("keyword3", "审核进行中"),
                     new WxMpTemplateData("keyword4", approveDTO.getUpdateTime()),
                     new WxMpTemplateData("remark", "社团(俱乐部)相关信息正在审核中，1-2个工作日内通知审核结果"));
+        }
+        templateMessage.setData(data);
+        try {
+            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+        } catch (WxErrorException e) {
+            log.error("[微信模板消息]发送失败 ,{}", e);
+        }
+    }
+
+    @Override
+    public void positionApproveResultStatus(PositionInfoDTO positionInfoDTO) {
+        WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+        String auditTemplateId = wechatAccountConfig.getTemplateId().get("auditResult");
+        templateMessage.setTemplateId(auditTemplateId);
+        templateMessage.setToUser(positionInfoDTO.getOpenId());
+        List<WxMpTemplateData> data;
+        Integer auditStatus = positionInfoDTO.getAuditStatus();
+        if(AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(auditStatus)){
+            //通过
+            data = Arrays.asList(
+                    new WxMpTemplateData("first", "亲，您发布的兼职已经通过审核了哦"),
+                    new WxMpTemplateData("keyword1", positionInfoDTO.getCompanyInfo().getCompanyName()),
+                    new WxMpTemplateData("keyword2", positionInfoDTO.getPositionName() + "兼职信息认证"),
+                    new WxMpTemplateData("keyword3", "审核通过"),
+                    new WxMpTemplateData("keyword4", positionInfoDTO.getUpdateTime()),
+                    new WxMpTemplateData("remark", positionInfoDTO.getAuditRemark())
+            );
+        }else if(AuditStatusEnum.AUDIT_FAILED.getCode().equals(auditStatus)){
+            //未通过
+            data = Arrays.asList(
+                    new WxMpTemplateData("first", "亲，您发布的兼职审核失败"),
+                    new WxMpTemplateData("keyword1", positionInfoDTO.getCompanyInfo().getCompanyName()),
+                    new WxMpTemplateData("keyword2", positionInfoDTO.getPositionName() + "兼职信息认证"),
+                    new WxMpTemplateData("keyword3", "审核失败"),
+                    new WxMpTemplateData("keyword4", positionInfoDTO.getUpdateTime()),
+                    new WxMpTemplateData("remark", positionInfoDTO.getAuditRemark())
+            );
+        }else{
+            //审核中
+            data = Arrays.asList(
+                    new WxMpTemplateData("first", "亲，您发布的兼职正在审核中"),
+                    new WxMpTemplateData("keyword1", positionInfoDTO.getCompanyInfo().getCompanyName()),
+                    new WxMpTemplateData("keyword2", positionInfoDTO.getPositionName() + "兼职信息认证"),
+                    new WxMpTemplateData("keyword3", "审核中"),
+                    new WxMpTemplateData("keyword4", "最近两个工作日内会反馈结果"),
+                    new WxMpTemplateData("remark", "兼职信息正在审核中，1-2个工作日内通知审核结果")
+            );
         }
         templateMessage.setData(data);
         try {

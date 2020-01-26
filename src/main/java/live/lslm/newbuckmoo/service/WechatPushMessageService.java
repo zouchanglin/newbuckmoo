@@ -3,6 +3,7 @@ package live.lslm.newbuckmoo.service;
 
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
+import live.lslm.newbuckmoo.dto.PositionInfoDTO;
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
 
 /**
@@ -26,4 +27,10 @@ public interface WechatPushMessageService {
      * @param approveDTO 审核结果
      */
     void clubApproveResultStatus(ClubApproveDTO approveDTO);
+
+    /**
+     * 兼职信息审核结果通知
+     * @param positionInfoDTO 审核结果
+     */
+    void positionApproveResultStatus(PositionInfoDTO positionInfoDTO);
 }

@@ -55,7 +55,8 @@
                         <td>${approve.getCreateTime()}</td>
                         <td>${approve.auditStatusEnum.message}</td>
                         <td>
-                            <a class="btn btn-default btn-sm">审核</a>
+                            <a class="btn btn-default btn-sm"
+                               href="${request.contextPath}/admin/position/detail?positionId=${approve.positionId}">审核</a>
                             <a class="btn btn-default btn-sm">其他</a>
                         </td>
                     </tr>

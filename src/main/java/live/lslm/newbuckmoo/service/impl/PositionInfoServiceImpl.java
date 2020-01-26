@@ -16,6 +16,7 @@ import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
 import live.lslm.newbuckmoo.service.CompanyInfoService;
 import live.lslm.newbuckmoo.service.PositionInfoService;
 import live.lslm.newbuckmoo.utils.KeyUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class PositionInfoServiceImpl implements PositionInfoService {
     @Autowired
@@ -40,6 +42,33 @@ public class PositionInfoServiceImpl implements PositionInfoService {
 
     @Autowired
     private UserBasicInfoRepository userBasicRepository;
+
+    @Override
+    public PositionInfoDTO changeAuditStatus(String positionId, AuditStatusEnum auditStatusEnum, String remark) {
+        Optional<PositionInfo> positionInfoOpt = positionRepository.findById(positionId);
+        if(positionInfoOpt.isPresent()){
+            PositionInfo positionInfo = positionInfoOpt.get();
+            positionInfo.setAuditStatus(auditStatusEnum.getCode());
+            positionInfo.setAuditRemark(remark);
+            PositionInfo saved = positionRepository.save(positionInfo);
+            log.info("【审核兼职信息】存储结果 {}", saved);
+            return convert(saved);
+        }else{
+            log.error("【审核兼职信息】根据OPENID无法查找到兼职信息");
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
+    }
+
+    @Override
+    public PositionInfoDTO getPositionById(String positionId) {
+        Optional<PositionInfo> positionInfoOptional = positionRepository.findById(positionId);
+        if(positionInfoOptional.isPresent()){
+            return convert(positionInfoOptional.get());
+        }else{
+            log.error("【查找兼职详细信息为空】");
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
+    }
 
     @Override
     public Page<PositionInfoDTO> getAllByNotAuditStatus(Integer auditStatus, Pageable pageable) {
