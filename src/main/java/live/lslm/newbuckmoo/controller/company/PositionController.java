@@ -2,13 +2,16 @@ package live.lslm.newbuckmoo.controller.company;
 
 import live.lslm.newbuckmoo.dto.PositionInfoDTO;
 import live.lslm.newbuckmoo.entity.CategoryInfo;
+import live.lslm.newbuckmoo.entity.PositionInfo;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
 import live.lslm.newbuckmoo.service.PositionInfoService;
+import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
 import live.lslm.newbuckmoo.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,9 @@ public class PositionController {
     @Autowired
     private PositionInfoService positionInfoService;
 
+    @Autowired
+    private WechatPushMessageService wechatPushMessageService;
+
     /**
      * 发布兼职
      */
@@ -37,6 +43,8 @@ public class PositionController {
                     Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         PositionInfoDTO exeResult = positionInfoService.createOrUpdatePosition(positionInfoForm);
+        wechatPushMessageService.positionApproveResultStatus(exeResult);
+
         log.info("[新增兼职信息] exeResult={}", exeResult);
         return exeResult != null ? ResultVOUtil.success(): ResultVOUtil.error(1, "保存失败");
     }
