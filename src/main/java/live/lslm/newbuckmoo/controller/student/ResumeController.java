@@ -33,7 +33,7 @@ public class ResumeController {
 
     @GetMapping("download")
     public ResultVO getMyResume(){
-
+        //TODO 获取自己的简历
         return null;
     }
 }

@@ -32,11 +32,13 @@
 
 ## 1、用户基本信息获取
 
+接口权限：全部用户
+
 其实就是从微信服务器获取微信授权，和以前一样，现在改为动态获取，不是一开始强制要求用户同意授权
 
 其实就是获取用户微信基本信息，openId、昵称、地址等信息
 
-```
+```http
 GET /newbuckmoo/wechat/authorize
 ```
 
@@ -56,7 +58,9 @@ returnUrl:返回重定向路径
 
 ## 2、手机号获取验证码
 
-```
+接口权限：全部用户
+
+```http
 POST /newbuckmoo/basic-info/verify-key
 ```
 
@@ -79,9 +83,11 @@ POST /newbuckmoo/basic-info/verify-key
 
 ## 3、WeChat绑定手机
 
+接口权限：全部用户
+
 修改手机号也是同样的接口
 
-```
+```http
 POST /newbuckmoo/basic-info/bind-phone
 ```
 
@@ -106,7 +112,9 @@ POST /newbuckmoo/basic-info/bind-phone
 
 ## 4、学生身份信息注册
 
-```
+接口权限：全部用户
+
+```http
 POST /newbuckmoo/approve/student
 ```
 
@@ -159,7 +167,9 @@ status：审核状态的文字表示
 
 ## 5、企业身份信息注册
 
-```
+接口权限：全部用户
+
+```http
 POST /newbuckmoo/approve/student
 ```
 
@@ -212,7 +222,9 @@ POST /newbuckmoo/approve/student
 
 ## 6、社团身份信息注册
 
-```
+接口权限：全部用户
+
+```http
 POST /newbuckmoo/approve/club
 ```
 
@@ -264,7 +276,9 @@ POST /newbuckmoo/approve/club
 
 ## 7、学生简历信息上传
 
-```
+接口权限：学生用户
+
+```http
 POST newbuckmoo/student/resume/upload
 ```
 
@@ -320,9 +334,11 @@ POST newbuckmoo/student/resume/upload
 
 ## 8、获取用户详细信息
 
+接口权限：全部用户
+
 根据OpenID，可以获取用户基本信息，当前方式是直接获取到用户的所有信息，如果是企业用户的话就获得企业相关信息、如果还有学生的身份的话就是还包含学生的信息、如果还是社团的注册人的话就还包含社团的信息
 
-```
+```http
 GET newbuckmoo/basic-info/getUserInfo
 ```
 
@@ -420,7 +436,9 @@ userBasicInfo：用户基本信息
 
 ## 9、企业发布/修改兼职信息
 
-```
+接口权限：企业用户
+
+```http
 POST newbuckmoo/company/position/create
 ```
 
@@ -492,7 +510,9 @@ openId：兼职的发布者的OpenID，虽然已知企业信息就可以知道op
 
 ## 10、获取兼职标签列表
 
-```
+接口权限：全部用户
+
+```http
 GET newbuckmoo/company/position/categories
 ```
 
@@ -525,12 +545,183 @@ GET newbuckmoo/company/position/categories
 }
 ```
 
+## 11、学生获取兼职列表
 
+接口权限：学生用户、企业用户
+
+```http
+POST newbuckmoo/student/position/list
+```
+
+参数
+
+```json
+{
+	"page":0,
+	"size":10,
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk"
+}
+```
+
+参数解释
+
+* page 分页页码，从第0页开始，必须参数
+* size 分页大小，必须参数
+* openId 学生的openId，必须参数
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": [
+        {
+            "positionId": "1579859018582904271",
+            "positionName": "周末影院兼职",
+            "positionMoney": "600元/天",
+            "positionClearingWayStr": "日结",
+            "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+            "positionCompanyName": "骊山鹿鸣有限公司",
+            "positionTop": 0,
+            "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+            "positionAddress": "临潼太平洋影城3层7号厅",
+            "positionPeopleNum": 255,
+            "positionPhone": "15291418231",
+            "categoryList": [
+                {
+                    "categoryId": 1,
+                    "categoryName": "附近兼职"
+                },
+                {
+                    "categoryId": 3,
+                    "categoryName": "高薪兼职"
+                }
+            ],
+            "positionBrowse": 0,
+            "createTimeStr": "2020年01月24日 17:43:38"
+        },
+        {
+            "positionId": "1579859018582904273",
+            "positionName": "周末影院兼职",
+            "positionMoney": "600元/天",
+            "positionClearingWayStr": "日结",
+            "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+            "positionCompanyName": "骊山鹿鸣有限公司",
+            "positionTop": 0,
+            "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+            "positionAddress": "临潼太平洋影城3层7号厅",
+            "positionPeopleNum": 255,
+            "positionPhone": "15291418231",
+            "categoryList": [
+                {
+                    "categoryId": 1,
+                    "categoryName": "附近兼职"
+                },
+                {
+                    "categoryId": 3,
+                    "categoryName": "高薪兼职"
+                }
+            ],
+            "positionBrowse": 0,
+            "createTimeStr": "2020年01月24日 17:43:38"
+        },
+        {
+            "positionId": "1579859018582904272",
+            "positionName": "周末影院兼职",
+            "positionMoney": "600元/天",
+            "positionClearingWayStr": "日结",
+            "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+            "positionCompanyName": "骊山鹿鸣有限公司",
+            "positionTop": 1,
+            "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+            "positionAddress": "临潼太平洋影城3层7号厅",
+            "positionPeopleNum": 255,
+            "positionPhone": "15291418231",
+            "categoryList": [
+                {
+                    "categoryId": 1,
+                    "categoryName": "附近兼职"
+                },
+                {
+                    "categoryId": 3,
+                    "categoryName": "高薪兼职"
+                }
+            ],
+            "positionBrowse": 0,
+            "createTimeStr": "2020年01月24日 17:43:38"
+        },
+        {
+            "positionId": "1579859018582904274",
+            "positionName": "周末影院兼职",
+            "positionMoney": "600元/天",
+            "positionClearingWayStr": "日结",
+            "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+            "positionCompanyName": "骊山鹿鸣有限公司",
+            "positionTop": 1,
+            "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+            "positionAddress": "临潼太平洋影城3层7号厅",
+            "positionPeopleNum": 255,
+            "positionPhone": "15291418231",
+            "categoryList": [
+                {
+                    "categoryId": 1,
+                    "categoryName": "附近兼职"
+                },
+                {
+                    "categoryId": 3,
+                    "categoryName": "高薪兼职"
+                }
+            ],
+            "positionBrowse": 0,
+            "createTimeStr": "2020年01月24日 17:43:38"
+        },
+        {
+            "positionId": "1579859018582904277",
+            "positionName": "周末影院兼职",
+            "positionMoney": "600元/天",
+            "positionClearingWayStr": "日结",
+            "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+            "positionCompanyName": "骊山鹿鸣有限公司",
+            "positionTop": 1,
+            "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+            "positionAddress": "临潼太平洋影城3层7号厅",
+            "positionPeopleNum": 255,
+            "positionPhone": "15291418231",
+            "categoryList": [
+                {
+                    "categoryId": 1,
+                    "categoryName": "附近兼职"
+                },
+                {
+                    "categoryId": 3,
+                    "categoryName": "高薪兼职"
+                }
+            ],
+            "positionBrowse": 0,
+            "createTimeStr": "2020年01月24日 17:43:38"
+        }
+    ]
+}
+
+{
+    "code": 12,
+    "msg": "权限拒绝"
+}
+```
+
+返回值字段说明：
+
+参考9、企业发布/修改兼职信息
+
+* positionClearingWayStr 结算方式
+* positionTop 是否置顶 0置顶、1不置顶（JSON数据已经排过是否置顶的顺序，展示即可）
+* categoryList 此条兼职信息的标签列表
 
 # 三、运行参数
 MySQL IP：
 
-```
+```http
 lslm.live
 ```
 
@@ -540,23 +731,31 @@ MySQL密码：
 1Lishanluming$.
 ```
 
-管理员地址：
-```
+管理员地址（账号15291418231 密码15291418231）：
+```http
 http://lslm.live/newbuckmoo/admin/center
 ```
 
 后端接口地址： 
-```
+```http
 http://lslm.live/newbuckmoo/
 ```
 
-
-
 数据库监控（账号：root 密码：root）
 
-```
+```http
 http://lslm.live/newbuckmoo/druid/index.html  
 ```
+
+持续集成CI/DI（账号admin 密码lhl123456an+）：
+
+```http
+http://lslm.live:8080
+```
+
+
+
+
 
 # 四、接口更新说明
 
@@ -613,7 +812,9 @@ http://lslm.live/newbuckmoo/druid/index.html
 
 9、企业发布兼职信息
 
+## 5、每个接口新增了权限说明
 
+其实就是说明了，这个接口是给谁用的
 
 # 五、后台管理Wiki
 

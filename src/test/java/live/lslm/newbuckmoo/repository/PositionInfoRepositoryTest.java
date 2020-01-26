@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -48,11 +49,21 @@ public class PositionInfoRepositoryTest {
     public void findByStatus(){
         PageRequest pageRequest = PageRequest.of(0, 10);
         Page<PositionInfo> allByAuditStatus = repository.findAllByAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageRequest);
+        assertNotNull(allByAuditStatus);
+    }
+
+    @Test
+    public void findAllByAuditStatusOrderByPositionTop(){
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Page<PositionInfo> positionTop = repository.findAllByAuditStatusOrderByPositionTop(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageRequest);
+        List<PositionInfo> content = positionTop.getContent();
+        for (PositionInfo positionInfo: content){
+            log.info("【测试遍历数据】 position={}", positionInfo);
+        }
     }
 
     @After
     public void delete(){
         repository.deleteById(KEY);
-        assertEquals(0, repository.findAll().size());
     }
 }

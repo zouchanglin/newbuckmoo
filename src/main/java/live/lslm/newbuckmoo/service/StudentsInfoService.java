@@ -1,10 +1,8 @@
 package live.lslm.newbuckmoo.service;
 
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
-import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.form.StudentAttestationForm;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 public interface StudentsInfoService {

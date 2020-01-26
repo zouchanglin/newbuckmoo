@@ -4,6 +4,7 @@ import live.lslm.newbuckmoo.dto.PositionInfoDTO;
 import live.lslm.newbuckmoo.entity.CategoryInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
+import live.lslm.newbuckmoo.form.RequestByPageForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -48,4 +49,11 @@ public interface PositionInfoService {
      * @param auditStatusEnum 审核状态
      */
     PositionInfoDTO changeAuditStatus(String positionId, AuditStatusEnum auditStatusEnum, String remark);
+
+    /**
+     * 给学生用户展示兼职信息
+     * @param requestByPageForm 请求表单数据
+     * @return DTO对象
+     */
+    Page<PositionInfoDTO> showPositionForStudent(RequestByPageForm requestByPageForm);
 }

@@ -1,7 +1,6 @@
 package live.lslm.newbuckmoo.service.impl;
 
 import com.google.common.collect.Lists;
-import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.dto.PositionInfoDTO;
 import live.lslm.newbuckmoo.entity.CategoryInfo;
 import live.lslm.newbuckmoo.entity.PositionInfo;
@@ -9,11 +8,11 @@ import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
+import live.lslm.newbuckmoo.form.RequestByPageForm;
 import live.lslm.newbuckmoo.repository.CategoryInfoRepository;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
 import live.lslm.newbuckmoo.repository.PositionInfoRepository;
 import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
-import live.lslm.newbuckmoo.service.CompanyInfoService;
 import live.lslm.newbuckmoo.service.PositionInfoService;
 import live.lslm.newbuckmoo.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -42,6 +42,19 @@ public class PositionInfoServiceImpl implements PositionInfoService {
 
     @Autowired
     private UserBasicInfoRepository userBasicRepository;
+
+    @Override
+    public Page<PositionInfoDTO> showPositionForStudent(RequestByPageForm requestByPageForm) {
+        PageRequest pageRequest = PageRequest.of(requestByPageForm.getPage(), requestByPageForm.getSize());
+        Page<PositionInfo> positionTop = positionRepository.findAllByAuditStatusOrderByPositionTop(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageRequest);
+
+        List<PositionInfo> infoList = positionTop.getContent();
+        List<PositionInfoDTO> infoDTOList = Lists.newArrayListWithCapacity(infoList.size());
+        for(PositionInfo positionInfo: infoList){
+            infoDTOList.add(convert(positionInfo));
+        }
+        return new PageImpl<>(infoDTOList, pageRequest, positionTop.getTotalElements());
+    }
 
     @Override
     public PositionInfoDTO changeAuditStatus(String positionId, AuditStatusEnum auditStatusEnum, String remark) {
