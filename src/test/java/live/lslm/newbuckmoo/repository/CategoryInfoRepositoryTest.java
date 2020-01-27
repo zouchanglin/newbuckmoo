@@ -19,6 +19,7 @@ public class CategoryInfoRepositoryTest {
     @Autowired
     private CategoryInfoRepository repository;
 
+
     @Before
     public void init(){
         repository.deleteAll();
