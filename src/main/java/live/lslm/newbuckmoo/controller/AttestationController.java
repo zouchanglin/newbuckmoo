@@ -27,6 +27,7 @@ import java.util.Objects;
  * 学生、企业、社团信息认证控制器
  */
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("/approve")
 public class AttestationController {

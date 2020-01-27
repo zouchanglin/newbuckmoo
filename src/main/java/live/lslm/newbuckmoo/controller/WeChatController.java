@@ -14,10 +14,7 @@ import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
@@ -26,9 +23,10 @@ import java.net.URLEncoder;
 /**
  * 微信用户基本信息获取控制器
  */
-@Controller
-@RequestMapping("/wechat")
 @Slf4j
+@Controller
+@CrossOrigin
+@RequestMapping("/wechat")
 public class WeChatController {
     @Autowired
     private ProjectUrlConfig projectUrlConfig;
