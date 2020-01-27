@@ -47,7 +47,7 @@ public class BasicUserInfoController {
      * TODO是学生、企业、社团都要展示出来
      */
     //TODO 一个一个展示还是直接展示
-    @GetMapping("/getUserInfo")
+    @PostMapping("/getUserInfo")
     public ResultVO getUserInfo(@RequestBody Map<String, Object> map){
         String openId = (String) map.get("openId");
         if(StringUtils.isEmpty(openId)) throw new BuckmooException(ResultEnum.PARAM_ERROR);

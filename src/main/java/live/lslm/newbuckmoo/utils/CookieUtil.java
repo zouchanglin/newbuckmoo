@@ -17,10 +17,11 @@ public class CookieUtil {
                            String name,
                            String value,
                            int maxAge) {
-        Cookie cookie = new Cookie(name, value);
-        cookie.setPath("/");
-        cookie.setMaxAge(maxAge);
-        response.addCookie(cookie);
+        //开发环境
+        Cookie cookieDev = new Cookie(name, value);
+        cookieDev.setPath("/");
+        cookieDev.setMaxAge(maxAge);
+        response.addCookie(cookieDev);
     }
 
     /**

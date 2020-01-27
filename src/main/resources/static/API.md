@@ -339,7 +339,7 @@ POST newbuckmoo/student/resume/upload
 根据OpenID，可以获取用户基本信息，当前方式是直接获取到用户的所有信息，如果是企业用户的话就获得企业相关信息、如果还有学生的身份的话就是还包含学生的信息、如果还是社团的注册人的话就还包含社团的信息
 
 ```http
-GET newbuckmoo/basic-info/getUserInfo
+POST newbuckmoo/basic-info/getUserInfo
 ```
 
 参数
