@@ -77,8 +77,8 @@ public class WeChatController {
                 UserBasicInfo userBasicInfo = WxMpUserConvert.mpUserConvertToUserBasicInfo(wxMpUser);
                 String savedOpenid = userBasicInfoService.updateOrCreateUserBasic(userBasicInfo);
                 CookieUtil.set(response, CookieConstant.OPENID, savedOpenid, CookieConstant.EXPIRE);
-                //TODO cookie的问题
-                response.addHeader("Set-cookie", "openid=" + savedOpenid + ";domain=ahojcn.natapp1.cc;path=/");
+                //TODO cookie的问题（我的cookie只能自己用，刘景亮要用需要自己找个地方存一下）
+                //response.addHeader("Set-cookie", "openid=" + savedOpenid + ";domain=ahojcn.natapp1.cc;path=/");
             } catch (WxErrorException e) {
                 e.printStackTrace();
             }
@@ -86,16 +86,16 @@ public class WeChatController {
         //如果openid不为空，数据库里面还没有，这种情况是不存在的
         return "redirect:" + returnUrl;
     }
-
-    @GetMapping("test")
-    @ResponseBody
-    //你请求的地址是啥，cookie就在哪里，（也就是在那个域）
-    public String test(HttpServletResponse response){
-        Cookie cookie = new Cookie("openid", "xxxx");
-        cookie.setPath("/");
-        cookie.setMaxAge(300000);
-        response.addCookie(cookie);
-        response.addHeader("Set-cookie", "openid=" + 1234567 + ";domain=.natapp1.cc;path=/");
-        return "AAA";
-    }
+//
+//    @GetMapping("test")
+//    @ResponseBody
+//    //你请求的地址是啥，cookie就在哪里，（也就是在那个域）
+//    public String test(HttpServletResponse response){
+//        Cookie cookie = new Cookie("openid", "xxxx");
+//        cookie.setPath("/");
+//        cookie.setMaxAge(300000);
+//        response.addCookie(cookie);
+//        response.addHeader("Set-cookie", "openid=" + 1234567 + ";domain=.natapp1.cc;path=/");
+//        return "AAA";
+//    }
 }
