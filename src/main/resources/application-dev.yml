@@ -14,6 +14,8 @@ spring:
       time-between-eviction-runs-millis: 50000
   jpa:
     show-sql: true
+  mvc:
+    static-path-pattern: /**
   jackson:
     default-property-inclusion: non_null
   freemarker:
