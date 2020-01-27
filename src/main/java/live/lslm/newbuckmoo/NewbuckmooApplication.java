@@ -9,5 +9,4 @@ public class NewbuckmooApplication {
     public static void main(String[] args) {
         SpringApplication.run(NewbuckmooApplication.class, args);
     }
-
 }

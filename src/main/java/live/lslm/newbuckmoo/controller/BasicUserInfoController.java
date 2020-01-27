@@ -25,7 +25,6 @@ import java.util.Map;
  * 用户基本信息控制器
  */
 @Slf4j
-@CrossOrigin
 @RestController
 @RequestMapping("/basic-info")
 public class BasicUserInfoController {

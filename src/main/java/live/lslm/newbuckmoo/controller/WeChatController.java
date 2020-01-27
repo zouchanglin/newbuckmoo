@@ -25,7 +25,7 @@ import java.net.URLEncoder;
  */
 @Slf4j
 @Controller
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequestMapping("/wechat")
 public class WeChatController {
     @Autowired
