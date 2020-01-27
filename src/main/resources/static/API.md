@@ -718,7 +718,57 @@ POST newbuckmoo/student/position/list
 * positionTop 是否置顶 0置顶、1不置顶（JSON数据已经排过是否置顶的顺序，展示即可）
 * categoryList 此条兼职信息的标签列表
 
+
+
+## 12、学生申请兼职
+
+```http
+POST newbuckmoo/student/position/apply
+```
+
+参数
+
+```json
+{
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+	"positionId":"1579859018582904271"
+}
+```
+
+参数解释
+
+openId：学生用户的微信OpenId
+
+positionId：要申请的兼职Id
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功"
+}
+
+{
+    "code": 12,
+    "msg": "权限拒绝"
+}
+
+{
+    "code": 13,
+    "msg": "重复操作"
+}
+
+{
+    "code":1,
+    "msg":"参数错误"
+}
+```
+
+
+
 # 三、运行参数
+
 MySQL IP：
 
 ```http

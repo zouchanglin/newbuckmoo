@@ -5,8 +5,8 @@ import live.lslm.newbuckmoo.entity.CategoryInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
 import live.lslm.newbuckmoo.form.RequestByPageForm;
+import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -56,4 +56,10 @@ public interface PositionInfoService {
      * @return DTO对象
      */
     Page<PositionInfoDTO> showPositionForStudent(RequestByPageForm requestByPageForm);
+
+    /**
+     * 学生用户申请兼职信息
+     * @param studentApplyPositionForm 申请表单
+     */
+    void applyPosition(StudentApplyPositionForm studentApplyPositionForm);
 }

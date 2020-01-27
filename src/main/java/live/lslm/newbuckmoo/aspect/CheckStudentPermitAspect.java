@@ -6,6 +6,7 @@ import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.RequestByPageForm;
+import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
 import live.lslm.newbuckmoo.repository.StudentInfoRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +32,8 @@ public class CheckStudentPermitAspect {
     @Autowired
     private CompanyInfoRepository companyInfoRepository;
 
-    @Before("execution(public * live.lslm.newbuckmoo.controller.student.StuPositionController.*(..))")
-    public void checkCompanyPermit(JoinPoint joinPoint){
+    @Before("execution(public * live.lslm.newbuckmoo.controller.student.StuPositionController.getPositionList(..))")
+    public void checkCompanyOrStudentPermit(JoinPoint joinPoint){
         log.info("【学生/企业查看兼职信息】权限验证");
         RequestByPageForm pageForm = (RequestByPageForm) joinPoint.getArgs()[0];
         String openId = pageForm.getOpenId();
@@ -42,6 +43,19 @@ public class CheckStudentPermitAspect {
         //是学生/企业并且审核通过
         if(!((studentInfo.isPresent() && AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(studentInfo.get().getAuditStatus())) ||
                 (companyInfo.isPresent() && AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(companyInfo.get().getAuditStatus())))){
+            throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
+        }
+    }
+
+    @Before("execution(public * live.lslm.newbuckmoo.controller.student.StuPositionController.studentApplyPosition(..))")
+    public void checkStudentPermit(JoinPoint joinPoint){
+        log.info("【学生申请兼职信息】权限验证");
+        StudentApplyPositionForm applyForm = (StudentApplyPositionForm) joinPoint.getArgs()[0];
+        String openId = applyForm.getOpenId();
+        Optional<StudentInfo> studentInfo = studentInfoRepository.findById(openId);
+
+        //是学生并且审核通过
+        if(!(studentInfo.isPresent() && (AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(studentInfo.get().getAuditStatus())))){
             throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
         }
     }

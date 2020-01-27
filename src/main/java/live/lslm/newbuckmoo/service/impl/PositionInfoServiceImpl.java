@@ -2,17 +2,17 @@ package live.lslm.newbuckmoo.service.impl;
 
 import com.google.common.collect.Lists;
 import live.lslm.newbuckmoo.dto.PositionInfoDTO;
+import live.lslm.newbuckmoo.entity.ApplyPosition;
 import live.lslm.newbuckmoo.entity.CategoryInfo;
 import live.lslm.newbuckmoo.entity.PositionInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
+import live.lslm.newbuckmoo.enums.ReadStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
 import live.lslm.newbuckmoo.form.RequestByPageForm;
-import live.lslm.newbuckmoo.repository.CategoryInfoRepository;
-import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
-import live.lslm.newbuckmoo.repository.PositionInfoRepository;
-import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
+import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
+import live.lslm.newbuckmoo.repository.*;
 import live.lslm.newbuckmoo.service.PositionInfoService;
 import live.lslm.newbuckmoo.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +31,10 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class PositionInfoServiceImpl implements PositionInfoService {
+
+    @Autowired
+    private ApplyPositionRepository applyPositionRepository;
+
     @Autowired
     private PositionInfoRepository positionRepository;
 
@@ -42,6 +46,44 @@ public class PositionInfoServiceImpl implements PositionInfoService {
 
     @Autowired
     private UserBasicInfoRepository userBasicRepository;
+
+    @Override
+    public void applyPosition(StudentApplyPositionForm studentApplyPositionForm) {
+
+        String openId = studentApplyPositionForm.getOpenId();
+        String positionId = studentApplyPositionForm.getPositionId();
+        ApplyPosition firstApply = applyPositionRepository.findFirstByOpenIdAndPositionId(openId, positionId);
+
+        // 先判断有没有
+        if(firstApply != null){
+            log.error("【学生申请兼职】已申请过，请勿重复申请");
+            throw new BuckmooException(ResultEnum.REPETITION_ERROR);
+        }
+
+        // 判断兼职是否存在+是否审核通过
+        Optional<PositionInfo> positionInfoOpt = positionRepository.findById(positionId);
+        if(positionInfoOpt.isPresent()){
+            PositionInfo positionInfo = positionInfoOpt.get();
+            if(!AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(positionInfo.getAuditStatus())){
+                log.error("【学生申请兼职】兼职信息审核未通过");
+                throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
+            }
+        }else{
+            log.error("【学生申请兼职】兼职信息不存在");
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
+
+        //权限校验放在切面
+        ApplyPosition applyPosition = new ApplyPosition();
+        applyPosition.setReadStatus(ReadStatusEnum.NOT_READ.getCode());
+        applyPosition.setOpenId(openId);
+        applyPosition.setPositionId(positionId);
+        applyPosition.setCreateTime(System.currentTimeMillis());
+        applyPosition.setUpdateTime(System.currentTimeMillis());
+
+        ApplyPosition saved = applyPositionRepository.save(applyPosition);
+        log.info("【学生申请兼职信息】保存结果={}", saved);
+    }
 
     @Override
     public Page<PositionInfoDTO> showPositionForStudent(RequestByPageForm requestByPageForm) {

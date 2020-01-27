@@ -16,7 +16,8 @@ public enum  ResultEnum {
     NOT_BIND_PHONE(9, "请先绑定手机"),
     COOKIE_NOT_EXIST(10, "Cookie(openId)不存在"),
     AUDITING_NOT_ALLOWED(11, "审核中不允许更改信息"),
-    PERMISSION_ERROR(12, "权限拒绝");
+    PERMISSION_ERROR(12, "权限拒绝"),
+    REPETITION_ERROR(13, "重复操作");
 
     private Integer code;
 
