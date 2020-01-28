@@ -30,6 +30,34 @@
 
 # 二、API 文档
 
+## 0、文件服务器（临时）
+
+```http
+POST http://lslm.live:8090/fileserver/file/fileUpload
+```
+
+参数
+
+![](http://lslm.live:8090/fileserver/file/fileDownload?fileUrl=9ec8764b-9d55-474b-a114-547862e33b82.png)
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": "http://lslm.live:8090/fileserver/file/fileDownload?fileUrl=xxxx.png"
+}
+```
+
+访问data字段的URL即可获得图片
+
+```http
+GET http://lslm.live:8090/fileserver/file/fileDownload?fileUrl=xxxx.png
+```
+
+
+
 ## 1、用户基本信息获取
 
 接口权限：全部用户
