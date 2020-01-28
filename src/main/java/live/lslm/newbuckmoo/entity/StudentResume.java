@@ -2,7 +2,6 @@ package live.lslm.newbuckmoo.entity;
 
 import live.lslm.newbuckmoo.enums.UserEducationEnum;
 import live.lslm.newbuckmoo.enums.UserSexEnum;
-import live.lslm.newbuckmoo.enums.WorkExperienceEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 

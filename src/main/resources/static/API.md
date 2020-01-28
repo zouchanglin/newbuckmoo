@@ -884,3 +884,125 @@ http://lslm.live:8080
 
 2020-01-25 新增兼职部分的后台管理
 
+# 六、数据库表说明
+
+## 1、user_basic_info
+
+微信用户基本信息表
+
+* open_id openID
+* user_name 用户昵称
+* user_city 用户所在城市
+* user_phone 用户手机号码
+* user_icon 用户头像
+* user_grade 用户积分
+* user_sex 用户性别（1男 其他女）
+
+## 2、system_settings
+
+系统设置参数表
+
+* system_key 系统设置项
+* system_value 系统设置项的值
+* system_remark 系统设置项的说明备注
+
+## 3、student_info
+
+学生信息表
+
+* open_id openId
+* student_id 学生学号
+* student_name 学生姓名
+* student_certificate 学生证照片URL
+* student_school 学生所在学校
+* student_resume 学生简历ID（对应4、简历表主键）
+* audit_status 学生信息审核状态（0未审核 1已通过 2未通过）
+* update_time 学生信息修改时间 （时间戳表示的，下面的都是时间戳）
+
+## 4、student_resume
+
+学生简历表
+
+* open_id openId
+* resume_name 姓名
+* resume_sex 性别（1男 2女）
+* resume_age 年龄
+* resume_education 学历（1博士 2硕士 3本科 4大专）
+* resume_history  校园经历
+* resume_address 现居住地
+* resume_work 期望职位
+* resume_work_category 期望职位类型/标签（对应7、兼职标签表主键）
+* resume_hope_money 期望薪资
+* resume_about_myself 自我描述
+* resume_language 语言能力
+* resume_credential 获得证书URL
+* update_time 信息更新时间
+
+## 5、company_info
+
+企业信息表
+
+* open_id openId
+* company_name 企业名称
+* company_id 企业注册号
+* company_owner_name 企业法人姓名
+* company_certificate 营业执照URL
+* company_desc 经营范围
+
+* audit_status 审核状态（0未审核 1已通过 2未通过）
+
+* update_time 信息更新时间
+
+## 6、position_info
+
+兼职信息表
+
+* position_id 兼职信息ID（主键）
+* position_name 兼职名称
+* position_money 兼职薪酬
+* position_clearing_way 薪水结算方式（0日结 1周结 2月结 3完工结算）
+* position_company_id 发布者企业Id
+* position_top 是否置顶（0置顶 1不置顶）
+* position_category 兼职标签（1#2#5#9）（就是把标签表的主键通过#拼接为这样的字符串）
+* position_desc 兼职具体描述
+* position_address 兼职地点
+* position_people_num 兼职需要人数
+* position_phone 兼职联系方式
+* position_browse 本条兼职信息浏览量
+* open_id 发布者openId 
+* create_time 信息创建时间
+* update_time 信息更新时间
+* audit_status 兼职审核状态（0未审核 1已通过 2未通过）
+* audit_remark 兼职审核结论备注
+
+## 7、category_info
+
+兼职信息的标签表
+
+* category_id 兼职标签Id
+* category_name 兼职标签名称
+
+## 8、school_club_info
+
+社团信息表
+
+* open_id openId
+* club_name 社团名称
+* club_desc 社团描述
+* school_name 学校名称
+* owner_name 社团负责人姓名
+* audit_status  审核状态（0未审核 1已通过 2未通过）
+* update_time 信息更新时间
+* club_code 社团邀请码（不用管）
+
+## 9、apply_position
+
+兼职申请表，学生申请兼职
+
+* apply_id 申请表主键
+* position_id 兼职信息Id
+* open_id openId
+* read_status 是否已读（0未读 1已读）
+* create_time 信息创建时间
+* update_time 信息更新时间
+
