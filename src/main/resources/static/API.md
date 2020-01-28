@@ -56,6 +56,20 @@ returnUrl:返回重定向路径
 
 授权完成会在cookie中设置永久cookie，请求其他需要openId的接口时在cookie中取就行了
 
+现在Cookie的域只能是在lslm.live中，开发环境下是tim.natapp1.cc域中，所以在ahojcn.natapp1.cc的域获取不到cookie，目前的解决方式是重定向的时候把openId追加在URL上，比如你填写的是
+
+```http
+http://xxx/newbuckmoo/wechat/authorize?returnUrl=http://baidu.com 
+```
+
+那么，重定向的结果就是
+
+```http
+https://www.baidu.com/?openId=oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk
+```
+
+
+
 ## 2、手机号获取验证码
 
 接口权限：全部用户
