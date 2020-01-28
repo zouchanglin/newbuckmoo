@@ -1,10 +1,9 @@
 package live.lslm.newbuckmoo.service;
 
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
-import live.lslm.newbuckmoo.entity.SchoolClubInfo;
 import live.lslm.newbuckmoo.form.SchoolClubAttestationForm;
+import live.lslm.newbuckmoo.vo.SchoolClubVO;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 public interface SchoolClubInfoService {
@@ -42,4 +41,11 @@ public interface SchoolClubInfoService {
      * @return 查询结果DTO对象
      */
     ClubApproveDTO getClubInfoByOpenId(String openId);
+
+    /**
+     * 根据openID获取VO对象
+     * @param openId openID
+     * @return VO对象
+     */
+    SchoolClubVO getClubVOByOpenId(String openId);
 }

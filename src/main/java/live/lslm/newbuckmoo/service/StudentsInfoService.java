@@ -2,8 +2,11 @@ package live.lslm.newbuckmoo.service;
 
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
 import live.lslm.newbuckmoo.form.StudentAttestationForm;
+import live.lslm.newbuckmoo.vo.StudentVO;
+import org.springframework.core.SpringVersion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 public interface StudentsInfoService {
 
@@ -46,4 +49,18 @@ public interface StudentsInfoService {
      * @return 查询结果DTO对象
      */
     StudentApproveDTO getStudentInfoByOpenId(String openId);
+
+    /**
+     * DTO转VO对象
+     * @param studentApproveDTO DTO对象
+     * @return VO对象
+     */
+    StudentVO convertToVO(StudentApproveDTO studentApproveDTO);
+
+    /**
+     * 根据OpenID获取VO对象
+     * @param openId openID
+     * @return VO对象
+     */
+    StudentVO getStudentVOByOpenId(String openId);
 }

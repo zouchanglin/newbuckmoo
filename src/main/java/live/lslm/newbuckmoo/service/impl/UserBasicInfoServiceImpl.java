@@ -3,11 +3,15 @@ package live.lslm.newbuckmoo.service.impl;
 import live.lslm.newbuckmoo.catchs.VerifyKeyCatch;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.ResultEnum;
+import live.lslm.newbuckmoo.enums.UserSexEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.BindPhoneForm;
 import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
 import live.lslm.newbuckmoo.service.UserBasicInfoService;
+import live.lslm.newbuckmoo.utils.EnumUtil;
+import live.lslm.newbuckmoo.vo.UserBasicInfoVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +22,19 @@ import java.util.Optional;
 public class UserBasicInfoServiceImpl implements UserBasicInfoService {
     @Autowired
     private UserBasicInfoRepository userBasicInfoRepository;
+
+    @Override
+    public UserBasicInfoVO getUserBasicVOByOpenId(String openId) {
+        Optional<UserBasicInfo> findResult = userBasicInfoRepository.findById(openId);
+        if(findResult.isPresent()){
+            UserBasicInfo userBasicInfo = findResult.get();
+            UserBasicInfoVO userBasicInfoVO = new UserBasicInfoVO();
+            BeanUtils.copyProperties(userBasicInfo, userBasicInfoVO);
+            userBasicInfoVO.setUserSexStr(EnumUtil.getByCode(userBasicInfo.getUserSex(), UserSexEnum.class).getMessage());
+            return userBasicInfoVO;
+        }
+        return null;
+    }
 
     @Override
     public void bindPhoneForUser(BindPhoneForm bindPhoneForm) {

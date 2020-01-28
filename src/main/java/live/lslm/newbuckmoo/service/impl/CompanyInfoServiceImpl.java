@@ -13,6 +13,7 @@ import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
 import live.lslm.newbuckmoo.service.CompanyInfoService;
 import live.lslm.newbuckmoo.service.UserBasicInfoService;
 import live.lslm.newbuckmoo.utils.EnumUtil;
+import live.lslm.newbuckmoo.vo.CompanyVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,18 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
     @Autowired
     private UserBasicInfoService userBasicInfoService;
 
+    @Override
+    public CompanyVO getCompanyVOByOpenId(String openId) {
+        Optional<CompanyInfo> companyInfoOpt = companyInfoRepository.findById(openId);
+        if(companyInfoOpt.isPresent()){
+            CompanyInfo companyInfo = companyInfoOpt.get();
+            CompanyVO companyVO = new CompanyVO();
+            BeanUtils.copyProperties(companyInfo, companyVO);
+            companyVO.setAuditStatusStr(EnumUtil.getByCode(companyVO.getAuditStatus(), AuditStatusEnum.class).getMessage());
+            return companyVO;
+        }
+        return null;
+    }
 
     @Override
     public CompanyApproveDTO getCompanyByOpenId(String openId) {

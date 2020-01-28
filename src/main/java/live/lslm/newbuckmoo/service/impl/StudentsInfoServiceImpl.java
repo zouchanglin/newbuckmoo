@@ -10,6 +10,8 @@ import live.lslm.newbuckmoo.form.StudentAttestationForm;
 import live.lslm.newbuckmoo.repository.StudentInfoRepository;
 import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
 import live.lslm.newbuckmoo.service.StudentsInfoService;
+import live.lslm.newbuckmoo.utils.EnumUtil;
+import live.lslm.newbuckmoo.vo.StudentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,27 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
 
     @Autowired
     private UserBasicInfoRepository userBasicInfoRepository;
+
+    @Override
+    public StudentVO getStudentVOByOpenId(String openId) {
+        Optional<StudentInfo> studentInfoOpt = studentRepository.findById(openId);
+        if(studentInfoOpt.isPresent()){
+            StudentInfo studentInfo = studentInfoOpt.get();
+            StudentVO studentVO = new StudentVO();
+            BeanUtils.copyProperties(studentInfo, studentVO);
+            studentVO.setAuditStatusStr(EnumUtil.getByCode(studentVO.getAuditStatus(), AuditStatusEnum.class).getMessage());
+            return studentVO;
+        }
+        return null;
+    }
+
+    @Override
+    public StudentVO convertToVO(StudentApproveDTO studentApproveDTO) {
+        StudentVO studentVO = new StudentVO();
+        BeanUtils.copyProperties(studentApproveDTO, studentVO);
+        studentVO.setAuditStatusStr(studentApproveDTO.getStatusEnum().getMessage());
+        return studentVO;
+    }
 
     @Override
     public StudentApproveDTO getStudentInfoByOpenId(String openId) {

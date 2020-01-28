@@ -4,6 +4,7 @@ package live.lslm.newbuckmoo.service;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.entity.CompanyInfo;
 import live.lslm.newbuckmoo.form.CompanyAttestationForm;
+import live.lslm.newbuckmoo.vo.CompanyVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,4 +44,11 @@ public interface CompanyInfoService {
      * @return DTO对象
      */
     CompanyApproveDTO getCompanyByOpenId(String openId);
+
+    /**
+     * 根据OpenId获得企业VO对象
+     * @param openId openID
+     * @return VO
+     */
+    CompanyVO getCompanyVOByOpenId(String openId);
 }

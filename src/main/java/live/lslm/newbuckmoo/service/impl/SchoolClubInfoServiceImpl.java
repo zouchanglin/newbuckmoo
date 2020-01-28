@@ -12,6 +12,7 @@ import live.lslm.newbuckmoo.repository.SchoolClubInfoRepository;
 import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
 import live.lslm.newbuckmoo.service.SchoolClubInfoService;
 import live.lslm.newbuckmoo.utils.EnumUtil;
+import live.lslm.newbuckmoo.vo.SchoolClubVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,18 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
     @Autowired
     private UserBasicInfoRepository userBasicInfoRepository;
 
+    @Override
+    public SchoolClubVO getClubVOByOpenId(String openId) {
+        Optional<SchoolClubInfo> clubInfoOpt = schoolClubInfoRepository.findById(openId);
+        if(clubInfoOpt.isPresent()){
+            SchoolClubInfo schoolClubInfo = clubInfoOpt.get();
+            SchoolClubVO schoolClubVO = new SchoolClubVO();
+            BeanUtils.copyProperties(schoolClubInfo, schoolClubVO);
+            schoolClubVO.setAuditStatusStr(EnumUtil.getByCode(schoolClubInfo.getAuditStatus(), AuditStatusEnum.class).getMessage());
+            return schoolClubVO;
+        }
+        return null;
+    }
 
     @Override
     public ClubApproveDTO getClubInfoByOpenId(String openId) {

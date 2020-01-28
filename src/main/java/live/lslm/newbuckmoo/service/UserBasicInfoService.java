@@ -2,6 +2,7 @@ package live.lslm.newbuckmoo.service;
 
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.form.BindPhoneForm;
+import live.lslm.newbuckmoo.vo.UserBasicInfoVO;
 
 public interface UserBasicInfoService {
     /**
@@ -29,4 +30,11 @@ public interface UserBasicInfoService {
      * BindPhoneForm {@link live.lslm.newbuckmoo.form.BindPhoneForm}
      */
     void bindPhoneForUser(BindPhoneForm bindPhoneForm);
+
+    /**
+     * 根据openID获取VO
+     * @param openId openID
+     * @return VO对象
+     */
+    UserBasicInfoVO getUserBasicVOByOpenId(String openId);
 }

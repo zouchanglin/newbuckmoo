@@ -2,18 +2,13 @@ package live.lslm.newbuckmoo.controller;
 
 import com.google.common.collect.Maps;
 import live.lslm.newbuckmoo.catchs.VerifyKeyCatch;
-import live.lslm.newbuckmoo.dto.ClubApproveDTO;
-import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
-import live.lslm.newbuckmoo.dto.StudentApproveDTO;
-import live.lslm.newbuckmoo.entity.CompanyInfo;
-import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.BindPhoneForm;
 import live.lslm.newbuckmoo.service.*;
 import live.lslm.newbuckmoo.utils.KeyUtil;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
-import live.lslm.newbuckmoo.vo.ResultVO;
+import live.lslm.newbuckmoo.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -46,19 +41,23 @@ public class BasicUserInfoController {
     /**
      * TODO是学生、企业、社团都要展示出来
      */
-    //TODO 一个一个展示还是直接展示
     @PostMapping("/getUserInfo")
     public ResultVO getUserInfo(@RequestBody Map<String, Object> map){
         String openId = (String) map.get("openId");
         if(StringUtils.isEmpty(openId)) throw new BuckmooException(ResultEnum.PARAM_ERROR);
-        CompanyApproveDTO companyApproveDTO = companyInfoService.getCompanyByOpenId(openId);
-        ClubApproveDTO clubApproveDTO = clubInfoService.getClubInfoByOpenId(openId);
-        StudentApproveDTO studentApproveDTO = studentInfoService.getStudentInfoByOpenId(openId);
+
+
+        StudentVO studentVO = studentInfoService.getStudentVOByOpenId(openId);
+        CompanyVO companyVO = companyInfoService.getCompanyVOByOpenId(openId);
+        SchoolClubVO schoolClubVO = clubInfoService.getClubVOByOpenId(openId);
+        UserBasicInfoVO userBasicInfoVO = userBasicInfoService.getUserBasicVOByOpenId(openId);
 
         Map<String, Object> resultMap = Maps.newHashMap();
-        if(companyApproveDTO != null) resultMap.put("company", companyApproveDTO);
-        if(clubApproveDTO != null) resultMap.put("club", clubApproveDTO);
-        if(studentApproveDTO != null) resultMap.put("student", studentApproveDTO);
+
+        resultMap.put("userInfo", userBasicInfoVO);
+        resultMap.put("companyInfo", companyVO==null ? new CompanyVO() : companyVO);
+        resultMap.put("clubInfo", schoolClubVO==null ? new SchoolClubVO(): schoolClubVO);
+        resultMap.put("studentInfo", studentVO==null ? new StudentVO():studentVO);
         return ResultVOUtil.success(resultMap);
     }
 

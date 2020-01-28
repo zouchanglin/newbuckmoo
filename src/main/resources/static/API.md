@@ -184,7 +184,7 @@ status：审核状态的文字表示
 接口权限：全部用户
 
 ```http
-POST /newbuckmoo/approve/student
+POST /newbuckmoo/approve/company
 ```
 
 参数：
@@ -373,40 +373,35 @@ POST newbuckmoo/basic-info/getUserInfo
     "code": 0,
     "msg": "成功",
     "data": {
-        "student": {
+        "clubInfo": {},
+        "userInfo": {
             "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
-            "studentId": "41604090109",
-            "studentName": "邹长林",
-            "studentCertificate": "https://s2.ax1x.com/2020/01/05/lBrMPU.png",
-            "studentSchool": "西安工程大学",
-            "auditStatus": 0,
-            "userBasicInfo": {
-                "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
-                "userName": "Tim",
-                "userIcon": "http://thirdwx.qlogo.cn/mmopen/vi_32/bxVEQxwmOL",
-                "userCity": "泽西岛",
-                "userPhone": "15291418231",
-                "userGrade": 0,
-                "userSex": 1
-            }
+            "userName": "Tim",
+            "userIcon": "http://thirdwx.qlogo.cn/mmopen/vi_32/bxVEQxwmOLibgHtYurJxvW0yicXLVcTCUiaDQDqibEyoIKwS7ZRdOsZL02RibF79vdNt6GgFKMr4fuDNV8T7X3ficTfg/132",
+            "userCity": "泽西岛",
+            "userPhone": "15291418231",
+            "userGrade": 0,
+            "userSex": 1,
+            "userSexStr": "男"
         },
-        "company": {
-            "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+        "companyInfo": {
             "companyName": "骊山鹿鸣有限公司",
             "companyId": "13JDE9W0D8EW9D90DWE",
             "companyOwnerName": "杨楠",
             "companyCertificate": "https://s2.ax1x.com/2020/01/05/lBDRgJ.png",
             "companyDesc": "骊山鹿鸣通过优质资源的有效整合，更好服务于学生群体",
-            "auditStatus": 0,
-            "userBasicInfo": {
-                "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
-                "userName": "Tim",
-                "userIcon": "http://thirdwx.qlogo.cn/mmopen/vi_32/bxVEQxwmOL",
-                "userCity": "泽西岛",
-                "userPhone": "15291418231",
-                "userGrade": 0,
-                "userSex": 1
-            }
+            "auditStatus": 1,
+            "auditStatusStr": "已通过",
+            "updateTime": 1578710370915
+        },
+        "studentInfo": {
+            "studentId": "41604090109",
+            "studentName": "邹长林",
+            "studentCertificate": "https://s2.ax1x.com/2020/01/05/lBrMPU.png",
+            "studentSchool": "西安工程大学",
+            "auditStatus": 1,
+            "auditStatusStr": "已通过",
+            "updateTime": 1578706346509
         }
     }
 }
@@ -879,6 +874,12 @@ http://lslm.live:8080
 ## 5、每个接口新增了权限说明
 
 其实就是说明了，这个接口是给谁用的
+
+## 6、获取用户详细信息的JSON格式
+
+影响的接口
+
+8、获取用户详细信息
 
 # 五、后台管理Wiki
 
