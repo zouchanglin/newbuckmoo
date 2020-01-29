@@ -6,6 +6,7 @@ import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
 import live.lslm.newbuckmoo.form.RequestByPageForm;
+import live.lslm.newbuckmoo.form.ShowPositionApplyFrom;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -31,7 +32,7 @@ public class CheckCompanyPermitAspect {
         PositionInfoForm form = (PositionInfoForm) joinPoint.getArgs()[0];
         String openId = form.getOpenId();
         String companyId = form.getPositionCompanyId();
-        log.info("[拦截到企业操作]...openId={}, companyId={}", openId, companyId);
+        log.info("[拦截到企业操作] 创建或者更新兼职信息 openId={}, companyId={}", openId, companyId);
 
         Optional<CompanyInfo> companyInfoOpt = companyInfoRepository.findById(openId);
         //根据openId找不到企业信息
@@ -54,8 +55,21 @@ public class CheckCompanyPermitAspect {
     public void checkCompanyShowMyPosition(JoinPoint joinPoint){
         RequestByPageForm form = (RequestByPageForm) joinPoint.getArgs()[0];
         String openId = form.getOpenId();
-        log.info("【拦截到企业操作】...openId={}", openId);
 
+        log.info("【拦截到企业操作】获取自己发布的兼职列表 openId={}", openId);
+        checkOpenIdForCompany(openId);
+    }
+
+    @Before("execution(public * live.lslm.newbuckmoo.controller.company.PositionController.getApplyListForPosition(..))")
+    public void checkCompanyShowPositionApply(JoinPoint joinPoint){
+        ShowPositionApplyFrom form = (ShowPositionApplyFrom) joinPoint.getArgs()[0];
+        String openId = form.getOpenId();
+
+        log.info("【拦截到企业操作】获取自己某兼职的申请列表 openId={}", openId);
+        checkOpenIdForCompany(openId);
+    }
+
+    private void checkOpenIdForCompany(String openId) {
         Optional<CompanyInfo> companyInfoOpt = companyInfoRepository.findById(openId);
         //根据openId找不到企业信息
         if (!companyInfoOpt.isPresent()) throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
