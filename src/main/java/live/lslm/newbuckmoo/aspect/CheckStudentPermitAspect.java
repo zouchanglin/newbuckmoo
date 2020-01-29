@@ -16,6 +16,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -32,6 +33,9 @@ public class CheckStudentPermitAspect {
     @Autowired
     private CompanyInfoRepository companyInfoRepository;
 
+    /**
+     * 学生 Or 企业可以查看兼职
+     */
     @Before("execution(public * live.lslm.newbuckmoo.controller.student.StuPositionController.getPositionList(..))")
     public void checkCompanyOrStudentPermit(JoinPoint joinPoint){
         log.info("【学生/企业查看兼职信息】权限验证");
@@ -47,6 +51,28 @@ public class CheckStudentPermitAspect {
         }
     }
 
+    /**
+     * 学生本人才可以查看简历
+     */
+    @Before("execution(public * live.lslm.newbuckmoo.controller.student.ResumeController.getMyResume(..))")
+    public void checkMySelfShowResume(JoinPoint joinPoint){
+        Map map = (Map) joinPoint.getArgs()[0];
+        String openId = (String) map.get("openId");
+        log.info("【学生查看自己简历】权限验证 openId={}", openId);
+        Optional<StudentInfo> studentInfoOpt = studentInfoRepository.findById(openId);
+        //非学生用户
+        if(!studentInfoOpt.isPresent()) {
+            throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
+        }
+        //学生用户未审核/审核未通过
+        if(!AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(studentInfoOpt.get().getAuditStatus())){
+            throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
+        }
+    }
+
+    /**
+     * 学生申请兼职信息权限验证
+     */
     @Before("execution(public * live.lslm.newbuckmoo.controller.student.StuPositionController.studentApplyPosition(..))")
     public void checkStudentPermit(JoinPoint joinPoint){
         log.info("【学生申请兼职信息】权限验证");

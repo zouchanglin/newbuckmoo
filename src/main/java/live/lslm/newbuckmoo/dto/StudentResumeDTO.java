@@ -6,6 +6,7 @@ import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
+import live.lslm.newbuckmoo.utils.ConstUtilPoll;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import lombok.Data;
 import live.lslm.newbuckmoo.enums.UserEducationEnum;
@@ -121,7 +122,7 @@ public class StudentResumeDTO {
      */
     @JsonIgnore
     public String getUpdateTime() {
-        return new SimpleDateFormat("yyyy年MM月dd日 HH:mm").format(new Date(updateTime));
+        return ConstUtilPoll.dateFormat.format(new Date(updateTime));
     }
 
     /**

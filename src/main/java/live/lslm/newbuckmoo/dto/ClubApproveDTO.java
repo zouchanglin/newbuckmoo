@@ -3,6 +3,7 @@ package live.lslm.newbuckmoo.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
+import live.lslm.newbuckmoo.utils.ConstUtilPoll;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import lombok.Data;
 
@@ -55,7 +56,7 @@ public class ClubApproveDTO implements ApproveDTO{
 
     @JsonIgnore
     public String getUpdateTime() {
-        return new SimpleDateFormat("yyyy年MM月dd日 HH:mm").format(new Date(updateTime));
+        return ConstUtilPoll.dateFormat.format(new Date(updateTime));
     }
 
     @JsonIgnore

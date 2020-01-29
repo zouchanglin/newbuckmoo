@@ -692,6 +692,8 @@ POST newbuckmoo/student/position/list
 
 ## 12、学生申请兼职
 
+接口权限：学生用户
+
 ```http
 POST newbuckmoo/student/position/apply
 ```
@@ -736,6 +738,58 @@ positionId：要申请的兼职Id
 ```
 
 ## 13、学生查看自己的简历
+
+接口权限：学生用户
+
+```http
+POST newbuckmoo/student/resume/download
+```
+
+参数
+
+```json
+{
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk"
+}
+```
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "resumeName": "邹长林",
+        "resumeSex": 1,
+        "resumeSexStr": "男",
+        "resumeAge": 22,
+        "resumeEducation": 3,
+        "resumeEducationStr": "本科",
+        "resumeHistory": "2016年学生副会长",
+        "resumeAddress": "陕鼓大道58号，西安工程大学临潼校区",
+        "resumeWork": "作业、辅导、家教",
+        "resumeWorkCategory": 1,
+        "resumeWorkCategoryStr": "附近兼职",
+        "resumeHopeMoney": "150元/天",
+        "resumeAboutMyself": "我个性开放，活泼好动",
+        "resumeLanguage": "CET4 2020.08.01获得",
+        "resumeCredential": "http://AAA.png",
+        "updateTime": 1580272559063,
+        "updateTimeStr": "2020年01月29日 12:35:59"
+    }
+}
+
+{
+    "code": 2,
+    "msg": "审核状态错误"
+}
+
+{
+    "code": 12,
+    "msg": "权限拒绝"
+}
+```
 
 
 
