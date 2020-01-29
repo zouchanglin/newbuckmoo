@@ -8,6 +8,7 @@ import live.lslm.newbuckmoo.form.RequestByPageForm;
 import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
 import live.lslm.newbuckmoo.service.PositionInfoService;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
+import live.lslm.newbuckmoo.vo.PageResultBind;
 import live.lslm.newbuckmoo.vo.PositionVO;
 import live.lslm.newbuckmoo.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,15 @@ public class StuPositionController {
                     Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         Page<PositionInfoDTO> infoDTOPage = positionInfoService.showPositionForStudent(requestByPageForm);
-        return ResultVOUtil.success(convert(infoDTOPage));
+        List<PositionVO> convert = convert(infoDTOPage);
+
+        PageResultBind<List<PositionVO>> pageResultBind = new PageResultBind<>();
+        pageResultBind.setSize(requestByPageForm.getSize());
+        pageResultBind.setCurrentPage(requestByPageForm.getPage());
+        pageResultBind.setTotalPage(infoDTOPage.getTotalPages());
+        pageResultBind.setData(convert);
+
+        return ResultVOUtil.success(pageResultBind);
     }
 
     @PostMapping("apply")

@@ -1,10 +1,12 @@
 package live.lslm.newbuckmoo.controller.student;
 
 import live.lslm.newbuckmoo.dto.StudentResumeDTO;
+import live.lslm.newbuckmoo.entity.StudentResume;
 import live.lslm.newbuckmoo.form.StudentResumeForm;
 import live.lslm.newbuckmoo.service.StudentResumeService;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
 import live.lslm.newbuckmoo.vo.ResultVO;
+import live.lslm.newbuckmoo.vo.StudentResumeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +35,8 @@ public class ResumeController {
 
     @GetMapping("download")
     public ResultVO getMyResume(){
-        //TODO 获取自己的简历
+        //TODO xx
+        //StudentResumeVO resumeVO = studentResumeService.getOneResumeByOpenId();
         return null;
     }
 }
