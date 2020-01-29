@@ -17,7 +17,8 @@ public enum  ResultEnum {
     COOKIE_NOT_EXIST(10, "Cookie(openId)不存在"),
     AUDITING_NOT_ALLOWED(11, "审核中不允许更改信息"),
     PERMISSION_ERROR(12, "权限拒绝"),
-    REPETITION_ERROR(13, "重复操作");
+    REPETITION_ERROR(13, "重复操作"),
+    PERFECT_RESUME(14, "请先完善简历");
 
     private Integer code;
 

@@ -174,7 +174,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
             data = Arrays.asList(
                     new WxMpTemplateData("first", "亲，您发布的兼职已经通过审核了哦"),
                     new WxMpTemplateData("keyword1", positionInfoDTO.getCompanyInfo().getCompanyName()),
-                    new WxMpTemplateData("keyword2", positionInfoDTO.getPositionName() + "兼职信息认证"),
+                    new WxMpTemplateData("keyword2", positionInfoDTO.getPositionName() + "（兼职信息认证）"),
                     new WxMpTemplateData("keyword3", "审核通过"),
                     new WxMpTemplateData("keyword4", positionInfoDTO.getUpdateTime()),
                     new WxMpTemplateData("remark", positionInfoDTO.getAuditRemark())

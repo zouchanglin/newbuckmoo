@@ -9,6 +9,8 @@ import live.lslm.newbuckmoo.form.RequestByPageForm;
 import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
 import live.lslm.newbuckmoo.repository.StudentInfoRepository;
+import live.lslm.newbuckmoo.service.StudentResumeService;
+import live.lslm.newbuckmoo.vo.StudentResumeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -33,6 +35,9 @@ public class CheckStudentPermitAspect {
     @Autowired
     private CompanyInfoRepository companyInfoRepository;
 
+    @Autowired
+    private StudentResumeService studentResumeService;
+
     /**
      * 学生 Or 企业可以查看兼职
      */
@@ -48,6 +53,14 @@ public class CheckStudentPermitAspect {
         if(!((studentInfo.isPresent() && AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(studentInfo.get().getAuditStatus())) ||
                 (companyInfo.isPresent() && AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(companyInfo.get().getAuditStatus())))){
             throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
+        }
+
+        //如果是学生需要完善简历
+        if(studentInfo.isPresent()){
+            StudentResumeVO oneResumeByOpenId = studentResumeService.getOneResumeByOpenId(studentInfo.get().getOpenId());
+            if(oneResumeByOpenId.equals(new StudentResumeVO())){
+                throw new BuckmooException(ResultEnum.PERFECT_RESUME);
+            }
         }
     }
 

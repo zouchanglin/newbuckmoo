@@ -5,6 +5,7 @@ import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
+import live.lslm.newbuckmoo.form.RequestByPageForm;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -25,28 +26,43 @@ public class CheckCompanyPermitAspect {
     @Autowired
     private CompanyInfoRepository companyInfoRepository;
 
-    @Before("execution(public * live.lslm.newbuckmoo.controller.company.PositionController.*(..))"+"" +
-            "&& !execution(public * live.lslm.newbuckmoo.controller.company.PositionController.getCategoryList())")
+    @Before("execution(public * live.lslm.newbuckmoo.controller.company.PositionController.createOrUpdatePosition(..))")
     public void checkCompanyPermit(JoinPoint joinPoint){
-        PositionInfoForm form = (PositionInfoForm)joinPoint.getArgs()[0];
+        PositionInfoForm form = (PositionInfoForm) joinPoint.getArgs()[0];
         String openId = form.getOpenId();
         String companyId = form.getPositionCompanyId();
         log.info("[拦截到企业操作]...openId={}, companyId={}", openId, companyId);
 
         Optional<CompanyInfo> companyInfoOpt = companyInfoRepository.findById(openId);
         //根据openId找不到企业信息
-        if(!companyInfoOpt.isPresent()) throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
+        if (!companyInfoOpt.isPresent()) throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
 
         CompanyInfo companyInfo = companyInfoOpt.get();
 
         //根据openId查出的企业信息不正确
-        if(!companyId.equals(companyInfo.getCompanyId())) throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
+        if (!companyId.equals(companyInfo.getCompanyId())) throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
 
         //审核状态不具备操作能力
-        if(!AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(companyInfo.getAuditStatus())){
+        if (!AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(companyInfo.getAuditStatus())) {
             throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
         }
         //检验openId是否和表单中的openId一致
-        if(!openId.equals(companyInfo.getOpenId())) throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
+        if (!openId.equals(companyInfo.getOpenId())) throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
+    }
+
+    @Before("execution(public * live.lslm.newbuckmoo.controller.company.PositionController.getPositionList(..))")
+    public void checkCompanyShowMyPosition(JoinPoint joinPoint){
+        RequestByPageForm form = (RequestByPageForm) joinPoint.getArgs()[0];
+        String openId = form.getOpenId();
+        log.info("【拦截到企业操作】...openId={}", openId);
+
+        Optional<CompanyInfo> companyInfoOpt = companyInfoRepository.findById(openId);
+        //根据openId找不到企业信息
+        if (!companyInfoOpt.isPresent()) throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
+
+        //审核状态不具备操作能力
+        if (!AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(companyInfoOpt.get().getAuditStatus())) {
+            throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
+        }
     }
 }

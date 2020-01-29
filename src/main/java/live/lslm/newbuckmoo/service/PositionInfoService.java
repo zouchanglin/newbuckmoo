@@ -6,6 +6,8 @@ import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
 import live.lslm.newbuckmoo.form.RequestByPageForm;
 import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
+import live.lslm.newbuckmoo.vo.PositionVO;
+import live.lslm.newbuckmoo.vo.company.PositionForCompanyVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -62,4 +64,11 @@ public interface PositionInfoService {
      * @param studentApplyPositionForm 申请表单
      */
     void applyPosition(StudentApplyPositionForm studentApplyPositionForm);
+
+    /**
+     * 企业用户查看自己发布的兼职
+     * @param requestByPageForm 请求表单数据
+     * @return VO Page
+     */
+    Page<PositionForCompanyVO> showMySelfCratedPosition(RequestByPageForm requestByPageForm);
 }

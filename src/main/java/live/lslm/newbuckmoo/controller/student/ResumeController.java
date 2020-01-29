@@ -26,8 +26,6 @@ public class ResumeController {
     @Autowired
     private StudentResumeService studentResumeService;
 
-
-    //TODO 切面验证权限
     /**
      * 学生上传简历
      */

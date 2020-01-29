@@ -582,9 +582,11 @@ GET newbuckmoo/company/position/categories
 }
 ```
 
-## 11、学生获取兼职列表
+## 11、学生/企业获取兼职列表
 
 接口权限：学生用户、企业用户
+
+学生和企业用户都是有权限看到全部的兼职信息（已经审核通过）的！
 
 ```http
 POST newbuckmoo/student/position/list
@@ -675,6 +677,11 @@ POST newbuckmoo/student/position/list
     "code": 12,
     "msg": "权限拒绝"
 }
+
+{
+    "code": 14,
+    "msg": "请先完善简历"
+}
 ```
 
 返回值字段说明：
@@ -690,7 +697,7 @@ POST newbuckmoo/student/position/list
 
 
 
-## 12、学生申请兼职
+## 12、学生申请一项兼职
 
 接口权限：学生用户
 
@@ -792,6 +799,188 @@ POST newbuckmoo/student/resume/download
 ```
 
 
+
+## 14、企业查看自己发布的兼职
+
+接口权限：企业用户
+
+```http
+POST newbuckmoo/company/position/my-list
+```
+
+参数
+
+```json
+{
+	"page":0,
+	"size":5,
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk"
+}
+```
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "currentPage": 0,
+        "totalPage": 2,
+        "size": 5,
+        "data": [
+            {
+                "positionId": "1579859018582904271",
+                "positionName": "周末影院兼职",
+                "positionMoney": "600元/天",
+                "positionClearingWayStr": "日结",
+                "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+                "positionTop": 0,
+                "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+                "positionAddress": "临潼太平洋影城3层7号厅",
+                "positionPeopleNum": 255,
+                "positionPhone": "15291418231",
+                "categoryList": [
+                    {
+                        "categoryId": 1,
+                        "categoryName": "附近兼职"
+                    },
+                    {
+                        "categoryId": 3,
+                        "categoryName": "高薪兼职"
+                    }
+                ],
+                "positionBrowse": 0,
+                "createTimeStr": "2020年03月22日 14:36:58",
+                "auditStatus": 1,
+                "auditStatusStr": "已通过"
+            },
+            {
+                "positionId": "1579859018582904272",
+                "positionName": "周末影院兼职",
+                "positionMoney": "600元/天",
+                "positionClearingWayStr": "日结",
+                "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+                "positionTop": 1,
+                "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+                "positionAddress": "临潼太平洋影城3层7号厅",
+                "positionPeopleNum": 255,
+                "positionPhone": "15291418231",
+                "categoryList": [
+                    {
+                        "categoryId": 1,
+                        "categoryName": "附近兼职"
+                    },
+                    {
+                        "categoryId": 3,
+                        "categoryName": "高薪兼职"
+                    }
+                ],
+                "positionBrowse": 0,
+                "createTimeStr": "2020年03月22日 14:36:58",
+                "auditStatus": 1,
+                "auditStatusStr": "已通过"
+            },
+            {
+                "positionId": "1580269778604721805",
+                "positionName": "周末影院兼职",
+                "positionMoney": "600元/天",
+                "positionClearingWayStr": "日结",
+                "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+                "positionTop": 1,
+                "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+                "positionAddress": "临潼太平洋影城3层7号厅",
+                "positionPeopleNum": 12,
+                "positionPhone": "15291418231",
+                "categoryList": [
+                    {
+                        "categoryId": 1,
+                        "categoryName": "附近兼职"
+                    },
+                    {
+                        "categoryId": 3,
+                        "categoryName": "高薪兼职"
+                    }
+                ],
+                "positionBrowse": 0,
+                "createTimeStr": "2020年01月29日 11:49:38",
+                "auditStatus": 0,
+                "auditStatusStr": "未审核"
+            },
+            {
+                "positionId": "1580285117587494119",
+                "positionName": "周末影院兼职",
+                "positionMoney": "600元/天",
+                "positionClearingWayStr": "日结",
+                "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+                "positionTop": 1,
+                "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+                "positionAddress": "临潼太平洋影城3层7号厅",
+                "positionPeopleNum": 12,
+                "positionPhone": "15291418231",
+                "categoryList": [
+                    {
+                        "categoryId": 1,
+                        "categoryName": "附近兼职"
+                    },
+                    {
+                        "categoryId": 3,
+                        "categoryName": "高薪兼职"
+                    }
+                ],
+                "positionBrowse": 0,
+                "createTimeStr": "2020年01月29日 16:05:17",
+                "auditStatus": 0,
+                "auditStatusStr": "未审核"
+            },
+            {
+                "positionId": "1580285160777296575",
+                "positionName": "周末影院兼职",
+                "positionMoney": "600元/天",
+                "positionClearingWayStr": "日结",
+                "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+                "positionTop": 1,
+                "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+                "positionAddress": "临潼太平洋影城3层7号厅",
+                "positionPeopleNum": 12,
+                "positionPhone": "15291418231",
+                "categoryList": [
+                    {
+                        "categoryId": 1,
+                        "categoryName": "附近兼职"
+                    },
+                    {
+                        "categoryId": 3,
+                        "categoryName": "高薪兼职"
+                    }
+                ],
+                "positionBrowse": 0,
+                "createTimeStr": "2020年01月29日 16:06:00",
+                "auditStatus": 0,
+                "auditStatusStr": "未审核"
+            }
+        ]
+    }
+}
+
+{
+    "code": 2,
+    "msg": "审核状态错误"
+}
+
+{
+    "code": 12,
+    "msg": "权限拒绝"
+}
+```
+
+2 号说明，企业处于未审核/审核不通过状态
+
+12 号说明不是企业用户 
+
+## 15、企业查看某兼职的申请列表
+
+//TODO
 
 # 三、运行参数
 
@@ -898,7 +1087,7 @@ http://lslm.live:8080
 
 8、获取用户详细信息
 
-## 7、学生获取兼职列表分页返回修改
+## 7、学生获取兼职列表分页返回值
 
 现在返回的data字段中，新增了
 
@@ -909,6 +1098,21 @@ totalPage 代表总页数
 size 代表每页大小
 
 data 具体的字段
+
+影响的接口
+
+11、学生获取兼职列表
+
+## 8、学生获取兼职添加简历审核
+
+需要完善简历才能查看兼职信息，新增返回值
+
+```json
+{
+    "code": 14,
+    "msg": "请先完善简历"
+}
+```
 
 影响的接口
 

@@ -6,6 +6,7 @@ import live.lslm.newbuckmoo.entity.ApplyPosition;
 import live.lslm.newbuckmoo.entity.CategoryInfo;
 import live.lslm.newbuckmoo.entity.PositionInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
+import live.lslm.newbuckmoo.enums.ClearingWayEnum;
 import live.lslm.newbuckmoo.enums.ReadStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
@@ -14,7 +15,10 @@ import live.lslm.newbuckmoo.form.RequestByPageForm;
 import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
 import live.lslm.newbuckmoo.repository.*;
 import live.lslm.newbuckmoo.service.PositionInfoService;
+import live.lslm.newbuckmoo.utils.ConstUtilPoll;
+import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.utils.KeyUtil;
+import live.lslm.newbuckmoo.vo.company.PositionForCompanyVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +29,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -46,6 +52,14 @@ public class PositionInfoServiceImpl implements PositionInfoService {
 
     @Autowired
     private UserBasicInfoRepository userBasicRepository;
+
+    @Override
+    public Page<PositionForCompanyVO> showMySelfCratedPosition(RequestByPageForm requestByPageForm) {
+        String openId = requestByPageForm.getOpenId();
+        PageRequest pageRequest = PageRequest.of(requestByPageForm.getPage(), requestByPageForm.getSize());
+        Page<PositionInfo> infoPage = positionRepository.findAllByOpenId(openId, pageRequest);
+        return convert(infoPage, pageRequest);
+    }
 
     @Override
     public void applyPosition(StudentApplyPositionForm studentApplyPositionForm) {
@@ -145,7 +159,7 @@ public class PositionInfoServiceImpl implements PositionInfoService {
             infoDTOList.add(convert(positionInfo));
         }
         return new PageImpl<>(infoDTOList, pageable, infoPage.getTotalElements());
-    }
+}
 
     @Override
     public List<CategoryInfo> getAllCategoryInfo() {
@@ -198,5 +212,32 @@ public class PositionInfoServiceImpl implements PositionInfoService {
         positionInfoDTO.setCompanyInfo(companyRepository.findById(positionInfo.getOpenId()).orElse(null));
         positionInfoDTO.setUserBasicInfo(userBasicRepository.findById(positionInfo.getOpenId()).orElse(null));
         return positionInfoDTO;
+    }
+
+    private Page<PositionForCompanyVO> convert(Page<PositionInfo> positionInfos, PageRequest pageRequest){
+        List<PositionInfo> content = positionInfos.getContent();
+        List<PositionForCompanyVO> list = Lists.newArrayListWithCapacity(content.size());
+        PositionForCompanyVO forCompanyVO;
+        for(PositionInfo positionInfo: content){
+            forCompanyVO = new PositionForCompanyVO();
+            BeanUtils.copyProperties(positionInfo, forCompanyVO);
+            forCompanyVO.setAuditStatusStr(Objects.requireNonNull(EnumUtil.getByCode(positionInfo.getAuditStatus(), AuditStatusEnum.class)).getMessage());
+            forCompanyVO.setPositionClearingWayStr(Objects.requireNonNull(EnumUtil.getByCode(positionInfo.getPositionClearingWay(), ClearingWayEnum.class)).getMessage());
+
+            //Category or Tags List
+            String[] categoryStrList = positionInfo.getPositionCategory().split("#");
+            Integer[] categoryNumList = new Integer[categoryStrList.length];
+            CategoryInfo[] categoryInfoList = new CategoryInfo[categoryStrList.length];
+            for (int i = 0; i < categoryStrList.length; i++) {
+                categoryNumList[i] = Integer.parseInt(categoryStrList[i]);
+                categoryInfoList[i] = categoryRepository.findById(categoryNumList[i]).orElse(null);
+            }
+
+            forCompanyVO.setCategoryList(categoryInfoList);
+            forCompanyVO.setCreateTimeStr(ConstUtilPoll.dateFormat.format(new Date(positionInfo.getUpdateTime())));
+
+            list.add(forCompanyVO);
+        }
+        return new PageImpl<>(list, pageRequest, positionInfos.getTotalElements());
     }
 }
