@@ -2,11 +2,13 @@ package live.lslm.newbuckmoo.service;
 
 import live.lslm.newbuckmoo.dto.PositionInfoDTO;
 import live.lslm.newbuckmoo.entity.CategoryInfo;
+import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
 import live.lslm.newbuckmoo.form.RequestByPageForm;
+import live.lslm.newbuckmoo.form.ShowPositionApplyFrom;
 import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
-import live.lslm.newbuckmoo.vo.PositionVO;
+import live.lslm.newbuckmoo.vo.StudentVO;
 import live.lslm.newbuckmoo.vo.company.PositionForCompanyVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -71,4 +73,9 @@ public interface PositionInfoService {
      * @return VO Page
      */
     Page<PositionForCompanyVO> showMySelfCratedPosition(RequestByPageForm requestByPageForm);
+
+    /**
+     * 企业用户查看自己发布的某一条兼职的申请人列表
+     */
+    Page<StudentVO> showMyPositionApply(ShowPositionApplyFrom showPositionApplyFrom);
 }

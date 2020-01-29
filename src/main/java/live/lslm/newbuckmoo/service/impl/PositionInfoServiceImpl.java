@@ -12,12 +12,15 @@ import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
 import live.lslm.newbuckmoo.form.RequestByPageForm;
+import live.lslm.newbuckmoo.form.ShowPositionApplyFrom;
 import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
 import live.lslm.newbuckmoo.repository.*;
 import live.lslm.newbuckmoo.service.PositionInfoService;
+import live.lslm.newbuckmoo.service.StudentsInfoService;
 import live.lslm.newbuckmoo.utils.ConstUtilPoll;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.utils.KeyUtil;
+import live.lslm.newbuckmoo.vo.StudentVO;
 import live.lslm.newbuckmoo.vo.company.PositionForCompanyVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -52,6 +55,22 @@ public class PositionInfoServiceImpl implements PositionInfoService {
 
     @Autowired
     private UserBasicInfoRepository userBasicRepository;
+
+    @Autowired
+    private StudentsInfoService studentsInfoService;
+
+    @Override
+    public Page<StudentVO> showMyPositionApply(ShowPositionApplyFrom showPositionApplyFrom) {
+        PageRequest pageRequest = PageRequest.of(showPositionApplyFrom.getPage(), showPositionApplyFrom.getSize());
+        Page<ApplyPosition> applyPositionPage = applyPositionRepository.findAllByPositionId(showPositionApplyFrom.getPositionId(), pageRequest);
+        List<ApplyPosition> pageContent = applyPositionPage.getContent();
+        List<StudentVO> studentVOList = Lists.newArrayListWithCapacity(pageContent.size());
+        for (ApplyPosition applyPosition: pageContent){
+            String openId = applyPosition.getOpenId();
+            studentVOList.add(studentsInfoService.getStudentVOByOpenId(openId));
+        }
+        return new PageImpl<>(studentVOList, pageRequest, applyPositionPage.getTotalElements());
+    }
 
     @Override
     public Page<PositionForCompanyVO> showMySelfCratedPosition(RequestByPageForm requestByPageForm) {

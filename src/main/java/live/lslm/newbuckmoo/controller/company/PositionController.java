@@ -6,11 +6,13 @@ import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.PositionInfoForm;
 import live.lslm.newbuckmoo.form.RequestByPageForm;
+import live.lslm.newbuckmoo.form.ShowPositionApplyFrom;
 import live.lslm.newbuckmoo.service.PositionInfoService;
 import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
 import live.lslm.newbuckmoo.vo.PageResultBind;
 import live.lslm.newbuckmoo.vo.ResultVO;
+import live.lslm.newbuckmoo.vo.StudentVO;
 import live.lslm.newbuckmoo.vo.company.PositionForCompanyVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,4 +93,22 @@ public class PositionController {
     /**
      * 企业查看某个兼职的申请列表
      */
+    @PostMapping("apply-list")
+    public ResultVO getApplyListForPosition(@RequestBody ShowPositionApplyFrom showPositionApplyFrom,
+                                            BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            log.error("参数不正确, {}", showPositionApplyFrom);
+            throw new BuckmooException(ResultEnum.PARAM_ERROR.getCode(),
+                    Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+        }
+        Page<StudentVO> studentVOS = positionInfoService.showMyPositionApply(showPositionApplyFrom);
+
+        PageResultBind<List<StudentVO>> pageResultBind = new PageResultBind<>();
+        pageResultBind.setCurrentPage(showPositionApplyFrom.getPage());
+        pageResultBind.setSize(showPositionApplyFrom.getSize());
+        pageResultBind.setData(studentVOS.getContent());
+        pageResultBind.setTotalPage(studentVOS.getTotalPages());
+
+        return ResultVOUtil.success(pageResultBind);
+    }
 }

@@ -980,7 +980,64 @@ POST newbuckmoo/company/position/my-list
 
 ## 15、企业查看某兼职的申请列表
 
-//TODO
+接口权限：企业用户
+
+```http
+POST newbuckmoo/company/position/apply-list
+```
+
+请求参数
+
+```json
+{
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+	"positionId":"1579859018582904271",
+	"page":0,
+	"size":2
+}
+```
+
+参数解释
+
+positionId 某一个兼职(自己发布的)的ID
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "currentPage": 0,
+        "totalPage": 1,
+        "size": 2,
+        "data": [
+            {
+                "studentId": "41604090109",
+                "studentName": "邹长林",
+                "studentCertificate": "https://s2.ax1x.com/2020/01/05/lBrMPU.png",
+                "studentSchool": "西安工程大学",
+                "studentResume": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk2",
+                "auditStatus": 1,
+                "auditStatusStr": "已通过",
+                "updateTime": 1578706346509
+            },
+            {
+                "studentId": "41604090109",
+                "studentName": "邹长林2",
+                "studentCertificate": "https://s2.ax1x.com/2020/01/05/lBrMPU.png",
+                "studentSchool": "西安工程大学",
+                "studentResume": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk2",
+                "auditStatus": 1,
+                "auditStatusStr": "已通过",
+                "updateTime": 1578706346509
+            }
+        ]
+    }
+}
+```
+
+
 
 # 三、运行参数
 
