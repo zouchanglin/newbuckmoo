@@ -54,6 +54,7 @@ public class BasicUserInfoController {
 
         Map<String, Object> resultMap = Maps.newHashMap();
 
+        if(StringUtils.isEmpty(userBasicInfoVO.getUserPhone())) userBasicInfoVO.setUserPhone("");
         resultMap.put("userInfo", userBasicInfoVO);
         resultMap.put("companyInfo", companyVO==null ? new CompanyVO() : companyVO);
         resultMap.put("clubInfo", schoolClubVO==null ? new SchoolClubVO(): schoolClubVO);
