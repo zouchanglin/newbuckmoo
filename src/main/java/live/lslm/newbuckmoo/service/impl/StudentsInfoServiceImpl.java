@@ -51,6 +51,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
         StudentVO studentVO = new StudentVO();
         BeanUtils.copyProperties(studentApproveDTO, studentVO);
         studentVO.setAuditStatusStr(studentApproveDTO.getStatusEnum().getMessage());
+
         return studentVO;
     }
 
