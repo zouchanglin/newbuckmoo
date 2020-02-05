@@ -10,6 +10,7 @@ import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.CompanyAttestationForm;
 import live.lslm.newbuckmoo.form.SchoolClubAttestationForm;
 import live.lslm.newbuckmoo.form.StudentAttestationForm;
+import live.lslm.newbuckmoo.repository.StudentInfoRepository;
 import live.lslm.newbuckmoo.service.*;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
@@ -37,6 +38,9 @@ public class AttestationController {
     private CompanyInfoService companyInfoService;
 
     @Autowired
+    private StudentInfoRepository studentInfoRepository;
+
+    @Autowired
     private SchoolClubInfoService schoolClubInfoService;
 
     @Autowired
@@ -60,6 +64,12 @@ public class AttestationController {
                     Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         log.info("[AttestationController] schoolClubForm={}", schoolClubForm);
+        StudentApproveDTO studentApproveDTO = studentsInfoService.getStudentInfoByOpenId(schoolClubForm.getOpenId());
+        if(studentApproveDTO == null) return ResultVOUtil.error(1, "注册为学生用户才可以注册社团");
+        if(!studentApproveDTO.getAuditStatus().equals(AuditStatusEnum.AUDIT_SUCCESS.getCode())){
+            return ResultVOUtil.error(2, "学生信息审核中，通过后才可以注册社团");
+        }
+
         ClubApproveDTO clubApproveDTO = schoolClubInfoService.createOrUpdateInfo(schoolClubForm);
 
         Map<String, Object> resultMap = Maps.newHashMap();

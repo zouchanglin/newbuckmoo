@@ -57,6 +57,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
     @Override
     public StudentApproveDTO getStudentInfoByOpenId(String openId) {
         Optional<StudentInfo> studentInfo = studentRepository.findById(openId);
+        if(! studentInfo.isPresent()) return null;
         return studentInfo.map(this::convert).orElse(null);
     }
 
