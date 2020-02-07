@@ -78,8 +78,22 @@ public class WeChatController {
             } catch (WxErrorException e) {
                 e.printStackTrace();
             }
+        }else {
+            //如果openid不为空，数据库里面还没有，这种情况是不存在的
+            //查看数据库有没有
+            UserBasicInfo basicInfo = userBasicInfoService.getUserBasicInfoByOpenid(openid);
+            if(basicInfo == null){
+                try {
+                    WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(code);
+                    WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(accessToken, null);
+                    UserBasicInfo userBasicInfo = WxMpUserConvert.mpUserConvertToUserBasicInfo(wxMpUser);
+                    String savedOpenid = userBasicInfoService.updateOrCreateUserBasic(userBasicInfo);
+                    CookieUtil.set(response, CookieConstant.OPENID, savedOpenid, CookieConstant.EXPIRE);
+                } catch (WxErrorException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        //如果openid不为空，数据库里面还没有，这种情况是不存在的
         return "redirect:" + String.format("%s?openId=%s", returnUrl, openid);
     }
 }
