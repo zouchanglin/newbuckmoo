@@ -74,4 +74,9 @@ public class PositionVO {
      * 创建时间
      */
     private String createTimeStr;
+
+    /**
+     * 创建时间
+     */
+    private Long createTime;
 }
