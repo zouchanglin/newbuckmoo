@@ -592,7 +592,7 @@ GET newbuckmoo/company/position/categories
 }
 ```
 
-## 11、学生/企业获取兼职列表
+## 11、学生/企业/社团获取兼职列表
 
 接口权限：学生用户、企业用户、社团用户
 
@@ -606,6 +606,7 @@ POST newbuckmoo/student/position/list
 
 ```json
 {
+    "tag": 0,
 	"page":0,
 	"size":2,
 	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk"
@@ -617,6 +618,7 @@ POST newbuckmoo/student/position/list
 * page 分页页码，从第0页开始，必须参数
 * size 分页大小，必须参数
 * openId 学生的openId，必须参数
+* tag 兼职类型，全部类型填写0
 
 返回值
 
@@ -652,7 +654,8 @@ POST newbuckmoo/student/position/list
                     }
                 ],
                 "positionBrowse": 0,
-                "createTimeStr": "2020年01月24日 17:43:38"
+                "createTimeStr": "2020年01月24日 17:43:38",
+                "createTime": 2783789789
             },
             {
                 "positionId": "1579859018582904273",
@@ -677,7 +680,8 @@ POST newbuckmoo/student/position/list
                     }
                 ],
                 "positionBrowse": 0,
-                "createTimeStr": "2020年01月24日 17:43:38"
+                "createTimeStr": "2020年01月24日 17:43:38",
+                "createTime": 2783789789
             }
         ]
     }
@@ -1206,6 +1210,107 @@ data 具体的字段
 影响的接口
 
 6、社团身份信息注册
+
+## 10、学生获取兼职列表新增long时间戳
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "currentPage": 0,
+        "totalPage": 8,
+        "size": 2,
+        "data": [
+            {
+                "positionId": "1579859018582904271",
+                "positionName": "周末影院兼职",
+                "positionMoney": "600元/天",
+                "positionClearingWayStr": "日结",
+                "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+                "positionCompanyName": "骊山鹿鸣有限公司",
+                "positionTop": 0,
+                "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+                "positionAddress": "临潼太平洋影城3层7号厅",
+                "positionPeopleNum": 255,
+                "positionPhone": "15291418231",
+                "categoryList": [
+                    {
+                        "categoryId": 1,
+                        "categoryName": "附近兼职"
+                    },
+                    {
+                        "categoryId": 3,
+                        "categoryName": "高薪兼职"
+                    }
+                ],
+                "positionBrowse": 0,
+                "createTimeStr": "2020年01月24日 17:43:38",
+                "createTime": 2783789789
+            },
+            {
+                "positionId": "1579859018582904273",
+                "positionName": "周末影院兼职",
+                "positionMoney": "600元/天",
+                "positionClearingWayStr": "日结",
+                "positionCompanyId": "13JDE9W0D8EW9D90DWE",
+                "positionCompanyName": "骊山鹿鸣有限公司",
+                "positionTop": 0,
+                "positionDesc": "周末影院兼职,负责检验票据等简单的工作",
+                "positionAddress": "临潼太平洋影城3层7号厅",
+                "positionPeopleNum": 255,
+                "positionPhone": "15291418231",
+                "categoryList": [
+                    {
+                        "categoryId": 1,
+                        "categoryName": "附近兼职"
+                    },
+                    {
+                        "categoryId": 3,
+                        "categoryName": "高薪兼职"
+                    }
+                ],
+                "positionBrowse": 0,
+                "createTimeStr": "2020年01月24日 17:43:38",
+                "createTime": 2783789789
+            }
+        ]
+    }
+}
+
+{
+    "code": 12,
+    "msg": "权限拒绝"
+}
+
+{
+    "code": 14,
+    "msg": "请先完善简历"
+}
+```
+
+影响的接口：
+
+11、学生/企业/社团获取兼职列表
+
+## 11、学生获取兼职列表新增标签参数
+
+新增参数 tag
+
+```json
+{
+    "tag": 0,
+	"page":0,
+	"size":2,
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk"
+}
+```
+
+影响的接口：
+
+11、学生/企业/社团获取兼职列表
+
+
 
 # 五、后台管理Wiki
 

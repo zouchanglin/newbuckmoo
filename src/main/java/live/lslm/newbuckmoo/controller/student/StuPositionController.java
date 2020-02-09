@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import live.lslm.newbuckmoo.dto.PositionInfoDTO;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
+import live.lslm.newbuckmoo.form.PositionListRequestByPageForm;
 import live.lslm.newbuckmoo.form.RequestByPageForm;
 import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
 import live.lslm.newbuckmoo.service.PositionInfoService;
@@ -32,14 +33,17 @@ public class StuPositionController {
     private PositionInfoService positionInfoService;
 
     @PostMapping("list")
-    public ResultVO getPositionList(@RequestBody RequestByPageForm requestByPageForm,
+    public ResultVO getPositionList(@RequestBody @Valid PositionListRequestByPageForm requestByPageForm,
                                     BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             log.error("参数不正确, {}", requestByPageForm);
             throw new BuckmooException(ResultEnum.PARAM_ERROR.getCode(),
                     Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
-        Page<PositionInfoDTO> infoDTOPage = positionInfoService.showPositionForStudent(requestByPageForm);
+
+        //Page<PositionInfoDTO> infoDTOPage = positionInfoService.showPositionForStudent(requestByPageForm);
+        Page<PositionInfoDTO> infoDTOPage = positionInfoService.showPositionForStudentByTag(requestByPageForm);
+
         List<PositionVO> convert = convert(infoDTOPage);
 
         PageResultBind<List<PositionVO>> pageResultBind = new PageResultBind<>();

@@ -4,10 +4,7 @@ import live.lslm.newbuckmoo.dto.PositionInfoDTO;
 import live.lslm.newbuckmoo.entity.CategoryInfo;
 import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
-import live.lslm.newbuckmoo.form.PositionInfoForm;
-import live.lslm.newbuckmoo.form.RequestByPageForm;
-import live.lslm.newbuckmoo.form.ShowPositionApplyFrom;
-import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
+import live.lslm.newbuckmoo.form.*;
 import live.lslm.newbuckmoo.vo.StudentVO;
 import live.lslm.newbuckmoo.vo.company.PositionForCompanyVO;
 import org.springframework.data.domain.Page;
@@ -78,4 +75,11 @@ public interface PositionInfoService {
      * 企业用户查看自己发布的某一条兼职的申请人列表
      */
     Page<StudentVO> showMyPositionApply(ShowPositionApplyFrom showPositionApplyFrom);
+
+    /**
+     * 分类给学生用户展示兼职信息
+     * @param requestByPageForm 请求表单数据
+     * @return DTO对象
+     */
+    Page<PositionInfoDTO> showPositionForStudentByTag(PositionListRequestByPageForm requestByPageForm);
 }

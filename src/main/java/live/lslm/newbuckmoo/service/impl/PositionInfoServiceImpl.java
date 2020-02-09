@@ -10,10 +10,7 @@ import live.lslm.newbuckmoo.enums.ClearingWayEnum;
 import live.lslm.newbuckmoo.enums.ReadStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
-import live.lslm.newbuckmoo.form.PositionInfoForm;
-import live.lslm.newbuckmoo.form.RequestByPageForm;
-import live.lslm.newbuckmoo.form.ShowPositionApplyFrom;
-import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
+import live.lslm.newbuckmoo.form.*;
 import live.lslm.newbuckmoo.repository.*;
 import live.lslm.newbuckmoo.service.PositionInfoService;
 import live.lslm.newbuckmoo.service.StudentsInfoService;
@@ -32,6 +29,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -58,6 +56,8 @@ public class PositionInfoServiceImpl implements PositionInfoService {
 
     @Autowired
     private StudentsInfoService studentsInfoService;
+
+
 
     @Override
     public Page<StudentVO> showMyPositionApply(ShowPositionApplyFrom showPositionApplyFrom) {
@@ -126,6 +126,31 @@ public class PositionInfoServiceImpl implements PositionInfoService {
         List<PositionInfo> infoList = positionTop.getContent();
         List<PositionInfoDTO> infoDTOList = Lists.newArrayListWithCapacity(infoList.size());
         for(PositionInfo positionInfo: infoList){
+            infoDTOList.add(convert(positionInfo));
+        }
+        return new PageImpl<>(infoDTOList, pageRequest, positionTop.getTotalElements());
+    }
+
+    @Override
+    public Page<PositionInfoDTO> showPositionForStudentByTag(PositionListRequestByPageForm requestByPageForm) {
+        if(requestByPageForm.getTag().equals(0)) return showPositionForStudent(requestByPageForm);
+        PageRequest pageRequest = PageRequest.of(requestByPageForm.getPage(), requestByPageForm.getSize());
+        String tagValue = "";
+        try{
+            tagValue = String.valueOf(requestByPageForm.getTag());
+        }catch (NumberFormatException e){
+            return null;
+        }
+        Page<PositionInfo> positionTop = positionRepository.findAllByAuditStatusOrderByPositionTop(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageRequest);
+        List<PositionInfo> infoList = positionTop.getContent();
+        List<PositionInfo> infoListResult = Lists.newArrayList();
+        for (PositionInfo positionInfo: infoList){
+            if(positionInfo.getPositionCategory().contains(tagValue)) {
+                infoListResult.add(positionInfo);
+            }
+        }
+        List<PositionInfoDTO> infoDTOList = Lists.newArrayListWithCapacity(infoListResult.size());
+        for(PositionInfo positionInfo: infoListResult){
             infoDTOList.add(convert(positionInfo));
         }
         return new PageImpl<>(infoDTOList, pageRequest, positionTop.getTotalElements());
