@@ -77,6 +77,7 @@ public class StuPositionController {
             BeanUtils.copyProperties(positionInfoDTO, positionVO);
             positionVO.setPositionClearingWayStr(positionInfoDTO.getClearingWayEnum().getMessage());
             positionVO.setCreateTimeStr(positionInfoDTO.getCreateTime());
+            positionVO.setCreateTime(positionInfoDTO.getCreateTimeLong());
             positionVO.setPositionCompanyName(positionInfoDTO.getCompanyInfo().getCompanyName());
             result.add(positionVO);
         }

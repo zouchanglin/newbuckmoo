@@ -136,4 +136,9 @@ public class PositionInfoDTO {
     public String getCreateTime() {
         return ConstUtilPoll.dateFormat.format(new Date(createTime));
     }
+
+    @JsonIgnore
+    public Long getCreateTimeLong(){
+        return this.createTime;
+    }
 }
