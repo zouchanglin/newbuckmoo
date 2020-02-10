@@ -1,19 +1,23 @@
 package live.lslm.newbuckmoo.service.impl;
 
 import com.google.common.collect.Lists;
+import live.lslm.newbuckmoo.dto.AuditMarkDTO;
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
+import live.lslm.newbuckmoo.entity.AuditMark;
 import live.lslm.newbuckmoo.entity.SchoolClubInfo;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.SchoolClubAttestationForm;
+import live.lslm.newbuckmoo.repository.AuditMarkRepository;
 import live.lslm.newbuckmoo.repository.SchoolClubInfoRepository;
 import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
 import live.lslm.newbuckmoo.service.SchoolClubInfoService;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.vo.SchoolClubVO;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,6 +37,44 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
 
     @Autowired
     private UserBasicInfoRepository userBasicInfoRepository;
+
+    @Autowired
+    private AuditMarkRepository auditMarkRepository;
+
+    @Override
+    public ClubApproveDTO changeClubApprove(String openId, AuditStatusEnum auditSuccess, String auditRemark) {
+        Optional<SchoolClubInfo> findResult = schoolClubInfoRepository.findById(openId);
+        Integer code = auditSuccess.getCode();
+        if(findResult.isPresent()){
+            SchoolClubInfo schoolClubInfo = findResult.get();
+            if(schoolClubInfo.getAuditStatus().equals(code)){
+                throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
+            }else{
+                schoolClubInfo.setAuditStatus(code);
+                SchoolClubInfo schoolClubInfoSaved = schoolClubInfoRepository.save(schoolClubInfo);
+                saveAuditRemark(openId, auditRemark);
+                return convert(schoolClubInfoSaved);
+            }
+        }else {
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
+    }
+
+    private void saveAuditRemark(String openId, String auditRemark) {
+        Optional<AuditMark> auditMarkOpt = auditMarkRepository.findById(openId);
+        AuditMark auditMark = new AuditMark();
+        if (auditMarkOpt.isPresent()) {
+            BeanUtils.copyProperties(auditMarkOpt.get(), auditMark);
+        } else {
+            auditMark = AuditMarkDTO.getAuditMarkInstance();
+            auditMark.setOpenId(openId);
+        }
+        auditMark.setAuditClubTime(System.currentTimeMillis());
+        auditMark.setAuditClubCount(auditMark.getAuditClubCount() + 1);
+        auditMark.setClubMark(auditRemark);
+        AuditMark save = auditMarkRepository.save(auditMark);
+        log.info("【审核结果存储】 {}", save);
+    }
 
     @Override
     public SchoolClubVO getClubVOByOpenId(String openId) {
@@ -145,6 +187,15 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
         Optional<UserBasicInfo> userBasicInfo = userBasicInfoRepository.findById(schoolClubInfo.getOpenId());
         if(userBasicInfo.isPresent()){
             clubApproveDTO.setUserBasicInfo(userBasicInfo.get());
+            Optional<AuditMark> auditMarkFind = auditMarkRepository.findById(schoolClubInfo.getOpenId());
+            if(auditMarkFind.isPresent()){
+                AuditMark auditMark = auditMarkFind.get();
+                AuditMarkDTO auditMarkDTO = new AuditMarkDTO();
+                BeanUtils.copyProperties(auditMark, auditMarkDTO);
+                clubApproveDTO.setAuditMarkDTO(auditMarkDTO);
+            }else{
+                clubApproveDTO.setAuditMarkDTO(AuditMarkDTO.getInitInstance());
+            }
             return clubApproveDTO;
         }else {
             throw new BuckmooException(ResultEnum.PARAM_ERROR);

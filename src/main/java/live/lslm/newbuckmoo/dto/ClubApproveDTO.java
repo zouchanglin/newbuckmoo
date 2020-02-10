@@ -54,6 +54,8 @@ public class ClubApproveDTO implements ApproveDTO{
      */
     private UserBasicInfo userBasicInfo;
 
+    private AuditMarkDTO auditMarkDTO;
+
     @JsonIgnore
     public String getUpdateTime() {
         return ConstUtilPoll.dateFormat.format(new Date(updateTime));

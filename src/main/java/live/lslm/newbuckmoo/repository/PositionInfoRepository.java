@@ -12,5 +12,8 @@ public interface PositionInfoRepository extends JpaRepository<PositionInfo, Stri
 
     Page<PositionInfo> findAllByAuditStatusOrderByPositionTop(Integer auditStatus, Pageable pageable);
 
+    Page<PositionInfo> findAllByAuditStatusAndPositionCategoryContains(Integer auditStatus, String tag, Pageable pageable);
+    Page<PositionInfo> findAllByAuditStatusAndPositionCategoryContaining(Integer auditStatus, String tag, Pageable pageable);
+
     Page<PositionInfo> findAllByOpenId(String openId, Pageable pageable);
 }

@@ -40,6 +40,18 @@ public class PositionInfoRepositoryTest {
     }
 
     @Test
+    public void find2(){
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Page<PositionInfo> contains = repository.findAllByAuditStatusAndPositionCategoryContains(
+                AuditStatusEnum.AUDIT_SUCCESS.getCode(),
+                "1", pageRequest);
+        List<PositionInfo> content = contains.getContent();
+        for(PositionInfo positionInfo: content){
+            log.info("【复杂查询】{}", positionInfo);
+        }
+    }
+
+    @Test
     public void find(){
         Optional<PositionInfo> info = repository.findById(KEY);
         assertTrue(info.isPresent());

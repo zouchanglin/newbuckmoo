@@ -127,9 +127,9 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         if(AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(auditStatus)){
             //通过
             data = Arrays.asList(
-                    new WxMpTemplateData("first", "亲，社团(俱乐部)信息审核已经通过了哦"),
+                    new WxMpTemplateData("first", approveDTO.getAuditMarkDTO().getClubMark()),
                     new WxMpTemplateData("keyword1", approveDTO.getClubName()),
-                    new WxMpTemplateData("keyword2", "社团(俱乐部)身份认证"),
+                    new WxMpTemplateData("keyword2", "社团身份认证"),
                     new WxMpTemplateData("keyword3", "审核通过"),
                     new WxMpTemplateData("keyword4", approveDTO.getUpdateTime()),
                     new WxMpTemplateData("remark", "欢迎在我们的平台发布社团活动")
@@ -137,21 +137,21 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         }else if(AuditStatusEnum.AUDIT_FAILED.getCode().equals(auditStatus)){
             //未通过
             data = Arrays.asList(
-                    new WxMpTemplateData("first", "审核未能通过哦，请检查相关信息是否正确"),
+                    new WxMpTemplateData("first", approveDTO.getAuditMarkDTO().getClubMark()),
                     new WxMpTemplateData("keyword1", approveDTO.getClubName()),
-                    new WxMpTemplateData("keyword2", "社团(俱乐部)身份认证"),
+                    new WxMpTemplateData("keyword2", "社团身份认证"),
                     new WxMpTemplateData("keyword3", "审核未通过"),
                     new WxMpTemplateData("keyword4", approveDTO.getUpdateTime()),
                     new WxMpTemplateData("remark", "请检查相关信息是否正确，更正后重新提交，以便工作人员快速审核"));
         }else{
             //审核中
             data = Arrays.asList(
-                    new WxMpTemplateData("first", "学生信息正在审核中"),
+                    new WxMpTemplateData("first", "社团信息正在审核中"),
                     new WxMpTemplateData("keyword1", approveDTO.getClubName()),
-                    new WxMpTemplateData("keyword2", "社团(俱乐部)身份认证"),
+                    new WxMpTemplateData("keyword2", "社团身份认证"),
                     new WxMpTemplateData("keyword3", "审核进行中"),
                     new WxMpTemplateData("keyword4", approveDTO.getUpdateTime()),
-                    new WxMpTemplateData("remark", "社团(俱乐部)相关信息正在审核中，1-2个工作日内通知审核结果"));
+                    new WxMpTemplateData("remark", "社团相关信息正在审核中，1-2个工作日内通知审核结果"));
         }
         templateMessage.setData(data);
         try {

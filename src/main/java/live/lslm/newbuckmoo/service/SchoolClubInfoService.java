@@ -1,6 +1,7 @@
 package live.lslm.newbuckmoo.service;
 
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
+import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.form.SchoolClubAttestationForm;
 import live.lslm.newbuckmoo.vo.SchoolClubVO;
 import org.springframework.data.domain.Page;
@@ -48,4 +49,12 @@ public interface SchoolClubInfoService {
      * @return VO对象
      */
     SchoolClubVO getClubVOByOpenId(String openId);
+
+    /**
+     * 修改社团审核结果
+     * @param openId openId
+     * @param auditSuccess 修改审核结果
+     * @param auditRemark 审核备注
+     */
+    ClubApproveDTO changeClubApprove(String openId, AuditStatusEnum auditSuccess, String auditRemark);
 }

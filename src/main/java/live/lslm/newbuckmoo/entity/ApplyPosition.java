@@ -12,7 +12,7 @@ import javax.persistence.Id;
 public class ApplyPosition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String applyId;
+    private Integer applyId;
 
     private String positionId;
 

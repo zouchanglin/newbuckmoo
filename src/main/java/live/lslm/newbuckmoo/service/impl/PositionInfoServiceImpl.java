@@ -152,19 +152,14 @@ public class PositionInfoServiceImpl implements PositionInfoService {
         }catch (NumberFormatException e){
             return null;
         }
-        Page<PositionInfo> positionTop = positionRepository.findAllByAuditStatusOrderByPositionTop(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageRequest);
-        List<PositionInfo> infoList = positionTop.getContent();
-        List<PositionInfo> infoListResult = Lists.newArrayList();
-        for (PositionInfo positionInfo: infoList){
-            if(positionInfo.getPositionCategory().contains(tagValue)) {
-                infoListResult.add(positionInfo);
-            }
+        Page<PositionInfo> allByAuditStatusAndPositionCategoryContains = positionRepository.
+                findAllByAuditStatusAndPositionCategoryContains(AuditStatusEnum.AUDIT_SUCCESS.getCode(), tagValue, pageRequest);
+        List<PositionInfo> infoDTOList = allByAuditStatusAndPositionCategoryContains.getContent();
+        List<PositionInfoDTO> positionInfoDTOList = Lists.newArrayListWithCapacity(infoDTOList.size());
+        for(PositionInfo positionInfo: infoDTOList){
+            positionInfoDTOList.add(convert(positionInfo));
         }
-        List<PositionInfoDTO> infoDTOList = Lists.newArrayListWithCapacity(infoListResult.size());
-        for(PositionInfo positionInfo: infoListResult){
-            infoDTOList.add(convert(positionInfo));
-        }
-        return new PageImpl<>(infoDTOList, pageRequest, positionTop.getTotalElements());
+        return new PageImpl<>(positionInfoDTOList, pageRequest, allByAuditStatusAndPositionCategoryContains.getTotalElements());
     }
 
     @Override
