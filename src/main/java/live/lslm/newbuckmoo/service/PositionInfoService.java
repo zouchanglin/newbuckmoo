@@ -75,6 +75,7 @@ public interface PositionInfoService {
      */
     Page<StudentVO> showMyPositionApply(ShowPositionApplyFrom showPositionApplyFrom);
 
+    
     /**
      * 分类给学生用户展示兼职信息
      * @param requestByPageForm 请求表单数据
