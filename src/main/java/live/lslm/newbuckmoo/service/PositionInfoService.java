@@ -2,7 +2,6 @@ package live.lslm.newbuckmoo.service;
 
 import live.lslm.newbuckmoo.dto.PositionInfoDTO;
 import live.lslm.newbuckmoo.entity.CategoryInfo;
-import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.form.*;
 import live.lslm.newbuckmoo.vo.StudentVO;
@@ -82,4 +81,10 @@ public interface PositionInfoService {
      * @return DTO对象
      */
     Page<PositionInfoDTO> showPositionForStudentByTag(PositionListRequestByPageForm requestByPageForm);
+
+    /**
+     * 增加兼职信息浏览量
+     * @param positionId 兼职信息ID
+     */
+    void addPositionBrowse(String positionId);
 }

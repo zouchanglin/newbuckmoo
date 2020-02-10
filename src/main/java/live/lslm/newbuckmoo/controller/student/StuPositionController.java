@@ -5,7 +5,6 @@ import live.lslm.newbuckmoo.dto.PositionInfoDTO;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.PositionListRequestByPageForm;
-import live.lslm.newbuckmoo.form.RequestByPageForm;
 import live.lslm.newbuckmoo.form.StudentApplyPositionForm;
 import live.lslm.newbuckmoo.service.PositionInfoService;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -31,6 +31,13 @@ public class StuPositionController {
 
     @Autowired
     private PositionInfoService positionInfoService;
+
+    @PostMapping("add-browse")
+    public ResultVO addPositionBrowse(@RequestBody Map<String, Object> map){
+        String positionId = (String)map.get("positionId");
+        positionInfoService.addPositionBrowse(positionId);
+        return ResultVOUtil.success();
+    }
 
     @PostMapping("list")
     public ResultVO getPositionList(@RequestBody @Valid PositionListRequestByPageForm requestByPageForm,

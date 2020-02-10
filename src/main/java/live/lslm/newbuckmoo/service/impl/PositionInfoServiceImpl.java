@@ -29,7 +29,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -58,6 +57,18 @@ public class PositionInfoServiceImpl implements PositionInfoService {
     private StudentsInfoService studentsInfoService;
 
 
+    @Override
+    public void addPositionBrowse(String positionId) {
+        Optional<PositionInfo> optionalPositionInfo = positionRepository.findById(positionId);
+        if(optionalPositionInfo.isPresent()){
+            PositionInfo positionInfo = optionalPositionInfo.get();
+            Long browse = positionInfo.getPositionBrowse();
+            positionInfo.setPositionBrowse(browse + 1);
+            positionRepository.save(positionInfo);
+        }else {
+            log.error("【增加兼职信息浏览量】positionId无对应兼职信息");
+        }
+    }
 
     @Override
     public Page<StudentVO> showMyPositionApply(ShowPositionApplyFrom showPositionApplyFrom) {
@@ -135,7 +146,7 @@ public class PositionInfoServiceImpl implements PositionInfoService {
     public Page<PositionInfoDTO> showPositionForStudentByTag(PositionListRequestByPageForm requestByPageForm) {
         if(requestByPageForm.getTag().equals(0)) return showPositionForStudent(requestByPageForm);
         PageRequest pageRequest = PageRequest.of(requestByPageForm.getPage(), requestByPageForm.getSize());
-        String tagValue = "";
+        String tagValue;
         try{
             tagValue = String.valueOf(requestByPageForm.getTag());
         }catch (NumberFormatException e){

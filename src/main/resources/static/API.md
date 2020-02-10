@@ -1053,6 +1053,33 @@ positionId 某一个兼职(自己发布的)的ID
 
 
 
+## 16、职位浏览量统计接口
+
+每次访问此接口，对应兼职信息浏览量就会加1
+
+```http
+POST newbuckmoo/student/position/add-browse
+```
+
+参数
+
+```json
+{
+	"positionId":"1580022960792934855"
+}
+```
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功"
+}
+```
+
+
+
 # 三、运行参数
 
 MySQL IP：
