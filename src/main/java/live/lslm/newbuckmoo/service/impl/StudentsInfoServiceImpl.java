@@ -167,7 +167,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
         if (auditMarkOpt.isPresent()) {
             BeanUtils.copyProperties(auditMarkOpt.get(), auditMark);
         } else {
-            BeanUtils.copyProperties(AuditMarkDTO.getInitInstance(), auditMark);
+            auditMark = AuditMarkDTO.getAuditMarkInstance();
             auditMark.setOpenId(openId);
         }
         auditMark.setAuditStuTime(System.currentTimeMillis());

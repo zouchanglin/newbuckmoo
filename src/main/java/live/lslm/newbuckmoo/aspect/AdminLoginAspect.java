@@ -31,7 +31,7 @@ public class AdminLoginAspect {
     @Before("execution(public * live.lslm.newbuckmoo.controller.admin.*.*(..))" +
     "&& !execution(public * live.lslm.newbuckmoo.controller.admin.AdminLoginController.*(..))")
     public void isAdmin() {
-        log.info("[进入管理员操作验证切面] AdminSessionAspect");
+        log.info("【进入管理员操作验证切面】 AdminSessionAspect");
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert requestAttributes != null;
         HttpServletRequest request = requestAttributes.getRequest();
@@ -39,14 +39,14 @@ public class AdminLoginAspect {
         //查询Cookie
         Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
         if(cookie == null){
-            log.warn("[登录校验] Cookie中查不到token");
+            log.warn("【管理员登录校验】 Cookie中查不到token");
             throw new BuckmooAuthorizeException();
         }
 
         //去Redis里面查询
         String tokenValue = redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue()));
         if(StringUtils.isEmpty(tokenValue)){
-            log.warn("[登录校验] Redis中查不到token");
+            log.warn("【管理员登录校验】 Redis中查不到token");
             throw new BuckmooAuthorizeException();
         }
     }

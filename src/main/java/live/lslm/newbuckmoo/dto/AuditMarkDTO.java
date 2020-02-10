@@ -1,10 +1,9 @@
 package live.lslm.newbuckmoo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import live.lslm.newbuckmoo.entity.AuditMark;
 import live.lslm.newbuckmoo.utils.ConstUtilPoll;
-import lombok.Builder;
 import lombok.Data;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.Date;
 
@@ -44,5 +43,17 @@ public class AuditMarkDTO {
         auditMarkDTO.setAuditStuTime(System.currentTimeMillis());
         auditMarkDTO.setAuditClubTime(System.currentTimeMillis());
         return auditMarkDTO;
+    }
+
+    public static AuditMark getAuditMarkInstance(){
+        AuditMark auditMark = new AuditMark();
+        auditMark.setOpenId("");
+        auditMark.setStudentMark("");
+        auditMark.setClubMark("");
+        auditMark.setAuditClubCount(0);
+        auditMark.setAuditStuCount(0);
+        auditMark.setAuditStuTime(System.currentTimeMillis());
+        auditMark.setAuditClubTime(System.currentTimeMillis());
+        return auditMark;
     }
 }
