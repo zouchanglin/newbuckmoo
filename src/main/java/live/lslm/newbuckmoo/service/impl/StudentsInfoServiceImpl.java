@@ -1,18 +1,22 @@
 package live.lslm.newbuckmoo.service.impl;
 
+import live.lslm.newbuckmoo.dto.AuditMarkDTO;
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
+import live.lslm.newbuckmoo.entity.AuditMark;
 import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.StudentAttestationForm;
+import live.lslm.newbuckmoo.repository.AuditMarkRepository;
 import live.lslm.newbuckmoo.repository.StudentInfoRepository;
 import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
 import live.lslm.newbuckmoo.service.StudentsInfoService;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.vo.StudentVO;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +36,10 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
 
     @Autowired
     private UserBasicInfoRepository userBasicInfoRepository;
+
+    @Autowired
+    private AuditMarkRepository auditMarkRepository;
+
 
     @Override
     public StudentVO getStudentVOByOpenId(String openId) {
@@ -94,6 +102,25 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
     }
 
     @Override
+    public StudentApproveDTO rejectedStudentApprove(String openId, String auditRemark) {
+        Optional<StudentInfo> findResult = studentRepository.findById(openId);
+        if(findResult.isPresent()){
+            StudentInfo studentInfo = findResult.get();
+            if(AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(studentInfo.getAuditStatus())){
+                throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
+            }
+            studentInfo.setAuditStatus(AuditStatusEnum.AUDIT_FAILED.getCode());
+            StudentInfo saved = studentRepository.save(studentInfo);
+
+            saveAuditRemark(openId, auditRemark);
+
+            return convert(saved);
+        }else{
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
+    }
+
+    @Override
     public StudentApproveDTO passStudentApprove(String openid) {
         Optional<StudentInfo> findResult = studentRepository.findById(openid);
         if(findResult.isPresent()){
@@ -111,6 +138,43 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
         }else{
             throw new BuckmooException(ResultEnum.PARAM_ERROR);
         }
+    }
+
+
+    @Override
+    public StudentApproveDTO passStudentApprove(String openId, String auditRemark) {
+        Optional<StudentInfo> findResult = studentRepository.findById(openId);
+        if(findResult.isPresent()){
+            StudentInfo studentInfo = findResult.get();
+            if(AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(studentInfo.getAuditStatus())){
+                throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
+            }
+            studentInfo.setAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode());
+            StudentInfo saved = studentRepository.save(studentInfo);
+            log.info("[StudentsInfoServiceImpl] saved={}", saved);
+
+            saveAuditRemark(openId, auditRemark);
+
+            return convert(saved);
+        }else{
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
+    }
+
+    private void saveAuditRemark(String openId, String auditRemark) {
+        Optional<AuditMark> auditMarkOpt = auditMarkRepository.findById(openId);
+        AuditMark auditMark = new AuditMark();
+        if (auditMarkOpt.isPresent()) {
+            BeanUtils.copyProperties(auditMarkOpt.get(), auditMark);
+        } else {
+            BeanUtils.copyProperties(AuditMarkDTO.getInitInstance(), auditMark);
+            auditMark.setOpenId(openId);
+        }
+        auditMark.setAuditStuTime(System.currentTimeMillis());
+        auditMark.setAuditStuCount(auditMark.getAuditStuCount() + 1);
+        auditMark.setStudentMark(auditRemark);
+        AuditMark save = auditMarkRepository.save(auditMark);
+        log.info("【审核结果存储】 {}", save);
     }
 
     @Override
@@ -153,6 +217,17 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
             studentApproveDTO.setUserBasicInfo(userBasicInfo.get());
         }else{
             throw new BuckmooException(ResultEnum.OPENID_STUDENT_ERROR);
+        }
+
+        Optional<AuditMark> auditMarkOptional = auditMarkRepository.findById(studentInfo.getOpenId());
+        if(auditMarkOptional.isPresent()){
+            AuditMark auditMark = auditMarkOptional.get();
+            AuditMarkDTO auditMarkDTO = new AuditMarkDTO();
+            BeanUtils.copyProperties(auditMark, auditMarkDTO);
+            studentApproveDTO.setAuditMarkDTO(auditMarkDTO);
+        }else{
+            studentApproveDTO.setAuditMarkDTO(AuditMarkDTO.getInitInstance());
+            log.info("【StudentInfo->DTO转换】 暂无审核历史");
         }
         return studentApproveDTO;
     }

@@ -11,6 +11,17 @@
                     未认证学生列表 <small>List of unaccredited students</small>
                 </h4>
             </div>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="${request.contextPath}/admin/center">后台管理</a>
+                </li>
+                <li>
+                    <a href="${request.contextPath}/admin/manage/student-list">学生管理</a>
+                </li>
+                <li class="active">
+                    <a href="${request.contextPath}/admin/approve/student-list">审核列表</a>
+                </li>
+            </ul>
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -53,14 +64,15 @@
                         <td>${approve.getStatusEnum().getMessage()}</td>
                         <td>
                             <a id="modal-770007" href="#modal-container-770007" role="button" class="btn btn-sm btn-default" data-toggle="modal"
-                               onclick="picture('${approve.studentCertificate}')">详情</a>
-                            <a class="btn btn-sm btn-success" href="${request.contextPath}/admin/approve/student-pass?openid=${approve.openId}">通过</a>
-                            <#if approve.auditStatus == 2>
-                                <a class="btn btn-sm btn-danger disabled">驳回</a>
-                            </#if>
-                            <#if approve.auditStatus == 0>
-                                <a class="btn btn-sm btn-danger" href="${request.contextPath}/admin/approve/student-rejected?openid=${approve.openId}">驳回</a>
-                            </#if>
+                               onclick="picture('${approve.studentCertificate}')">学生证</a>
+                            <a class="btn btn-sm btn-info" href="${request.contextPath}/admin/student/detail?openId=${approve.openId}">审核</a>
+<#--                            <a class="btn btn-sm btn-success disabled" href="${request.contextPath}/admin/approve/student-pass?openid=${approve.openId}">通过</a>-->
+<#--                            <#if approve.auditStatus == 2>-->
+<#--                                <a class="btn btn-sm btn-danger disabled">驳回</a>-->
+<#--                            </#if>-->
+<#--                            <#if approve.auditStatus == 0>-->
+<#--                                <a class="btn btn-sm btn-danger disabled" href="${request.contextPath}/admin/approve/student-rejected?openid=${approve.openId}">驳回</a>-->
+<#--                            </#if>-->
                         </td>
                     </tr>
                 </#list>
@@ -103,7 +115,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <img id="myImg" src="" class="img-rounded"  alt=""/>
+                <img id="myImg" src="" class="img-rounded"  alt="" height="450" width="870"/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

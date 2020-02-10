@@ -1,6 +1,7 @@
 package live.lslm.newbuckmoo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import live.lslm.newbuckmoo.entity.AuditMark;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.utils.ConstUtilPoll;
@@ -52,6 +53,12 @@ public class StudentApproveDTO implements ApproveDTO{
      * 用户原始信息
      */
     private UserBasicInfo userBasicInfo;
+
+    /**
+     * 审核信息
+     */
+    private AuditMarkDTO auditMarkDTO;
+
 
     @JsonIgnore
     public AuditStatusEnum getStatusEnum() {

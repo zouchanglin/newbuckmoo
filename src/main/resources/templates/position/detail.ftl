@@ -13,13 +13,13 @@
             </div>
             <ul class="breadcrumb">
                 <li>
-                    <a href="#">后台管理</a>
+                    <a href="${request.contextPath}/admin/center">后台管理</a>
                 </li>
                 <li>
-                    <a href="#">兼职管理</a>
+                    <a href="${request.contextPath}/admin/position/list">兼职管理</a>
                 </li>
                 <li>
-                    <a href="#">审核列表</a>
+                    <a href="${request.contextPath}/admin/position/audit-list">审核列表</a>
                 </li>
                 <li class="active">
                     兼职详情
@@ -27,14 +27,7 @@
             </ul>
             <table class="table table-bordered">
                 <thead>
-                <tr>
-                    <th>
-                        Key
-                    </th>
-                    <th>
-                        Value
-                    </th>
-                </tr>
+
                 </thead>
                 <tbody>
                 <tr>
@@ -118,10 +111,6 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">审核意见</label><input type="text" name="auditRemark" class="form-control" id="exampleInputEmail1" />
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">预留</label>
-                            <input type="text" class="form-control" disabled="true" id="exampleInputPassword1" />
-                        </div>
                         <button type="submit" class="btn btn-success">审核通过</button>
                     </form>
                 </div>
@@ -130,10 +119,6 @@
                         <input type="hidden" value="${positionInfo.positionId}" name="positionId">
                         <div class="form-group">
                             <label for="exampleInputEmail1">审核意见</label><input type="text" name="auditRemark" class="form-control" id="exampleInputEmail1" />
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">预留</label>
-                            <input type="text" class="form-control" disabled="true" id="exampleInputPassword1" />
                         </div>
                         <button type="submit" class="btn btn-danger">审核失败</button>
                     </form>

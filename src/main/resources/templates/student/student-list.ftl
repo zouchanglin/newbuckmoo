@@ -11,6 +11,17 @@
                     学生信息列表 <small>List of students</small>
                 </h4>
             </div>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="${request.contextPath}/admin/center">后台管理</a>
+                </li>
+                <li class="active">
+                    <a href="${request.contextPath}/admin/manage/student-list">学生管理</a>
+                </li>
+                <li>
+                    <a href="${request.contextPath}/admin/approve/student-list">审核列表</a>
+                </li>
+            </ul>
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -102,7 +113,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <img id="myImg" src="" class="img-rounded"  alt=""/>
+                <img id="myImg" src="" class="img-rounded"  alt="" height="450" width="870"/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

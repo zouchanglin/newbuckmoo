@@ -36,12 +36,23 @@ public interface StudentsInfoService {
      * @param openid 学生微信Id
      */
     StudentApproveDTO passStudentApprove(String openid);
-
+    /**
+     * 学生认证通过
+     * @param openId 学生微信Id
+     * @param auditRemark 审核意见
+     */
+    StudentApproveDTO passStudentApprove(String openId, String auditRemark);
     /**
      * 学生认证驳回
      * @param openid 学生微信Id
      */
     StudentApproveDTO rejectedStudentApprove(String openid);
+    /**
+     * 学生认证驳回
+     * @param openId 学生微信Id
+     * @param auditRemark 审核意见
+     */
+    StudentApproveDTO rejectedStudentApprove(String openId, String auditRemark);
 
     /**
      * 根据OpenId查询学信息
@@ -63,4 +74,6 @@ public interface StudentsInfoService {
      * @return VO对象
      */
     StudentVO getStudentVOByOpenId(String openId);
+
+
 }
