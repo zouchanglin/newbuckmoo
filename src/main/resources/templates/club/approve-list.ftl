@@ -69,14 +69,9 @@
                         <td>
                             <a id="modal-770007" href="#modal-container-770007" role="button" class="btn btn-sm btn-default" data-toggle="modal"
                                onclick="picture('${approve.clubDesc}')">社团简介</a>
-                            <a class="btn btn-sm btn-info" href="${request.contextPath}/admin/club/detail?openId=${approve.openId}">审核</a>
-<#--                            <a class="btn btn-sm btn-success" href="${request.contextPath}/admin/approve/club-pass?openid=${approve.openId}">通过</a>-->
-<#--                            <#if approve.auditStatus == 2>-->
-<#--                                <a class="btn btn-sm btn-danger disabled">驳回</a>-->
-<#--                            </#if>-->
-<#--                            <#if approve.auditStatus == 0>-->
-<#--                                <a class="btn btn-sm btn-danger" href="${request.contextPath}/admin/approve/club-rejected?openid=${approve.openId}">驳回</a>-->
-<#--                            </#if>-->
+                            <#if approve.getAuditStatus() != 2>
+                                <a class="btn btn-sm btn-info" href="${request.contextPath}/admin/club/detail?openId=${approve.openId}">审核</a>
+                            </#if>
                         </td>
                     </tr>
                 </#list>

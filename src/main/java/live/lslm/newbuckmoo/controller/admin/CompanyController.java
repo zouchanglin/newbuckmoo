@@ -1,6 +1,5 @@
 package live.lslm.newbuckmoo.controller.admin;
 
-import live.lslm.newbuckmoo.dto.ClubApproveDTO;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
@@ -27,16 +26,26 @@ public class CompanyController {
     @Autowired
     private WechatPushMessageService wechatPushMessageService;
     /**
-     * 获取社团信息详情页
+     * 获取信息详情页->审核
      */
     @GetMapping("detail")
     public ModelAndView positionDetail(@RequestParam("openId") String openId,
                                        Map<String, Object> map){
         CompanyApproveDTO companyApproveDTO = companyInfoService.getCompanyByOpenId(openId);
         map.put("companyApproveDTO", companyApproveDTO);
-        return new ModelAndView("company/detail", map);
+        return new ModelAndView("company/approve-detail", map);
     }
 
+    /**
+     * 获取信息详情页->查看（已经审核完毕了）
+     */
+    @GetMapping("show-detail")
+    public ModelAndView showPositionDetail(@RequestParam("openId") String openId,
+                                       Map<String, Object> map){
+        CompanyApproveDTO companyApproveDTO = companyInfoService.getCompanyByOpenId(openId);
+        map.put("companyApproveDTO", companyApproveDTO);
+        return new ModelAndView("company/show-detail", map);
+    }
     @PostMapping("pass")
     public ModelAndView auditPass(String openId,
                                   String auditRemark,

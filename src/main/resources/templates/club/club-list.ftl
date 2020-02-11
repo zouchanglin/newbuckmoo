@@ -52,13 +52,7 @@
                 </thead>
                 <tbody>
                 <#list clubPage.content as approve>
-                    <#if approve.auditStatus == 0>
-                        <tr class="info">
-                    <#elseif approve.auditStatus == 1>
-                        <tr class="success">
-                    <#elseif approve.auditStatus == 2>
-                        <tr class="warning">
-                    </#if>
+                    <tr>
                         <td>${approve.schoolName}</td>
                         <td>${approve.clubName}</td>
                         <td>${approve.ownerName}</td>
@@ -67,8 +61,7 @@
                         <td>${approve.clubCode}</td>
                         <td>${approve.getStatusEnum().getMessage()}</td>
                         <td>
-                            <a id="modal-770007" href="#modal-container-770007" role="button" class="btn btn-sm btn-default" data-toggle="modal"
-                               onclick="picture('${approve.clubDesc}')">社团简介</a>
+                            <a href="${request.contextPath}/admin/club/show-detail?openId=${approve.openId}" class="btn btn-sm btn-info">详情</a>
                         </td>
                     </tr>
                 </#list>

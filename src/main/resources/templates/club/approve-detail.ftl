@@ -8,7 +8,7 @@
         <div class="col-md-12 column">
             <div class="page-header">
                 <h4>
-                    学生信息详情页 <small>Detail information of student</small>
+                    待审核社团信息详情 <small>Detail information of club</small>
                 </h4>
             </div>
             <ul class="breadcrumb">
@@ -16,13 +16,13 @@
                     <a href="${request.contextPath}/admin/center">后台管理</a>
                 </li>
                 <li>
-                    <a href="${request.contextPath}/admin/manage/student-list">学生管理</a>
+                    <a href="${request.contextPath}/admin/manage/club-list">社团管理</a>
                 </li>
                 <li>
-                    <a href="${request.contextPath}/admin/approve/student-list">审核列表</a>
+                    <a href="${request.contextPath}/admin/approve/club-list">审核列表</a>
                 </li>
                 <li class="active">
-                    学生信息详情
+                    社团信息详情
                 </li>
             </ul>
             <table class="table table-bordered">
@@ -31,47 +31,47 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>学号</td>
-                    <td>${studentDTO.studentId}</td>
-                </tr>
-                <tr>
-                    <td>姓名</td>
-                    <td>${studentDTO.studentName}</td>
-                </tr>
-                <tr>
                     <td>学校</td>
-                    <td>${studentDTO.studentSchool}</td>
+                    <td>${clubApproveDTO.schoolName}</td>
+                </tr>
+                <tr>
+                    <td>社团名称</td>
+                    <td>${clubApproveDTO.clubName}</td>
+                </tr>
+                <tr>
+                    <td>负责人</td>
+                    <td>${clubApproveDTO.ownerName}</td>
                 </tr>
                 <tr>
                     <td>联系方式</td>
-                    <td>${studentDTO.userBasicInfo.userPhone}</td>
+                    <td>${clubApproveDTO.userBasicInfo.userPhone}</td>
                 </tr>
                 <tr>
-                    <td>学生证</td>
-                    <td><img src="${studentDTO.studentCertificate}" alt="资源加载中.."></td>
+                    <td>社团简介</td>
+                    <td>${clubApproveDTO.clubDesc}</td>
                 </tr>
                 <tr>
                     <td>申请时间</td>
-                    <td>${studentDTO.getUpdateTime()}</td>
+                    <td>${clubApproveDTO.getUpdateTime()}</td>
                 </tr>
                 <tr>
-                    <td>审核状态</td>
-                    <td>${studentDTO.getStatusEnum().message}</td>
+                    <td>邀请码</td>
+                    <td>${clubApproveDTO.clubCode}</td>
                 </tr>
                 <tr>
                     <td>审核次数</td>
-                    <td>${studentDTO.auditMarkDTO.auditStuCount}</td>
+                    <td>${clubApproveDTO.auditMarkDTO.auditClubCount}</td>
                 </tr>
                 <tr>
                     <td>最近审核意见</td>
-                    <td>${studentDTO.auditMarkDTO.studentMark}</td>
+                    <td>${clubApproveDTO.auditMarkDTO.clubMark}</td>
                 </tr>
                 </tbody>
             </table>
             <div class="row clearfix">
                 <div class="col-md-6 column">
-                    <form role="form" action="${request.contextPath}/admin/student/pass" method="post">
-                        <input type="hidden" value="${studentDTO.openId}" name="openId">
+                    <form role="form" action="${request.contextPath}/admin/club/pass" method="post">
+                        <input type="hidden" value="${clubApproveDTO.openId}" name="openId">
                         <div class="form-group">
                             <label for="exampleInputEmail1">审核意见</label><input type="text" name="auditRemark" class="form-control" id="exampleInputEmail1" />
                         </div>
@@ -79,8 +79,8 @@
                     </form>
                 </div>
                 <div class="col-md-6 column">
-                    <form role="form" action="${request.contextPath}/admin/student/refer" method="post">
-                        <input type="hidden" value="${studentDTO.openId}" name="openId">
+                    <form role="form" action="${request.contextPath}/admin/club/refer" method="post">
+                        <input type="hidden" value="${clubApproveDTO.openId}" name="openId">
                         <div class="form-group">
                             <label for="exampleInputEmail1">审核意见</label><input type="text" name="auditRemark" class="form-control" id="exampleInputEmail1" />
                         </div>

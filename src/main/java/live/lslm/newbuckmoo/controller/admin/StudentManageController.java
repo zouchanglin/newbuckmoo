@@ -35,7 +35,14 @@ public class StudentManageController {
                                        Map<String, Object> map){
         StudentApproveDTO studentApproveDTO = studentsInfoService.getStudentInfoByOpenId(openId);
         map.put("studentDTO", studentApproveDTO);
-        return new ModelAndView("student/detail", map);
+        return new ModelAndView("student/approve-detail", map);
+    }
+    @GetMapping("show-detail")
+    public ModelAndView showPositionDetail(@RequestParam("openId") String openId,
+                                       Map<String, Object> map){
+        StudentApproveDTO studentApproveDTO = studentsInfoService.getStudentInfoByOpenId(openId);
+        map.put("studentDTO", studentApproveDTO);
+        return new ModelAndView("student/show-detail", map);
     }
 
     @PostMapping("pass")

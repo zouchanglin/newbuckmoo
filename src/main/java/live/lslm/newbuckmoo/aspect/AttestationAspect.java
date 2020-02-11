@@ -33,7 +33,7 @@ public class AttestationAspect {
             throw new BuckmooException(ResultEnum.PARAM_ERROR);
         }
         if(StringUtils.isEmpty(userBasicInfoByOpenid.getUserPhone())){
-            log.info("[切面拦截未绑定用户注册其他高级用户] OpenId={}", openId);
+            log.info("【切面拦截未绑定用户注册其他高级用户】 OpenId={}", openId);
             //未绑定手机
             throw new BuckmooException(ResultEnum.NOT_BIND_PHONE);
         }

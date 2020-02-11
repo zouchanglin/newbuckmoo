@@ -26,22 +26,22 @@
                 <thead>
                 <tr>
                     <th>
-                        工商注册号<small> Registered No</small>
+                        工商注册号
                     </th>
                     <th>
-                        企业名称<small> Company Name</small>
+                        企业名称
                     </th>
                     <th>
-                        企业法人<small> Enterprise Person</small>
+                        企业法人
                     </th>
                     <th>
-                        联系方式<small> Phone</small>
+                        联系方式
                     </th>
                     <th>
-                        申请时间<small> CreateTime</small>
+                        申请时间
                     </th>
                     <th>
-                        审核状态<small> Review status</small>
+                        审核状态
                     </th>
                     <th>
                     </th>
@@ -65,14 +65,9 @@
                         <td>
                             <a id="modal-770007" href="#modal-container-770007" role="button" class="btn btn-sm btn-default" data-toggle="modal"
                                onclick="picture('${approve.companyCertificate}')">企业执照</a>
-                            <a class="btn btn-sm btn-info" href="${request.contextPath}/admin/company/detail?openId=${approve.openId}">审核</a>
-<#--                            <a class="btn btn-sm btn-success" href="${request.contextPath}/admin/approve/company-pass?openid=${approve.openId}">通过</a>-->
-<#--                            <#if approve.auditStatus == 2>-->
-<#--                                <a class="btn btn-sm btn-danger disabled">驳回</a>-->
-<#--                            </#if>-->
-<#--                            <#if approve.auditStatus == 0>-->
-<#--                                <a class="btn btn-sm btn-danger" href="${request.contextPath}/admin/approve/company-rejected?openid=${approve.openId}">驳回</a>-->
-<#--                            </#if>-->
+                            <#if approve.getAuditStatus() != 2>
+                                <a class="btn btn-sm btn-info" href="${request.contextPath}/admin/company/detail?openId=${approve.openId}">审核</a>
+                            </#if>
                         </td>
                     </tr>
                 </#list>

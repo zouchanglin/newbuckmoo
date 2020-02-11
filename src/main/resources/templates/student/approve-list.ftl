@@ -26,22 +26,22 @@
                 <thead>
                 <tr>
                     <th>
-                        学号<small> Number</small>
+                        学号
                     </th>
                     <th>
-                        学校<small> School</small>
+                        学校
                     </th>
                     <th>
-                        姓名<small> Name</small>
+                        姓名
                     </th>
                     <th>
-                        联系方式<small> Phone</small>
+                        联系方式
                     </th>
                     <th>
-                        申请时间<small> CreateTime</small>
+                        申请时间
                     </th>
                     <th>
-                        审核状态<small> Review status</small>
+                        审核状态
                     </th>
                     <th>
                     </th>
@@ -65,7 +65,9 @@
                         <td>
                             <a id="modal-770007" href="#modal-container-770007" role="button" class="btn btn-sm btn-default" data-toggle="modal"
                                onclick="picture('${approve.studentCertificate}')">学生证</a>
-                            <a class="btn btn-sm btn-info" href="${request.contextPath}/admin/student/detail?openId=${approve.openId}">审核</a>
+                            <#if approve.getAuditStatus() != 2>
+                                <a class="btn btn-sm btn-info" href="${request.contextPath}/admin/student/detail?openId=${approve.openId}">审核</a>
+                            </#if>
                         </td>
                     </tr>
                 </#list>

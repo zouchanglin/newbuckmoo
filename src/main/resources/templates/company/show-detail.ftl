@@ -68,25 +68,6 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="row clearfix">
-                <div class="col-md-6 column">
-                    <form role="form" action="${request.contextPath}/admin/company/pass" method="post">
-                        <input type="hidden" value="${companyApproveDTO.openId}" name="openId">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">审核意见</label><input type="text" name="auditRemark" class="form-control" id="exampleInputEmail1" />
-                        </div>
-                        <button type="submit" class="btn btn-success">审核通过</button>
-                    </form>
-                </div>
-                <div class="col-md-6 column">
-                    <form role="form" action="${request.contextPath}/admin/company/refer" method="post">
-                        <input type="hidden" value="${companyApproveDTO.openId}" name="openId">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">审核意见</label><input type="text" name="auditRemark" class="form-control" id="exampleInputEmail1" />
-                        </div>
-                        <button type="submit" class="btn btn-danger">审核失败</button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>

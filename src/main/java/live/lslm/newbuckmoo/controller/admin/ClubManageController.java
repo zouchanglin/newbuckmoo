@@ -2,11 +2,9 @@ package live.lslm.newbuckmoo.controller.admin;
 
 
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
-import live.lslm.newbuckmoo.dto.StudentApproveDTO;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.service.SchoolClubInfoService;
-import live.lslm.newbuckmoo.service.StudentsInfoService;
 import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +38,15 @@ public class ClubManageController {
 
         ClubApproveDTO clubApproveDTO = schoolClubInfoService.getClubInfoByOpenId(openId);
         map.put("clubApproveDTO", clubApproveDTO);
-        return new ModelAndView("club/detail", map);
+        return new ModelAndView("club/approve-detail", map);
+    }
+    @GetMapping("show-detail")
+    public ModelAndView showPositionDetail(@RequestParam("openId") String openId,
+                                       Map<String, Object> map){
+
+        ClubApproveDTO clubApproveDTO = schoolClubInfoService.getClubInfoByOpenId(openId);
+        map.put("clubApproveDTO", clubApproveDTO);
+        return new ModelAndView("club/show-detail", map);
     }
 
     @PostMapping("pass")

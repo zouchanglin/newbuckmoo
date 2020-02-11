@@ -26,25 +26,22 @@
                 <thead>
                 <tr>
                     <th>
-                        学号<small> Number</small>
+                        学号
                     </th>
                     <th>
-                        学校<small> School</small>
+                        学校
                     </th>
                     <th>
-                        姓名<small> Name</small>
+                        学生姓名
                     </th>
                     <th>
-                        联系方式<small> Phone</small>
+                        联系方式
                     </th>
                     <th>
-                        积分<small>Grade</small>
+                        通过时间
                     </th>
                     <th>
-                        通过时间<small> CreateTime</small>
-                    </th>
-                    <th>
-                        审核状态<small> Review status</small>
+                        审核状态
                     </th>
 
                     <th>
@@ -53,23 +50,15 @@
                 </thead>
                 <tbody>
                 <#list studentPage.content as approve>
-                <#if approve.auditStatus == 0>
-                    <tr class="info">
-                <#elseif approve.auditStatus == 1>
-                    <tr class="success">
-                <#elseif approve.auditStatus == 2>
-                    <tr class="warning">
-                </#if>
+                    <tr>
                         <td>${approve.studentId}</td>
                         <td>${approve.studentSchool}</td>
                         <td>${approve.studentName}</td>
                         <td>${approve.userBasicInfo.userPhone !}</td>
-                        <td>${approve.userBasicInfo.userGrade}</td>
                         <td>${approve.getUpdateTime()}</td>
                         <td>${approve.getStatusEnum().getMessage()}</td>
                         <td>
-                            <a id="modal-770007" href="#modal-container-770007" role="button" class="btn btn-sm btn-default" data-toggle="modal"
-                               onclick="picture('${approve.studentCertificate}')">详情</a>
+                            <a href="${request.contextPath}/admin/student/show-detail?openId=${approve.openId}" class="btn btn-sm btn-info">详情</a>
                             <a class="btn btn-sm btn-success" href="#">简历</a>
                         </td>
                     </tr>
