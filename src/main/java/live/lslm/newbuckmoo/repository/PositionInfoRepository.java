@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PositionInfoRepository extends JpaRepository<PositionInfo, String> {
+
     Page<PositionInfo> findAllByAuditStatus(Integer auditStatus, Pageable pageable);
 
     Page<PositionInfo> findAllByAuditStatusIsNot(Integer auditStatus, Pageable pageable);
@@ -13,7 +14,6 @@ public interface PositionInfoRepository extends JpaRepository<PositionInfo, Stri
     Page<PositionInfo> findAllByAuditStatusOrderByPositionTop(Integer auditStatus, Pageable pageable);
 
     Page<PositionInfo> findAllByAuditStatusAndPositionCategoryContains(Integer auditStatus, String tag, Pageable pageable);
-    Page<PositionInfo> findAllByAuditStatusAndPositionCategoryContaining(Integer auditStatus, String tag, Pageable pageable);
 
     Page<PositionInfo> findAllByOpenId(String openId, Pageable pageable);
 }

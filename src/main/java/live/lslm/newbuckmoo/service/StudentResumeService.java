@@ -18,4 +18,10 @@ public interface StudentResumeService {
      * @return 简历信息 VO
      */
     StudentResumeVO getOneResumeByOpenId(String openId);
+    /**
+     * 获取学生的简历信息 VO
+     * @param studentId 学生学号
+     * @return 简历信息 VO
+     */
+    StudentResumeVO getOneResumeByStudentId(String studentId);
 }

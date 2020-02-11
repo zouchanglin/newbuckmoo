@@ -7,6 +7,7 @@ import live.lslm.newbuckmoo.service.PositionInfoService;
 import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -64,6 +65,7 @@ public class PositionManageController {
 
 
     @PostMapping("pass")
+    //@CacheEvict(cacheNames = "positionDTOPage", allEntries = true)
     public ModelAndView auditPass(String positionId,
                                   String auditRemark,
                                   Map<String, Object> map){

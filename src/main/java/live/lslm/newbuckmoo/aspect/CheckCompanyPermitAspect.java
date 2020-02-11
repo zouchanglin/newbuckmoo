@@ -15,6 +15,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -32,7 +33,7 @@ public class CheckCompanyPermitAspect {
         PositionInfoForm form = (PositionInfoForm) joinPoint.getArgs()[0];
         String openId = form.getOpenId();
         String companyId = form.getPositionCompanyId();
-        log.info("[拦截到企业操作] 创建或者更新兼职信息 openId={}, companyId={}", openId, companyId);
+        log.info("【拦截到企业操作】创建或者更新兼职信息 openId={}, companyId={}", openId, companyId);
 
         Optional<CompanyInfo> companyInfoOpt = companyInfoRepository.findById(openId);
         //根据openId找不到企业信息
@@ -66,6 +67,16 @@ public class CheckCompanyPermitAspect {
         String openId = form.getOpenId();
 
         log.info("【拦截到企业操作】获取自己某兼职的申请列表 openId={}", openId);
+        checkOpenIdForCompany(openId);
+    }
+
+    @Before("execution(public * live.lslm.newbuckmoo.controller.company.PositionController.getApplicantResume(..))")
+    public void checkCompanyGetResume(JoinPoint joinPoint){
+        Map<String, Object> map = (Map<String, Object>) joinPoint.getArgs()[0];
+        String openId = (String) map.get("openId");
+        //String positionId = (String) map.get("positionId");
+        //String studentId = (String) map.get("studentId");
+        log.info("【拦截到企业操作】获取兼职申请者简历 openId={}", openId);
         checkOpenIdForCompany(openId);
     }
 

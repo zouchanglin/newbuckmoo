@@ -22,6 +22,7 @@ import live.lslm.newbuckmoo.vo.company.PositionForCompanyVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -142,7 +143,10 @@ public class PositionInfoServiceImpl implements PositionInfoService {
         return new PageImpl<>(infoDTOList, pageRequest, positionTop.getTotalElements());
     }
 
+    //这里直接把Key的各项值算成加法，相当危险
     @Override
+    //@Cacheable(cacheNames = "positionDTOPage", key = "#requestByPageForm.page + '-'" +
+    //        "+ #requestByPageForm.size + '-' + #requestByPageForm.tag")
     public Page<PositionInfoDTO> showPositionForStudentByTag(PositionListRequestByPageForm requestByPageForm) {
         if(requestByPageForm.getTag().equals(0)) return showPositionForStudent(requestByPageForm);
         PageRequest pageRequest = PageRequest.of(requestByPageForm.getPage(), requestByPageForm.getSize());

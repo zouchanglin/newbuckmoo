@@ -5,10 +5,13 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Data
 @Entity
-public class SchoolClubInfo {
+public class SchoolClubInfo implements Serializable {
+
+    private static final long serialVersionUID = -4371248931727473267L;
     @Id
     private String openId;
     /**

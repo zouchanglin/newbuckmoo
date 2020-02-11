@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * 微信用户基本信息
@@ -12,7 +13,8 @@ import javax.persistence.Id;
 @Entity
 @DynamicUpdate
 @Data
-public class UserBasicInfo {
+public class UserBasicInfo implements Serializable {
+    private static final long serialVersionUID = 4379707685450522021L;
     /**
      * 微信的openId
      */

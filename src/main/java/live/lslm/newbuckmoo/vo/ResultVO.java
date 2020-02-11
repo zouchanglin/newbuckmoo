@@ -2,8 +2,12 @@ package live.lslm.newbuckmoo.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class ResultVO<T> {
+public class ResultVO<T> implements Serializable {
+    private static final long serialVersionUID = 3942667107914601199L;
+
     /** 错误码. */
     private Integer code;
 

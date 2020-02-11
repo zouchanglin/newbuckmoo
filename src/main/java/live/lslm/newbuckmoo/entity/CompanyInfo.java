@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * 企业信息
@@ -13,7 +14,8 @@ import javax.persistence.Id;
 @Data
 @Entity
 @DynamicUpdate
-public class CompanyInfo {
+public class CompanyInfo implements Serializable {
+    private static final long serialVersionUID = -5293825907880872174L;
     @Id
     private String openId;
 

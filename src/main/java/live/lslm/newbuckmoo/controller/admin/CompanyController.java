@@ -1,12 +1,10 @@
 package live.lslm.newbuckmoo.controller.admin;
 
-
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
-import live.lslm.newbuckmoo.dto.StudentApproveDTO;
+import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
-import live.lslm.newbuckmoo.service.SchoolClubInfoService;
-import live.lslm.newbuckmoo.service.StudentsInfoService;
+import live.lslm.newbuckmoo.service.CompanyInfoService;
 import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +17,24 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
-/**
- * 学生管理控制器
- */
 @Slf4j
 @Controller
-@RequestMapping("/admin/club")
-public class ClubManageController {
+@RequestMapping("/admin/company")
+public class CompanyController {
     @Autowired
-    private WechatPushMessageService wechatPushMessageService;
+    private CompanyInfoService companyInfoService;
 
     @Autowired
-    private SchoolClubInfoService schoolClubInfoService;
+    private WechatPushMessageService wechatPushMessageService;
     /**
      * 获取社团信息详情页
      */
     @GetMapping("detail")
     public ModelAndView positionDetail(@RequestParam("openId") String openId,
                                        Map<String, Object> map){
-
-        ClubApproveDTO clubApproveDTO = schoolClubInfoService.getClubInfoByOpenId(openId);
-        map.put("clubApproveDTO", clubApproveDTO);
-        return new ModelAndView("club/detail", map);
+        CompanyApproveDTO companyApproveDTO = companyInfoService.getCompanyByOpenId(openId);
+        map.put("companyApproveDTO", companyApproveDTO);
+        return new ModelAndView("company/detail", map);
     }
 
     @PostMapping("pass")
@@ -48,15 +42,15 @@ public class ClubManageController {
                                   String auditRemark,
                                   Map<String, Object> map){
         try{
-            ClubApproveDTO clubApproveDTO = schoolClubInfoService.changeClubApprove(openId, AuditStatusEnum.AUDIT_SUCCESS, auditRemark);
-            wechatPushMessageService.clubApproveResultStatus(clubApproveDTO);
+            CompanyApproveDTO companyApproveDTO = companyInfoService.changeCompanyApprove(openId, AuditStatusEnum.AUDIT_SUCCESS, auditRemark);
+            wechatPushMessageService.companyApproveResultStatus(companyApproveDTO);
             map.put("msg", "审核成功");
-            map.put("url", "admin/approve/club-list");
+            map.put("url", "admin/approve/company-list");
             return new ModelAndView("common/success");
         }catch (BuckmooException e){
-            log.error("【社团信息审核】参数错误，openId={}，auditRemark={}", openId, auditRemark);
+            log.error("【企业信息审核】参数错误，openId={}，auditRemark={}", openId, auditRemark);
             map.put("msg", e.getMessage());
-            map.put("url", "admin/approve/club-list");
+            map.put("url", "admin/approve/company-list");
             return new ModelAndView("common/error");
         }
     }
@@ -66,15 +60,15 @@ public class ClubManageController {
                                    String auditRemark,
                                    Map<String, Object> map){
         try{
-            ClubApproveDTO clubApproveDTO = schoolClubInfoService.changeClubApprove(openId, AuditStatusEnum.AUDIT_FAILED, auditRemark);
-            wechatPushMessageService.clubApproveResultStatus(clubApproveDTO);
+            CompanyApproveDTO companyApproveDTO = companyInfoService.changeCompanyApprove(openId, AuditStatusEnum.AUDIT_FAILED, auditRemark);
+            wechatPushMessageService.companyApproveResultStatus(companyApproveDTO);
             map.put("msg", "审核成功");
-            map.put("url", "admin/approve/club-list");
+            map.put("url", "admin/approve/company-list");
             return new ModelAndView("common/success");
         }catch (BuckmooException e){
-            log.error("【社团信息审核】参数错误，openId={}，auditRemark={}", openId, auditRemark);
+            log.error("【企业信息审核】参数错误，openId={}，auditRemark={}", openId, auditRemark);
             map.put("msg", e.getMessage());
-            map.put("url", "admin/approve/club-list");
+            map.put("url", "admin/approve/company-list");
             return new ModelAndView("common/error");
         }
     }

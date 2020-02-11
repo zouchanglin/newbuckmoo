@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * 职位信息
@@ -15,7 +16,9 @@ import javax.persistence.Id;
 @Data
 @Entity
 @DynamicUpdate
-public class PositionInfo {
+public class PositionInfo implements Serializable {
+    private static final long serialVersionUID = 8240588657804586396L;
+
     @Id
     private String positionId;
 

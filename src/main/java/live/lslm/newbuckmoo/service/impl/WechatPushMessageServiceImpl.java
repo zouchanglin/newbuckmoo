@@ -81,7 +81,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         if(AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(auditStatus)){
             //通过
             data = Arrays.asList(
-                    new WxMpTemplateData("first", "尊敬的企业用户，平台已通过审核"),
+                    new WxMpTemplateData("first", approveDTO.getAuditMarkDTO().getCompanyMark()),
                     new WxMpTemplateData("keyword1", approveDTO.getCompanyName()),
                     new WxMpTemplateData("keyword2", "企业身份认证"),
                     new WxMpTemplateData("keyword3", "审核通过"),
@@ -91,7 +91,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         }else if(AuditStatusEnum.AUDIT_FAILED.getCode().equals(auditStatus)){
             //未通过
             data = Arrays.asList(
-                    new WxMpTemplateData("first", "审核未能通过哦，请检查相关信息是否正确"),
+                    new WxMpTemplateData("first", approveDTO.getAuditMarkDTO().getCompanyMark()),
                     new WxMpTemplateData("keyword1", approveDTO.getCompanyName()),
                     new WxMpTemplateData("keyword2", "企业身份认证"),
                     new WxMpTemplateData("keyword3", "审核未通过"),

@@ -1078,6 +1078,56 @@ POST newbuckmoo/student/position/add-browse
 }
 ```
 
+## 17、企业查看申请者简历
+
+```http
+POST newbuckmoo/company/position/applicant-resume
+```
+
+参数
+
+```json
+{
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+	"positionId":"1580022960792934855",
+	"studentId":"41604090109"
+}
+```
+
+参数解释：
+
+positionId：兼职的ID
+
+studentId：学生学号
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "resumeName": "邹长林",
+        "resumeSex": 1,
+        "resumeSexStr": "男",
+        "resumeAge": 22,
+        "resumeEducation": 1,
+        "resumeEducationStr": "博士",
+        "resumeHistory": "2016年学生会副会长",
+        "resumeAddress": "陕鼓大道58号，西安工程大学临潼校区",
+        "resumeWork": "作业、辅导、家教",
+        "resumeWorkCategory": 1,
+        "resumeWorkCategoryStr": "附近兼职",
+        "resumeHopeMoney": "150元/天",
+        "resumeAboutMyself": "我个性开放，活泼好动",
+        "resumeLanguage": "CET4 2020.08.01获得",
+        "resumeCredential": "2020.01.02获得辩论赛冠军",
+        "updateTime": 1580904230186,
+        "updateTimeStr": "2020年02月05日 20:03:50"
+    }
+}
+```
+
 
 
 # 三、运行参数
@@ -1466,4 +1516,8 @@ data 具体的字段
 * read_status 是否已读（0未读 1已读）
 * create_time 信息创建时间
 * update_time 信息更新时间
+
+
+
+## 10、
 

@@ -8,10 +8,12 @@ import live.lslm.newbuckmoo.form.PositionInfoForm;
 import live.lslm.newbuckmoo.form.RequestByPageForm;
 import live.lslm.newbuckmoo.form.ShowPositionApplyFrom;
 import live.lslm.newbuckmoo.service.PositionInfoService;
+import live.lslm.newbuckmoo.service.StudentResumeService;
 import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
 import live.lslm.newbuckmoo.vo.PageResultBind;
 import live.lslm.newbuckmoo.vo.ResultVO;
+import live.lslm.newbuckmoo.vo.StudentResumeVO;
 import live.lslm.newbuckmoo.vo.StudentVO;
 import live.lslm.newbuckmoo.vo.company.PositionForCompanyVO;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -33,6 +36,9 @@ public class PositionController {
 
     @Autowired
     private WechatPushMessageService wechatPushMessageService;
+
+    @Autowired
+    private StudentResumeService studentResumeService;
 
 
     /**
@@ -110,5 +116,16 @@ public class PositionController {
         pageResultBind.setTotalPage(studentVOS.getTotalPages());
 
         return ResultVOUtil.success(pageResultBind);
+    }
+
+    /**
+     * 企业查看申请人简历
+     * @return 简历
+     */
+    @PostMapping("applicant-resume")
+    public ResultVO getApplicantResume(@RequestBody Map<String, Object> map){
+        String studentId = (String) map.get("studentId");
+        StudentResumeVO studentResumeVO = studentResumeService.getOneResumeByStudentId(studentId);
+        return ResultVOUtil.success(studentResumeVO);
     }
 }

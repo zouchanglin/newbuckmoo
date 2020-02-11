@@ -60,6 +60,16 @@ public class StudentResumeServiceImpl implements StudentResumeService {
     }
 
     @Override
+    public StudentResumeVO getOneResumeByStudentId(String studentId) {
+        StudentInfo findFirst = studentInfoRepository.findFirstByStudentId(studentId);
+        if(findFirst != null){
+            String openId = findFirst.getOpenId();
+            return getOneResumeByOpenId(openId);
+        }
+        return new StudentResumeVO();
+    }
+
+    @Override
     @Transactional
     public StudentResumeDTO createOrUpdateResume(StudentResumeForm studentResumeForm) {
         StudentResume studentResume = new StudentResume();

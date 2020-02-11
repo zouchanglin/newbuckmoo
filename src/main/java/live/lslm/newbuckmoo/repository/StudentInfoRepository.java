@@ -16,4 +16,5 @@ public interface StudentInfoRepository extends JpaRepository<StudentInfo, String
      */
     Page<StudentInfo> findAllByAuditStatus(Integer status, Pageable pageable);
 
+    StudentInfo findFirstByStudentId(String studentId);
 }

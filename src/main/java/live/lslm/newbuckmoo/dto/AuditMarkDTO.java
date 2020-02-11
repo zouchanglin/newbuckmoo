@@ -15,13 +15,19 @@ public class AuditMarkDTO {
 
     private String clubMark;
 
+    private String companyMark;
+
     private Long auditStuTime;
 
     private Long auditClubTime;
 
+    private Long auditCompanyTime;
+
     private Integer auditStuCount;
 
     private Integer auditClubCount;
+
+    private Integer auditCompanyCount;
 
     @JsonIgnore
     public String getAuditStuTime(){
@@ -32,16 +38,27 @@ public class AuditMarkDTO {
         return ConstUtilPoll.dateFormat.format(new Date(auditClubTime));
     }
 
+    public String getAuditCompanyTime(){
+        return ConstUtilPoll.dateFormat.format(new Date(auditCompanyTime));
+    }
+
 
     public static AuditMarkDTO getInitInstance(){
         AuditMarkDTO auditMarkDTO = new AuditMarkDTO();
         auditMarkDTO.setOpenId("");
+
         auditMarkDTO.setStudentMark("");
         auditMarkDTO.setClubMark("");
+        auditMarkDTO.setCompanyMark("");
+
         auditMarkDTO.setAuditClubCount(0);
         auditMarkDTO.setAuditStuCount(0);
+        auditMarkDTO.setAuditCompanyCount(0);
+
         auditMarkDTO.setAuditStuTime(System.currentTimeMillis());
+        auditMarkDTO.setAuditCompanyTime(System.currentTimeMillis());
         auditMarkDTO.setAuditClubTime(System.currentTimeMillis());
+
         return auditMarkDTO;
     }
 

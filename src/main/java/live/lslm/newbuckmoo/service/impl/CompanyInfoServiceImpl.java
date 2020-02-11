@@ -2,13 +2,16 @@ package live.lslm.newbuckmoo.service.impl;
 
 import live.lslm.newbuckmoo.convert.CompanyFormToInfoConvert;
 import live.lslm.newbuckmoo.convert.CompanyInfoToApproveConvert;
+import live.lslm.newbuckmoo.dto.AuditMarkDTO;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
+import live.lslm.newbuckmoo.entity.AuditMark;
 import live.lslm.newbuckmoo.entity.CompanyInfo;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.CompanyAttestationForm;
+import live.lslm.newbuckmoo.repository.AuditMarkRepository;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
 import live.lslm.newbuckmoo.service.CompanyInfoService;
 import live.lslm.newbuckmoo.service.UserBasicInfoService;
@@ -23,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -34,6 +38,11 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
     @Autowired
     private UserBasicInfoService userBasicInfoService;
 
+    @Autowired
+    private AuditMarkRepository auditMarkRepository;
+
+
+
     @Override
     public CompanyVO getCompanyVOByOpenId(String openId) {
         Optional<CompanyInfo> companyInfoOpt = companyInfoRepository.findById(openId);
@@ -41,7 +50,9 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
             CompanyInfo companyInfo = companyInfoOpt.get();
             CompanyVO companyVO = new CompanyVO();
             BeanUtils.copyProperties(companyInfo, companyVO);
-            companyVO.setAuditStatusStr(EnumUtil.getByCode(companyVO.getAuditStatus(), AuditStatusEnum.class).getMessage());
+            companyVO.setAuditStatusStr(
+                    Objects.requireNonNull(EnumUtil.getByCode(companyVO.getAuditStatus(), AuditStatusEnum.class))
+                    .getMessage());
             return companyVO;
         }
         return null;
@@ -55,12 +66,50 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 
     @Override
     public Page<CompanyApproveDTO> getCompanyList(Pageable pageable) {
-        Page<CompanyInfo> companyInfoPage = companyInfoRepository.findAllByAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageable);
+        Page<CompanyInfo> companyInfoPage = companyInfoRepository
+                .findAllByAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageable);
         List<CompanyApproveDTO> dTOList = CompanyInfoToApproveConvert.convert(companyInfoPage.getContent());
         for(CompanyApproveDTO companyApproveDTO: dTOList){
             companyApproveDTO.setUserBasicInfo(userBasicInfoService.getUserBasicInfoByOpenid(companyApproveDTO.getOpenId()));
         }
         return new PageImpl<>(dTOList, pageable, companyInfoPage.getTotalElements());
+    }
+    @Override
+    public CompanyApproveDTO changeCompanyApprove(String openId, AuditStatusEnum auditSuccess, String auditRemark) {
+        Integer code = auditSuccess.getCode();
+        Optional<CompanyInfo> findResult = companyInfoRepository.findById(openId);
+        if(findResult.isPresent()){
+            CompanyInfo companyInfo = findResult.get();
+            if(companyInfo.getAuditStatus().equals(code)){
+                throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
+            }else{
+                if(EnumUtil.getByCode(code, AuditStatusEnum.class) == null){
+                    throw new BuckmooException(ResultEnum.PARAM_ERROR);
+                }
+                companyInfo.setAuditStatus(code);
+                CompanyInfo companyInfoSaved = companyInfoRepository.save(companyInfo);
+                log.info("[CompanyInfoServiceImpl] companyInfoSaved={}", companyInfoSaved);
+                saveAuditRemark(openId, auditRemark);
+                return convert(companyInfoRepository.save(companyInfoSaved));
+            }
+        }else {
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
+    }
+    private void saveAuditRemark(String openId, String auditRemark) {
+        Optional<AuditMark> auditMarkOpt = auditMarkRepository.findById(openId);
+        AuditMark auditMark = new AuditMark();
+        if (auditMarkOpt.isPresent()) {
+            BeanUtils.copyProperties(auditMarkOpt.get(), auditMark);
+        } else {
+            auditMark = AuditMarkDTO.getAuditMarkInstance();
+            auditMark.setOpenId(openId);
+        }
+        auditMark.setAuditCompanyTime(System.currentTimeMillis());
+        auditMark.setAuditCompanyCount(auditMark.getAuditCompanyCount() + 1);
+        auditMark.setCompanyMark(auditRemark);
+        AuditMark save = auditMarkRepository.save(auditMark);
+        log.info("【审核结果存储】 {}", save);
     }
 
     @Override
@@ -117,11 +166,22 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
     }
 
     private CompanyApproveDTO convert(CompanyInfo companyInfo){
+        if(companyInfo == null) throw new BuckmooException(ResultEnum.PARAM_ERROR);
         CompanyApproveDTO companyApproveDTO = new CompanyApproveDTO();
         BeanUtils.copyProperties(companyInfo, companyApproveDTO);
         UserBasicInfo userBasicInfo = userBasicInfoService.getUserBasicInfoByOpenid(companyInfo.getOpenId());
         if(userBasicInfo == null) throw new BuckmooException(ResultEnum.PARAM_ERROR);
         companyApproveDTO.setUserBasicInfo(userBasicInfo);
+
+        Optional<AuditMark> auditMarkFind = auditMarkRepository.findById(companyInfo.getOpenId());
+        if(auditMarkFind.isPresent()){
+            AuditMark auditMark = auditMarkFind.get();
+            AuditMarkDTO auditMarkDTO = new AuditMarkDTO();
+            BeanUtils.copyProperties(auditMark, auditMarkDTO);
+            companyApproveDTO.setAuditMarkDTO(auditMarkDTO);
+        }else{
+            companyApproveDTO.setAuditMarkDTO(AuditMarkDTO.getInitInstance());
+        }
         return companyApproveDTO;
     }
 }

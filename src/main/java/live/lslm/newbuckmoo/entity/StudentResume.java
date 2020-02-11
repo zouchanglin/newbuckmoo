@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * 学生简历
@@ -14,7 +15,8 @@ import javax.persistence.Id;
 @Entity
 @DynamicUpdate
 @Data
-public class StudentResume {
+public class StudentResume implements Serializable {
+    private static final long serialVersionUID = 4293419265025095898L;
     @Id
     private String openId;
 

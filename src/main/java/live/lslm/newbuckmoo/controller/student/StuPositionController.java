@@ -14,6 +14,7 @@ import live.lslm.newbuckmoo.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,7 @@ public class StuPositionController {
     }
 
     @PostMapping("list")
+    //@Cacheable(cacheNames = "positionDTOPage", key = "001")
     public ResultVO getPositionList(@RequestBody @Valid PositionListRequestByPageForm requestByPageForm,
                                     BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
@@ -47,7 +49,6 @@ public class StuPositionController {
             throw new BuckmooException(ResultEnum.PARAM_ERROR.getCode(),
                     Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
-
         //Page<PositionInfoDTO> infoDTOPage = positionInfoService.showPositionForStudent(requestByPageForm);
         Page<PositionInfoDTO> infoDTOPage = positionInfoService.showPositionForStudentByTag(requestByPageForm);
 

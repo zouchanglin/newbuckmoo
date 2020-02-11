@@ -11,10 +11,12 @@ import live.lslm.newbuckmoo.utils.ConstUtilPoll;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class PositionInfoDTO {
+public class PositionInfoDTO implements Serializable {
+    private static final long serialVersionUID = 5496776692099187875L;
     private String positionId;
 
     /**

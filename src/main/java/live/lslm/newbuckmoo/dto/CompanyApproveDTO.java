@@ -54,6 +54,11 @@ public class CompanyApproveDTO implements ApproveDTO{
      */
     private UserBasicInfo userBasicInfo;
 
+    /**
+     * 审核信息
+     */
+    private AuditMarkDTO auditMarkDTO;
+
     @JsonIgnore
     public AuditStatusEnum getStatusEnum(){
         return EnumUtil.getByCode(auditStatus, AuditStatusEnum.class);
