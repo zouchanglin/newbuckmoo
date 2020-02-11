@@ -1393,7 +1393,12 @@ data 具体的字段
 
 # 五、后台管理Wiki
 
-2020-01-25 新增兼职部分的后台管理
+* 2020-01-25 新增兼职部分的后台管理
+
+* 2020-02-07 引入Redis缓存兼职信息
+
+* 2020-02-08 后台审核方式大型更新
+* 2020-02-11 微信通知模板更新
 
 # 六、数据库表说明
 
@@ -1523,3 +1528,29 @@ data 具体的字段
 
 这是一个审核结论暂存表，会记录学生、社团、企业审核结论和审核次数，并会发送至微信
 
+* open_id 主键
+* student_mark 学生信息审核意见
+* club_mark 社团信息审核意见
+* company_mark 企业信息审核意见
+* audit_stu_time 学生信息审核时间
+* audit_club_time 社团信息审核次数
+* audit_company_time 企业信息审核时间
+* audit_stu_count 学生信息审核次数
+* audit_club_count 社团信息审核时间
+* audit_company_count 企业信息审核次数
+
+## 11、general_order
+
+这是一个通用订单表，各种订单的Basic数据都存储在这里
+
+order_id 订单编号，主键
+
+order_name 订单名称
+
+order_type 订单类型
+
+order_money 订单金额
+
+order_open_id 付款人openId
+
+order_pay_status 订单的状态
