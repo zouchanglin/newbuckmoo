@@ -39,16 +39,20 @@
                     <td>${companyApproveDTO.companyId}</td>
                 </tr>
                 <tr>
+                    <td>经营范围</td>
+                    <td>${companyApproveDTO.companyDesc}</td>
+                </tr>
+                <tr>
                     <td>企业代表人</td>
                     <td>${companyApproveDTO.companyOwnerName}</td>
                 </tr>
                 <tr>
-                    <td>企业执照</td>
-                    <td><img src="${companyApproveDTO.companyCertificate}" alt=""></td>
-                </tr>
-                <tr>
                     <td>联系方式</td>
                     <td>${companyApproveDTO.userBasicInfo.userPhone}</td>
+                </tr>
+                <tr>
+                    <td>企业执照</td>
+                    <td><img src="${companyApproveDTO.companyCertificate}" alt=""></td>
                 </tr>
                 <tr>
                     <td>申请时间</td>
