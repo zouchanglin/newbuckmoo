@@ -87,10 +87,11 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
                     throw new BuckmooException(ResultEnum.PARAM_ERROR);
                 }
                 companyInfo.setAuditStatus(code);
-                CompanyInfo companyInfoSaved = companyInfoRepository.save(companyInfo);
-                log.info("[CompanyInfoServiceImpl] companyInfoSaved={}", companyInfoSaved);
+                companyInfo.setUpdateTime(System.currentTimeMillis());
+                CompanyInfo save = companyInfoRepository.save(companyInfo);
+                log.info("【企业信息审核】 保存结果{}", save);
                 saveAuditRemark(openId, auditRemark);
-                return convert(companyInfoRepository.save(companyInfoSaved));
+                return convert(save);
             }
         }else {
             throw new BuckmooException(ResultEnum.PARAM_ERROR);
@@ -109,7 +110,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
         auditMark.setAuditCompanyCount(auditMark.getAuditCompanyCount() + 1);
         auditMark.setCompanyMark(auditRemark);
         AuditMark save = auditMarkRepository.save(auditMark);
-        log.info("【审核结果存储】 {}", save);
+        log.info("【企业审核意见存档】 {}", save);
     }
 
     @Override
