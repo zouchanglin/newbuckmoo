@@ -11,6 +11,17 @@
                     企业信息列表 <small>List of company</small>
                 </h4>
             </div>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="${request.contextPath}/admin/center">后台管理</a>
+                </li>
+                <li class="active">
+                    <a href="${request.contextPath}/admin/manage/company-list">企业管理</a>
+                </li>
+                <li>
+                    <a href="${request.contextPath}/admin/approve/company-list">审核列表</a>
+                </li>
+            </ul>
             <table class="table table-bordered">
                 <thead>
                 <tr>
