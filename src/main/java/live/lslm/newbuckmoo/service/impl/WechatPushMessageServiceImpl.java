@@ -36,7 +36,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
             templateMessage.setTemplateId(auditTemplateId);
             templateMessage.setToUser(openId);
             List<WxMpTemplateData> data = Arrays.asList(
-                    new WxMpTemplateData("first", "用户注册！请立即登录管理平台！"),
+                    new WxMpTemplateData("first", "新用户需要审核！请立即登录管理平台！"),
                     new WxMpTemplateData("keyword1", "-"),
                     new WxMpTemplateData("keyword2", "-"),
                     new WxMpTemplateData("keyword3", "-"),
@@ -64,22 +64,23 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         if(AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(auditStatus)){
             //通过
             data = Arrays.asList(
-                    new WxMpTemplateData("first", approveDTO.getAuditMarkDTO().getStudentMark()),
+                    new WxMpTemplateData("first", ""),
                     new WxMpTemplateData("keyword1", approveDTO.getStudentName()),
                     new WxMpTemplateData("keyword2", "学生身份认证"),
                     new WxMpTemplateData("keyword3", "审核通过"),
                     new WxMpTemplateData("keyword4", approveDTO.getAuditMarkDTO().getAuditStuTime()),
-                    new WxMpTemplateData("remark", "欢迎参加我们的研学旅行、企业或社团的活动以及做兼职等等哦！")
+                    new WxMpTemplateData("remark", approveDTO.getAuditMarkDTO().getStudentMark())
             );
         }else if(AuditStatusEnum.AUDIT_FAILED.getCode().equals(auditStatus)){
             //未通过
             data = Arrays.asList(
-                    new WxMpTemplateData("first", approveDTO.getAuditMarkDTO().getStudentMark()),
+                    new WxMpTemplateData("first", ""),
                     new WxMpTemplateData("keyword1", approveDTO.getStudentName()),
                     new WxMpTemplateData("keyword2", "学生身份认证"),
                     new WxMpTemplateData("keyword3", "审核未通过"),
                     new WxMpTemplateData("keyword4", approveDTO.getAuditMarkDTO().getAuditStuTime()),
-                    new WxMpTemplateData("remark", "请检查相关信息是否正确，更正后重新提交，以便工作人员快速审核"));
+                    new WxMpTemplateData("remark", approveDTO.getAuditMarkDTO().getStudentMark())
+            );
         }else{
             //审核中
             data = Arrays.asList(
@@ -94,7 +95,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         try {
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
         } catch (WxErrorException e) {
-            log.error("【微信模板消息】发送失败 ,{}", e);
+            log.error("【微信模板消息】发送失败 {}", e);
         }
     }
 
@@ -109,22 +110,22 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         if(AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(auditStatus)){
             //通过
             data = Arrays.asList(
-                    new WxMpTemplateData("first", approveDTO.getAuditMarkDTO().getCompanyMark()),
+                    new WxMpTemplateData("first", ""),
                     new WxMpTemplateData("keyword1", approveDTO.getCompanyName()),
                     new WxMpTemplateData("keyword2", "企业身份认证"),
                     new WxMpTemplateData("keyword3", "审核通过"),
                     new WxMpTemplateData("keyword4", approveDTO.getAuditMarkDTO().getAuditCompanyTime()),
-                    new WxMpTemplateData("remark", "欢迎您的加入，您可以在这里发布兼职，发布热门活动！")
+                    new WxMpTemplateData("remark", approveDTO.getAuditMarkDTO().getCompanyMark())
             );
         }else if(AuditStatusEnum.AUDIT_FAILED.getCode().equals(auditStatus)){
             //未通过
             data = Arrays.asList(
-                    new WxMpTemplateData("first", approveDTO.getAuditMarkDTO().getCompanyMark()),
+                    new WxMpTemplateData("first", ""),
                     new WxMpTemplateData("keyword1", approveDTO.getCompanyName()),
                     new WxMpTemplateData("keyword2", "企业身份认证"),
                     new WxMpTemplateData("keyword3", "审核未通过"),
                     new WxMpTemplateData("keyword4", approveDTO.getAuditMarkDTO().getAuditCompanyTime()),
-                    new WxMpTemplateData("remark", "请检查相关信息是否正确，更正后重新提交，以便工作人员快速审核"));
+                    new WxMpTemplateData("remark", approveDTO.getAuditMarkDTO().getCompanyMark()));
         }else{
             //审核中
             data = Arrays.asList(
@@ -155,22 +156,23 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         if(AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(auditStatus)){
             //通过
             data = Arrays.asList(
-                    new WxMpTemplateData("first", approveDTO.getAuditMarkDTO().getClubMark()),
+                    new WxMpTemplateData("first", ""),
                     new WxMpTemplateData("keyword1", approveDTO.getClubName()),
                     new WxMpTemplateData("keyword2", "社团身份认证"),
                     new WxMpTemplateData("keyword3", "审核通过"),
                     new WxMpTemplateData("keyword4", approveDTO.getAuditMarkDTO().getAuditClubTime()),
-                    new WxMpTemplateData("remark", "欢迎在我们的平台发布社团活动")
+                    new WxMpTemplateData("remark", approveDTO.getAuditMarkDTO().getClubMark())
             );
         }else if(AuditStatusEnum.AUDIT_FAILED.getCode().equals(auditStatus)){
             //未通过
             data = Arrays.asList(
-                    new WxMpTemplateData("first", approveDTO.getAuditMarkDTO().getClubMark()),
+                    new WxMpTemplateData("first", ""),
                     new WxMpTemplateData("keyword1", approveDTO.getClubName()),
                     new WxMpTemplateData("keyword2", "社团身份认证"),
                     new WxMpTemplateData("keyword3", "审核未通过"),
                     new WxMpTemplateData("keyword4", approveDTO.getAuditMarkDTO().getAuditClubTime()),
-                    new WxMpTemplateData("remark", "请检查相关信息是否正确，更正后重新提交，以便工作人员快速审核"));
+                    new WxMpTemplateData("remark", approveDTO.getAuditMarkDTO().getClubMark())
+            );
         }else{
             //审核中
             data = Arrays.asList(
