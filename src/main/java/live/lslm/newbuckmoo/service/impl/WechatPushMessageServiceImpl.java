@@ -4,6 +4,7 @@ import live.lslm.newbuckmoo.config.WechatAccountConfig;
 import live.lslm.newbuckmoo.dto.*;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.service.WechatPushMessageService;
+import live.lslm.newbuckmoo.utils.ConstUtilPoll;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -12,7 +13,9 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -24,6 +27,31 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
 
     @Autowired
     private WechatAccountConfig wechatAccountConfig;
+
+    @Override
+    public void newUserRegister(String[] notificationOpenIdList) {
+        String auditTemplateId = wechatAccountConfig.getTemplateId().get("newRegister");
+        for(String openId: notificationOpenIdList){
+            WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+            templateMessage.setTemplateId(auditTemplateId);
+            templateMessage.setToUser(openId);
+            List<WxMpTemplateData> data = Arrays.asList(
+                    new WxMpTemplateData("first", "用户注册！请立即登录管理平台！"),
+                    new WxMpTemplateData("keyword1", "-"),
+                    new WxMpTemplateData("keyword2", "-"),
+                    new WxMpTemplateData("keyword3", "-"),
+                    new WxMpTemplateData("keyword4", "-"),
+                    new WxMpTemplateData("keyword5", ConstUtilPoll.dateFormat.format(new Date(System.currentTimeMillis()))),
+                    new WxMpTemplateData("remark", "-")
+            );
+            templateMessage.setData(data);
+            try {
+                wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+            } catch (WxErrorException e) {
+                log.error("【微信模板消息】发送失败 ,{}", e);
+            }
+        }
+    }
 
     @Override
     public void studentApproveResultStatus(StudentApproveDTO approveDTO) {

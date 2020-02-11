@@ -33,4 +33,9 @@ public interface WechatPushMessageService {
      * @param positionInfoDTO 审核结果
      */
     void positionApproveResultStatus(PositionInfoDTO positionInfoDTO);
+
+    /**
+     * 新用户注册通知
+     */
+    void newUserRegister(String[] notificationOpenIdList);
 }

@@ -44,6 +44,7 @@ wechat:
   notifyUrl: http://tim.natapp1.cc/newbuckmoo/allpay/notify
   templateId:
     auditResult: ruHAwxC-rtOVvFvib9LSNtr_ldqioTKfM2qpwf1gYXc
+    newRegister: GGyGLHKgw1dnO7aOlnDkR2NOR9y1Vq7K5w6EbIpqSr4
 
 aliyun:
   regionId: cn-hangzhou

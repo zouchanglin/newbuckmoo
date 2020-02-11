@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
+import live.lslm.newbuckmoo.entity.SystemSettings;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
@@ -11,6 +12,7 @@ import live.lslm.newbuckmoo.form.CompanyAttestationForm;
 import live.lslm.newbuckmoo.form.SchoolClubAttestationForm;
 import live.lslm.newbuckmoo.form.StudentAttestationForm;
 import live.lslm.newbuckmoo.repository.StudentInfoRepository;
+import live.lslm.newbuckmoo.repository.SystemSettingsRepository;
 import live.lslm.newbuckmoo.service.*;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
@@ -21,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 
@@ -45,6 +48,9 @@ public class AttestationController {
 
     @Autowired
     private WebSocket webSocket;
+
+    @Autowired
+    private SystemSettingsRepository settingsRepository;
 
     @Autowired
     private WechatPushMessageService wechatPushMessageService;
@@ -80,6 +86,8 @@ public class AttestationController {
 
         //通知后台管理
         webSocket.sendMessage("新的社团注册信息有待审核哟 &/admin/approve/club-list");
+        String[] split = settingsRepository.getOne("admin_open_id").getSystemValue().split("#");
+        wechatPushMessageService.newUserRegister(split);
 
         //通知微信用户端
         wechatPushMessageService.clubApproveResultStatus(clubApproveDTO);
@@ -117,6 +125,8 @@ public class AttestationController {
 
         //通知微信用户端
         wechatPushMessageService.companyApproveResultStatus(approveDTO);
+        String[] split = settingsRepository.getOne("admin_open_id").getSystemValue().split("#");
+        wechatPushMessageService.newUserRegister(split);
 
         return ResultVOUtil.success(resultMap);
     }
@@ -151,6 +161,8 @@ public class AttestationController {
         //通知注册用户状态
         wechatPushMessageService.studentApproveResultStatus(approveDTO);
 
+        String[] split = settingsRepository.getOne("admin_open_id").getSystemValue().split("#");
+        wechatPushMessageService.newUserRegister(split);
         return ResultVOUtil.success(map);
     }
 }
