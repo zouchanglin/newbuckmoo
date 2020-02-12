@@ -16,10 +16,10 @@
                     <a href="${request.contextPath}/admin/center">后台管理</a>
                 </li>
                 <li>
-                    <a href="${request.contextPath}/admin/manage/student-list">学生管理</a>
+                    <a href="${request.contextPath}/admin/student/student-list">学生管理</a>
                 </li>
                 <li>
-                    <a href="${request.contextPath}/admin/approve/student-list">审核列表</a>
+                    <a href="${request.contextPath}/admin/student/approve-list">审核列表</a>
                 </li>
                 <li class="active">
                     学生信息详情

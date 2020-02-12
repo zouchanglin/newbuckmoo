@@ -41,7 +41,7 @@ public class CheckStudentPermitAspect {
     /**
      * 学生 Or 企业可以查看兼职
      */
-    @Before("execution(public * live.lslm.newbuckmoo.controller.student.StuPositionController.getPositionList(..))")
+    @Before("execution(public * live.lslm.newbuckmoo.controller.student.StudentPositionInfoController.getPositionList(..))")
     public void checkCompanyOrStudentPermit(JoinPoint joinPoint){
         log.info("【学生/企业查看兼职信息】权限验证");
         RequestByPageForm pageForm = (RequestByPageForm) joinPoint.getArgs()[0];
@@ -67,7 +67,7 @@ public class CheckStudentPermitAspect {
     /**
      * 学生本人才可以查看简历
      */
-    @Before("execution(public * live.lslm.newbuckmoo.controller.student.ResumeController.getMyResume(..))")
+    @Before("execution(public * live.lslm.newbuckmoo.controller.student.StudentResumeController.getMyResume(..))")
     public void checkMySelfShowResume(JoinPoint joinPoint){
         Map map = (Map) joinPoint.getArgs()[0];
         String openId = (String) map.get("openId");
@@ -86,7 +86,7 @@ public class CheckStudentPermitAspect {
     /**
      * 学生申请兼职信息权限验证
      */
-    @Before("execution(public * live.lslm.newbuckmoo.controller.student.StuPositionController.studentApplyPosition(..))")
+    @Before("execution(public * live.lslm.newbuckmoo.controller.student.StudentPositionInfoController.studentApplyPosition(..))")
     public void checkStudentPermit(JoinPoint joinPoint){
         log.info("【学生申请兼职信息】权限验证");
         StudentApplyPositionForm applyForm = (StudentApplyPositionForm) joinPoint.getArgs()[0];

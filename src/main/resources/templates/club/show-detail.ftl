@@ -16,10 +16,10 @@
                     <a href="${request.contextPath}/admin/center">后台管理</a>
                 </li>
                 <li>
-                    <a href="${request.contextPath}/admin/manage/club-list">社团管理</a>
+                    <a href="${request.contextPath}/admin/club/club-list">社团管理</a>
                 </li>
                 <li>
-                    <a href="${request.contextPath}/admin/approve/club-list">审核列表</a>
+                    <a href="${request.contextPath}/admin/club/approve-list">审核列表</a>
                 </li>
                 <li class="active">
                     社团信息详情

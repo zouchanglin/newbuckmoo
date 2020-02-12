@@ -26,7 +26,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/develop")
-public class AnalogDataGenerator {
+public class DevelopAnalogDataGenerator {
     @Autowired
     private StudentInfoRepository repository;
 

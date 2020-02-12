@@ -28,7 +28,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("/student/position")
-public class StuPositionController {
+public class StudentPositionInfoController {
 
     @Autowired
     private PositionInfoService positionInfoService;

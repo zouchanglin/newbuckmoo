@@ -28,7 +28,7 @@ public class CheckCompanyPermitAspect {
     @Autowired
     private CompanyInfoRepository companyInfoRepository;
 
-    @Before("execution(public * live.lslm.newbuckmoo.controller.company.PositionController.createOrUpdatePosition(..))")
+    @Before("execution(public * live.lslm.newbuckmoo.controller.company.CompanyPositionController.createOrUpdatePosition(..))")
     public void checkCompanyPermit(JoinPoint joinPoint){
         PositionInfoForm form = (PositionInfoForm) joinPoint.getArgs()[0];
         String openId = form.getOpenId();
@@ -52,7 +52,7 @@ public class CheckCompanyPermitAspect {
         if (!openId.equals(companyInfo.getOpenId())) throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
     }
 
-    @Before("execution(public * live.lslm.newbuckmoo.controller.company.PositionController.getPositionList(..))")
+    @Before("execution(public * live.lslm.newbuckmoo.controller.company.CompanyPositionController.getPositionList(..))")
     public void checkCompanyShowMyPosition(JoinPoint joinPoint){
         RequestByPageForm form = (RequestByPageForm) joinPoint.getArgs()[0];
         String openId = form.getOpenId();
@@ -61,7 +61,7 @@ public class CheckCompanyPermitAspect {
         checkOpenIdForCompany(openId);
     }
 
-    @Before("execution(public * live.lslm.newbuckmoo.controller.company.PositionController.getApplyListForPosition(..))")
+    @Before("execution(public * live.lslm.newbuckmoo.controller.company.CompanyPositionController.getApplyListForPosition(..))")
     public void checkCompanyShowPositionApply(JoinPoint joinPoint){
         ShowPositionApplyFrom form = (ShowPositionApplyFrom) joinPoint.getArgs()[0];
         String openId = form.getOpenId();
@@ -70,7 +70,7 @@ public class CheckCompanyPermitAspect {
         checkOpenIdForCompany(openId);
     }
 
-    @Before("execution(public * live.lslm.newbuckmoo.controller.company.PositionController.getApplicantResume(..))")
+    @Before("execution(public * live.lslm.newbuckmoo.controller.company.CompanyPositionController.getApplicantResume(..))")
     public void checkCompanyGetResume(JoinPoint joinPoint){
         Map<String, Object> map = (Map<String, Object>) joinPoint.getArgs()[0];
         String openId = (String) map.get("openId");

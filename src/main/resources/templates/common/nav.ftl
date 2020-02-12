@@ -14,12 +14,12 @@
                 <i class="fa fa-fw fa-plus"></i>用户管理<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li class="dropdown-header">用户相关</li>
-                <li><a href="${request.contextPath}/admin/approve/student-list">学生认证</a></li>
-                <li><a href="${request.contextPath}/admin/manage/student-list">学生管理</a></li>
-                <li><a href="${request.contextPath}/admin/approve/company-list">企业认证</a></li>
-                <li><a href="${request.contextPath}/admin/manage/company-list">企业管理</a></li>
-                <li><a href="${request.contextPath}/admin/approve/club-list">社团认证</a></li>
-                <li><a href="${request.contextPath}/admin/manage/club-list">社团管理</a></li>
+                <li><a href="${request.contextPath}/admin/student/approve-list">学生认证</a></li>
+                <li><a href="${request.contextPath}/admin/student/student-list">学生管理</a></li>
+                <li><a href="${request.contextPath}/admin/company/approve-list">企业认证</a></li>
+                <li><a href="${request.contextPath}/admin/company/company-list">企业管理</a></li>
+                <li><a href="${request.contextPath}/admin/club/approve-list">社团认证</a></li>
+                <li><a href="${request.contextPath}/admin/club/club-list">社团管理</a></li>
             </ul>
         </li>
         <li class="dropdown open">

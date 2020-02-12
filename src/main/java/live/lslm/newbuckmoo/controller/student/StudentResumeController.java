@@ -22,7 +22,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/student/resume")
-public class ResumeController {
+public class StudentResumeController {
     @Autowired
     private StudentResumeService studentResumeService;
 

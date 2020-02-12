@@ -30,7 +30,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("/company/position")
-public class PositionController {
+public class CompanyPositionController {
     @Autowired
     private PositionInfoService positionInfoService;
 
