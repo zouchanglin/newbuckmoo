@@ -6,15 +6,22 @@ import live.lslm.newbuckmoo.dto.AuditMarkDTO;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.entity.AuditMark;
 import live.lslm.newbuckmoo.entity.CompanyInfo;
+import live.lslm.newbuckmoo.entity.RecommendSign;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
+import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.CompanyAttestationForm;
+import live.lslm.newbuckmoo.form.company.CompanyRecommendSignForm;
 import live.lslm.newbuckmoo.repository.AuditMarkRepository;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
+import live.lslm.newbuckmoo.repository.RecommendSignRepository;
+import live.lslm.newbuckmoo.repository.SystemSettingsRepository;
 import live.lslm.newbuckmoo.service.CompanyInfoService;
 import live.lslm.newbuckmoo.service.UserBasicInfoService;
+import live.lslm.newbuckmoo.service.WebSocket;
+import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.vo.CompanyVO;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +48,17 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
     @Autowired
     private AuditMarkRepository auditMarkRepository;
 
+    @Autowired
+    private RecommendSignRepository recommendSignRepository;
+
+    @Autowired
+    private WechatPushMessageService wechatPushMessageService;
+
+    @Autowired
+    private WebSocket webSocket;
+
+    @Autowired
+    private SystemSettingsRepository settingsRepository;
 
 
     @Override
@@ -113,26 +131,6 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
         log.info("【企业审核意见存档】 {}", save);
     }
 
-    @Override
-    public CompanyApproveDTO changeCompanyApprove(String openid, Integer code) {
-        Optional<CompanyInfo> findResult = companyInfoRepository.findById(openid);
-        if(findResult.isPresent()){
-            CompanyInfo companyInfo = findResult.get();
-            if(companyInfo.getAuditStatus().equals(code)){
-                throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
-            }else{
-                if(EnumUtil.getByCode(code, AuditStatusEnum.class) == null){
-                    throw new BuckmooException(ResultEnum.PARAM_ERROR);
-                }
-                companyInfo.setAuditStatus(code);
-                CompanyInfo companyInfoSaved = companyInfoRepository.save(companyInfo);
-                log.info("[CompanyInfoServiceImpl] companyInfoSaved={}", companyInfoSaved);
-                return convert(companyInfoRepository.save(companyInfoSaved));
-            }
-        }else {
-            throw new BuckmooException(ResultEnum.PARAM_ERROR);
-        }
-    }
 
     @Override
     public CompanyApproveDTO createOrUpdateInfo(CompanyAttestationForm companyAttestationForm) {
@@ -152,8 +150,33 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
         CompanyFormToInfoConvert.formToCompany(companyAttestationForm, saveCompany);
         saveCompany.setUpdateTime(System.currentTimeMillis());
         saveCompany.setAuditStatus(AuditStatusEnum.AUDIT_RUNNING.getCode());
-        log.info("[CompanyInfoServiceImpl] saveCompany={}", saveCompany);
+
         return convert(companyInfoRepository.save(saveCompany));
+    }
+
+    @Override
+    public CompanyApproveDTO createCompanyInfoByRecommend(CompanyRecommendSignForm recommendSignForm) {
+        if(!isAuditPassUser(recommendSignForm.getOpenId())){
+            log.error("【企业推荐注册】推荐人信息有误！");
+            throw new BuckmooException(ResultEnum.RECOMMEND_PUSHER_ERROR);
+        }
+
+        CompanyApproveDTO companyApproveDTO = createOrUpdateInfo(recommendSignForm);
+
+        RecommendSign recommendSign = new RecommendSign();
+        recommendSign.setSignOpenId(recommendSignForm.getOpenId());
+        recommendSign.setPushOpenId(recommendSignForm.getRecommendCode());
+        recommendSign.setRecommendType(RecommendTypeEnum.COMPANY_RECOMMEND.getCode());
+        recommendSignRepository.save(recommendSign);
+
+        //通知后台管理
+        webSocket.sendMessage("新的企业注册信息有待审核哟 &/admin/approve/company-list");
+        //通知微信用户端
+        wechatPushMessageService.companyApproveResultStatus(companyApproveDTO);
+        String[] split = settingsRepository.getOne("admin_open_id").getSystemValue().split("#");
+        wechatPushMessageService.newUserRegister(split);
+
+        return companyApproveDTO;
     }
 
     @Override
@@ -184,5 +207,11 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
             companyApproveDTO.setAuditMarkDTO(AuditMarkDTO.getInitInstance());
         }
         return companyApproveDTO;
+    }
+
+    @Override
+    public Boolean isAuditPassUser(String openId) {
+        Optional<CompanyInfo> companyInfo = companyInfoRepository.findById(openId);
+        return companyInfo.filter(info -> AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(info.getAuditStatus())).isPresent();
     }
 }

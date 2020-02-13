@@ -3,20 +3,22 @@ package live.lslm.newbuckmoo.service.impl;
 import live.lslm.newbuckmoo.dto.AuditMarkDTO;
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
 import live.lslm.newbuckmoo.entity.AuditMark;
+import live.lslm.newbuckmoo.entity.RecommendSign;
 import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
+import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.StudentAttestationForm;
-import live.lslm.newbuckmoo.repository.AuditMarkRepository;
-import live.lslm.newbuckmoo.repository.StudentInfoRepository;
-import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
+import live.lslm.newbuckmoo.form.student.StudentRecommendSignForm;
+import live.lslm.newbuckmoo.repository.*;
 import live.lslm.newbuckmoo.service.StudentsInfoService;
+import live.lslm.newbuckmoo.service.WebSocket;
+import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.vo.StudentVO;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,17 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
     @Autowired
     private AuditMarkRepository auditMarkRepository;
 
+    @Autowired
+    private RecommendSignRepository recommendSignRepository;
+
+    @Autowired
+    private WechatPushMessageService wechatPushMessageService;
+
+    @Autowired
+    private WebSocket webSocket;
+
+    @Autowired
+    private SystemSettingsRepository settingsRepository;
 
     @Override
     public StudentVO getStudentVOByOpenId(String openId) {
@@ -48,7 +62,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
             StudentInfo studentInfo = studentInfoOpt.get();
             StudentVO studentVO = new StudentVO();
             BeanUtils.copyProperties(studentInfo, studentVO);
-            studentVO.setAuditStatusStr(EnumUtil.getByCode(studentVO.getAuditStatus(), AuditStatusEnum.class).getMessage());
+            studentVO.setAuditStatusStr(Objects.requireNonNull(EnumUtil.getByCode(studentVO.getAuditStatus(), AuditStatusEnum.class)).getMessage());
             return studentVO;
         }
         return null;
@@ -59,7 +73,6 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
         StudentVO studentVO = new StudentVO();
         BeanUtils.copyProperties(studentApproveDTO, studentVO);
         studentVO.setAuditStatusStr(studentApproveDTO.getStatusEnum().getMessage());
-
         return studentVO;
     }
 
@@ -85,23 +98,6 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
     }
 
     @Override
-    public StudentApproveDTO rejectedStudentApprove(String openid) {
-        Optional<StudentInfo> findResult = studentRepository.findById(openid);
-        if(findResult.isPresent()){
-            StudentInfo studentInfo = findResult.get();
-            if(AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(studentInfo.getAuditStatus())){
-                throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
-            }
-            studentInfo.setAuditStatus(AuditStatusEnum.AUDIT_FAILED.getCode());
-            StudentInfo saved = studentRepository.save(studentInfo);
-            log.info("[StudentsInfoServiceImpl] saved={}", saved);
-            return convert(saved);
-        }else{
-            throw new BuckmooException(ResultEnum.PARAM_ERROR);
-        }
-    }
-
-    @Override
     public StudentApproveDTO rejectedStudentApprove(String openId, String auditRemark) {
         Optional<StudentInfo> findResult = studentRepository.findById(openId);
         if(findResult.isPresent()){
@@ -119,27 +115,6 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
             throw new BuckmooException(ResultEnum.PARAM_ERROR);
         }
     }
-
-    @Override
-    public StudentApproveDTO passStudentApprove(String openid) {
-        Optional<StudentInfo> findResult = studentRepository.findById(openid);
-        if(findResult.isPresent()){
-            StudentInfo studentInfo = findResult.get();
-            if(AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(studentInfo.getAuditStatus())){
-                throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
-            }
-            studentInfo.setAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode());
-            StudentInfo saved = studentRepository.save(studentInfo);
-            log.info("[StudentsInfoServiceImpl] saved={}", saved);
-
-            Optional<UserBasicInfo> userBasicInfo = userBasicInfoRepository.findById(openid);
-            if(!userBasicInfo.isPresent()){ throw new BuckmooException(ResultEnum.PARAM_ERROR); }
-            return convert(saved);
-        }else{
-            throw new BuckmooException(ResultEnum.PARAM_ERROR);
-        }
-    }
-
 
     @Override
     public StudentApproveDTO passStudentApprove(String openId, String auditRemark) {
@@ -174,7 +149,7 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
         auditMark.setAuditStuCount(auditMark.getAuditStuCount() + 1);
         auditMark.setStudentMark(auditRemark);
         AuditMark save = auditMarkRepository.save(auditMark);
-        log.info("【审核结果存储】 {}", save);
+        log.info("【学生审核结果存储】 {}", save);
     }
 
     @Override
@@ -201,10 +176,34 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
         studentInfo.setStudentId(studentAttestationForm.getNumber());
         studentInfo.setStudentSchool(studentAttestationForm.getSchool());
         studentInfo.setUpdateTime(System.currentTimeMillis());
-
         return convert(studentRepository.save(studentInfo));
     }
 
+    @Override
+    public StudentApproveDTO createStudentInfoByRecommend(StudentRecommendSignForm recommendSignForm) {
+
+        if(!isAuditPassUser(recommendSignForm.getRecommendCode())){
+            log.error("【学生推荐注册】推荐人信息有误！");
+            throw new BuckmooException(ResultEnum.RECOMMEND_PUSHER_ERROR);
+        }
+
+        StudentApproveDTO studentApproveDTO = createOrUpdateInfo(recommendSignForm);
+        RecommendSign recommendSign = new RecommendSign();
+        recommendSign.setSignOpenId(recommendSignForm.getOpenId());
+        recommendSign.setPushOpenId(recommendSignForm.getRecommendCode());
+        recommendSign.setRecommendType(RecommendTypeEnum.STUDENT_RECOMMEND.getCode());
+        recommendSignRepository.save(recommendSign);
+
+        //通知 Web后台管理
+        webSocket.sendMessage("新的学生注册信息有待审核哟 &/admin/approve/student-list");
+        //通知学生用户正在审核
+        wechatPushMessageService.studentApproveResultStatus(studentApproveDTO);
+        //微信通知管理员审核
+        String[] split = settingsRepository.getOne("admin_open_id").getSystemValue().split("#");
+        wechatPushMessageService.newUserRegister(split);
+
+        return studentApproveDTO;
+    }
 
     /**
      * 两个转换 StudentInfo --> StudentApproveDTO
@@ -233,5 +232,11 @@ public class StudentsInfoServiceImpl implements StudentsInfoService {
     }
     private List<StudentApproveDTO> convert(List<StudentInfo> studentInfoList) {
         return studentInfoList.stream().map(this::convert).collect(Collectors.toList());
+    }
+
+    @Override
+    public Boolean isAuditPassUser(String openId) {
+        Optional<StudentInfo> optionalStudentInfo = studentRepository.findById(openId);
+        return optionalStudentInfo.map(studentInfo -> studentInfo.getAuditStatus().equals(AuditStatusEnum.AUDIT_SUCCESS.getCode())).orElse(false);
     }
 }

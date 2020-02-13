@@ -36,10 +36,4 @@ public class SchoolClubAttestationForm implements BasicForm{
      */
     @NotEmpty(message = "负责人姓名必填")
     private String ownerName;
-
-    /**
-     * 邀请码
-     */
-    @NotEmpty(message = "邀请码必填")
-    private String clubCode;
 }

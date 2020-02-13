@@ -45,11 +45,6 @@ public class ClubApproveDTO implements ApproveDTO{
     private Long updateTime = System.currentTimeMillis();
 
     /**
-     * 邀请码
-     */
-    private String clubCode;
-
-    /**
      * 用户基本信息
      */
     private UserBasicInfo userBasicInfo;

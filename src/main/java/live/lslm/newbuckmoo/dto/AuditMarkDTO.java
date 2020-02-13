@@ -65,12 +65,18 @@ public class AuditMarkDTO {
     public static AuditMark getAuditMarkInstance(){
         AuditMark auditMark = new AuditMark();
         auditMark.setOpenId("");
+
         auditMark.setStudentMark("");
         auditMark.setClubMark("");
+        auditMark.setCompanyMark("");
+
         auditMark.setAuditClubCount(0);
         auditMark.setAuditStuCount(0);
-        auditMark.setAuditStuTime(System.currentTimeMillis());
+        auditMark.setAuditCompanyCount(0);
+
         auditMark.setAuditClubTime(System.currentTimeMillis());
+        auditMark.setAuditStuTime(System.currentTimeMillis());
+        auditMark.setAuditCompanyTime(System.currentTimeMillis());
         return auditMark;
     }
 }

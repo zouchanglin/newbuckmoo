@@ -131,7 +131,6 @@ public class DevelopAnalogDataGenerator {
 
             SchoolClubInfo schoolClubInfo = new SchoolClubInfo();
             schoolClubInfo.setOpenId(openId);
-            schoolClubInfo.setClubCode(KeyUtil.genVerifyKey());
             String chineseName = ChinsesNameUtils.getChineseName();
             schoolClubInfo.setClubDesc(chineseName + "是一个懂学生的社团，旗下有课外兼职、品牌活动和研学旅行三大产品");
             schoolClubInfo.setClubName(chineseName+"社团");

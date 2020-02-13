@@ -4,20 +4,22 @@ import com.google.common.collect.Lists;
 import live.lslm.newbuckmoo.dto.AuditMarkDTO;
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
 import live.lslm.newbuckmoo.entity.AuditMark;
+import live.lslm.newbuckmoo.entity.RecommendSign;
 import live.lslm.newbuckmoo.entity.SchoolClubInfo;
 import live.lslm.newbuckmoo.entity.UserBasicInfo;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
+import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.SchoolClubAttestationForm;
-import live.lslm.newbuckmoo.repository.AuditMarkRepository;
-import live.lslm.newbuckmoo.repository.SchoolClubInfoRepository;
-import live.lslm.newbuckmoo.repository.UserBasicInfoRepository;
+import live.lslm.newbuckmoo.form.club.ClubRecommendSignForm;
+import live.lslm.newbuckmoo.repository.*;
 import live.lslm.newbuckmoo.service.SchoolClubInfoService;
+import live.lslm.newbuckmoo.service.WebSocket;
+import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.vo.SchoolClubVO;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -40,6 +43,18 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
 
     @Autowired
     private AuditMarkRepository auditMarkRepository;
+
+    @Autowired
+    private RecommendSignRepository recommendSignRepository;
+
+    @Autowired
+    private WebSocket webSocket;
+
+    @Autowired
+    private SystemSettingsRepository settingsRepository;
+
+    @Autowired
+    private WechatPushMessageService wechatPushMessageService;
 
     @Override
     public ClubApproveDTO changeClubApprove(String openId, AuditStatusEnum auditSuccess, String auditRemark) {
@@ -83,7 +98,8 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
             SchoolClubInfo schoolClubInfo = clubInfoOpt.get();
             SchoolClubVO schoolClubVO = new SchoolClubVO();
             BeanUtils.copyProperties(schoolClubInfo, schoolClubVO);
-            schoolClubVO.setAuditStatusStr(EnumUtil.getByCode(schoolClubInfo.getAuditStatus(), AuditStatusEnum.class).getMessage());
+            schoolClubVO.setAuditStatusStr(Objects.requireNonNull(
+                    EnumUtil.getByCode(schoolClubInfo.getAuditStatus(), AuditStatusEnum.class)).getMessage());
             return schoolClubVO;
         }
         return null;
@@ -140,24 +156,30 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
     }
 
     @Override
-    public ClubApproveDTO changeClubApprove(String openid, Integer code) {
-        Optional<SchoolClubInfo> findResult = schoolClubInfoRepository.findById(openid);
-        if(findResult.isPresent()){
-            SchoolClubInfo schoolClubInfo = findResult.get();
-            if(schoolClubInfo.getAuditStatus().equals(code)){
-                throw new BuckmooException(ResultEnum.AUDIT_STATUS_ERROR);
-            }else{
-                if(EnumUtil.getByCode(code, AuditStatusEnum.class) == null){
-                    throw new BuckmooException(ResultEnum.PARAM_ERROR);
-                }
-                schoolClubInfo.setAuditStatus(code);
-                SchoolClubInfo schoolClubInfoSaved = schoolClubInfoRepository.save(schoolClubInfo);
-                log.info("[SchoolClubInfoServiceImpl] schoolClubInfoSaved={}", schoolClubInfoSaved);
-                return convert(schoolClubInfoSaved);
-            }
-        }else {
-            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+    public ClubApproveDTO createStudentInfoByRecommend(ClubRecommendSignForm recommendSignForm) {
+
+        if(!isAuditPassUser(recommendSignForm.getOpenId())){
+            log.error("【社团推荐注册】推荐人信息有误！");
+            throw new BuckmooException(ResultEnum.RECOMMEND_PUSHER_ERROR);
         }
+
+        ClubApproveDTO clubApproveDTO = createOrUpdateInfo(recommendSignForm);
+        RecommendSign recommendSign = new RecommendSign();
+        recommendSign.setSignOpenId(recommendSignForm.getOpenId());
+        recommendSign.setPushOpenId(recommendSignForm.getRecommendCode());
+        recommendSign.setRecommendType(RecommendTypeEnum.CLUB_RECOMMEND.getCode());
+        recommendSignRepository.save(recommendSign);
+
+        //通知后台管理
+        webSocket.sendMessage("新的社团注册信息有待审核哟 &/admin/approve/club-list");
+
+        String[] split = settingsRepository.getOne("admin_open_id").getSystemValue().split("#");
+        wechatPushMessageService.newUserRegister(split);
+
+        //通知微信用户端
+        wechatPushMessageService.clubApproveResultStatus(clubApproveDTO);
+
+        return clubApproveDTO;
     }
 
     @Override
@@ -200,5 +222,11 @@ public class SchoolClubInfoServiceImpl implements SchoolClubInfoService {
         }else {
             throw new BuckmooException(ResultEnum.PARAM_ERROR);
         }
+    }
+
+    @Override
+    public Boolean isAuditPassUser(String openId) {
+        Optional<SchoolClubInfo> schoolClubInfo = schoolClubInfoRepository.findById(openId);
+        return schoolClubInfo.filter(clubInfo -> AuditStatusEnum.AUDIT_SUCCESS.getCode().equals(clubInfo.getAuditStatus())).isPresent();
     }
 }

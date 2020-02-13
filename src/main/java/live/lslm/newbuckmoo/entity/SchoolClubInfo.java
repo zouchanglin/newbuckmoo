@@ -12,6 +12,7 @@ import java.io.Serializable;
 public class SchoolClubInfo implements Serializable {
 
     private static final long serialVersionUID = -4371248931727473267L;
+
     @Id
     private String openId;
     /**
@@ -42,9 +43,4 @@ public class SchoolClubInfo implements Serializable {
      * 申请时间
      */
     private Long updateTime = System.currentTimeMillis();
-
-    /**
-     * 邀请码
-     */
-    private String clubCode;
 }

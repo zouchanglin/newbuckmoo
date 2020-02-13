@@ -1,12 +1,12 @@
-package live.lslm.newbuckmoo.controller.student;
+package live.lslm.newbuckmoo.controller.company;
 
 import com.google.common.collect.Maps;
-import live.lslm.newbuckmoo.dto.StudentApproveDTO;
+import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
-import live.lslm.newbuckmoo.form.student.StudentRecommendSignForm;
-import live.lslm.newbuckmoo.service.StudentsInfoService;
+import live.lslm.newbuckmoo.form.company.CompanyRecommendSignForm;
+import live.lslm.newbuckmoo.service.CompanyInfoService;
 import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.utils.ResultVOUtil;
 import live.lslm.newbuckmoo.vo.ResultVO;
@@ -24,20 +24,20 @@ import java.util.Objects;
 
 @Slf4j
 @RestController
-@RequestMapping("/student/recommend")
-public class StudentRecommendSignController {
+@RequestMapping("/company/recommend")
+public class CompanyRecommendSignController {
     @Autowired
-    private StudentsInfoService studentsInfoService;
+    private CompanyInfoService companyInfoService;
 
     @PostMapping("sign")
-    public ResultVO recommendSign(@RequestBody @Valid StudentRecommendSignForm recommendSignForm,
+    public ResultVO recommendSign(@RequestBody @Valid CompanyRecommendSignForm recommendSignForm,
                                   BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
-            log.error("【学生被推荐注册】参数不正确 {}", recommendSignForm);
+            log.error("【企业被推荐注册】参数不合法 {}", recommendSignForm);
             throw new BuckmooException(ResultEnum.PARAM_ERROR.getCode(),
                 Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
-        StudentApproveDTO approveDTO = studentsInfoService.createStudentInfoByRecommend(recommendSignForm);
+        CompanyApproveDTO approveDTO = companyInfoService.createCompanyInfoByRecommend(recommendSignForm);
 
         //返回数据填充
         Map<String, Object> map = Maps.newHashMap();

@@ -278,8 +278,7 @@ POST /newbuckmoo/approve/club
 	"clubName":"读书奋进会",
 	"clubDesc": "读书XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 	"schoolName": "西安工程大学",
-	"ownerName":"张三",
-	"clubCode":"123456"
+	"ownerName":"张三"
 }
 ```
 
@@ -290,7 +289,6 @@ POST /newbuckmoo/approve/club
 * clubDesc 社团描述
 * schoolName 社团所在学校
 * ownerName 社团负责人
-* clubCode 邀请码
 
 返回值
 
@@ -1130,6 +1128,173 @@ studentId：学生学号
 
 ## 18、学生身份注册(学生推荐)
 
+注册通过的学生才可以推荐学生！
+
+```http
+POST newbuckmoo/student/recommend/sign
+```
+
+参数（其实和 4、学生身份信息注册是一样的参数，只不过多了个recommendCode推荐码）
+
+```json
+{
+	"recommendCode":"oxrwq0xrKKyqiAGE8O9TM3L1yaQY",
+	"openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+	"certificate": "https://s2.ax1x.com/2020/01/05/lBrMPU.png",
+	"name": "邹长林",
+	"school": "西安工程大学",
+	"number": "41604090109"
+}
+```
+
+参数说明：
+
+recommendCode是推荐人的openID
+
+其余参数和普通注册一样
+
+返回值（和普通注册一样，多了15号错误码）
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "status_code": 0,
+        "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+        "status": "未审核"
+    }
+}
+
+{
+    "code": 9,
+    "msg": "请先绑定手机"
+}
+
+{
+    "code": 11,
+    "msg": "审核中不允许更改信息"
+}
+
+{
+    "code": 15,
+    "msg": "推荐人信息错误"
+}
+```
+
+## 19、社团身份注册(社团推荐)
+
+注册通过的社团才可以推荐社团
+
+```http
+POST newbuckmoo/club/recommend/sign
+```
+
+参数
+
+```json
+{
+	"recommendCode":"oxrwq0xrKKyqiAGE8O9TM3L1yaQY",
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+	"clubName":"读书奋进会",
+	"clubDesc": "读书是指获取他人已预备好的符号，有时还伴随着朗读、鉴赏、记忆等行为",
+	"schoolName": "西安工程大学",
+	"ownerName":"邹长林"
+}
+```
+
+参数说明：
+
+recommendCode是推荐人的openID
+
+其余参数和普通注册一样
+
+返回值（和普通注册一样）
+
+```json
+{
+    "code": 1,
+    "msg": "注册为学生用户才可以注册社团"
+}
+
+{
+    "code": 2,
+    "msg": "学生信息审核中，通过后才可以注册社团"
+}
+
+{
+    "code": 9,
+    "msg": "请先绑定手机"
+}
+
+{
+    "code": 11,
+    "msg": "审核中不允许更改信息"
+}
+
+{
+    "code": 15,
+    "msg": "推荐人信息错误"
+}
+```
+
+## 20、企业身份注册(企业推荐)
+
+注册通过的企业才可以推荐企业
+
+```http
+POST newbuckmoo/company/recommend/sign
+```
+
+参数
+
+```json
+{
+	"recommendCode":"oxrwq0xrKKyqiAGE8O9TM3L1yaQY",
+	"openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+	"name": "骊山鹿不鸣有限公司",
+	"owner": "邹长林",
+	"describe": "骊山鹿鸣通过优质资源的有效整合，更好服务于学生群体",
+	"number": "13JDE9W0D8EW9D90DWE",
+	"certificate": "https://s2.ax1x.com/2020/01/05/lBDRgJ.png"
+}
+```
+
+参数说明：
+
+recommendCode是推荐人的openID
+
+其余参数和普通注册一样
+
+返回值（和普通注册一样）
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "status_code": 0,
+        "openId": "oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+        "status": "未审核"
+    }
+}
+
+{
+    "code": 9,
+    "msg": "请先绑定手机"
+}
+
+{
+    "code": 11,
+    "msg": "审核中不允许更改信息"
+}
+
+{
+    "code": 15,
+    "msg": "推荐人信息错误"
+}
+```
+
 
 
 # 三、运行参数
@@ -1393,14 +1558,37 @@ data 具体的字段
 
 11、学生/企业/社团获取兼职列表
 
+
+
+## 13、社团注册接口的参数更改
+
+去掉了邀请码，也就是clubCode字段
+
+影响的接口：
+
+6、社团身份信息注册
+
+## 14、新增了用户被推荐注册方式
+
+新增学生、社团、企业用户被推荐注册接口
+
+影响的接口：
+
+18、学生身份注册(学生推荐)
+
+19、社团身份注册(社团推荐)
+
+20、企业身份注册(企业推荐)
+
+
+
 # 五、后台管理Wiki
 
 * 2020-01-25 新增兼职部分的后台管理
-
 * 2020-02-07 引入Redis缓存兼职信息
-
 * 2020-02-08 后台审核方式大型更新
 * 2020-02-11 微信通知模板更新
+* 2020-02-13 管理与注册不再分Controller
 
 # 六、数据库表说明
 
@@ -1511,7 +1699,6 @@ data 具体的字段
 * owner_name 社团负责人姓名
 * audit_status  审核状态（0未审核 1已通过 2未通过）
 * update_time 信息更新时间
-* club_code 社团邀请码（不用管）
 
 ## 9、apply_position
 
@@ -1556,3 +1743,27 @@ order_money 订单金额
 order_open_id 付款人openId
 
 order_pay_status 订单的状态
+
+## 12、user_grade
+
+用户积分表，用于存储用户的积分数量
+
+open_id 主键，表示每一位基础用户
+
+student_grade 学生积分
+
+company_grade 企业积分
+
+club_grade 社团积分
+
+## 13、recommend_sign
+
+用户推荐注册表
+
+recommend_id 主键ID
+
+sign_open_id 注册用户的openID
+
+push_open_id 谁推荐的？就是这个字段记录的
+
+recommend_type 代表推荐类型，0 学生推荐、 1 企业推荐、2 社团推荐

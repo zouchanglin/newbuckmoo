@@ -18,7 +18,8 @@ public enum  ResultEnum {
     AUDITING_NOT_ALLOWED(11, "审核中不允许更改信息"),
     PERMISSION_ERROR(12, "权限拒绝"),
     REPETITION_ERROR(13, "重复操作"),
-    PERFECT_RESUME(14, "请先完善简历");
+    PERFECT_RESUME(14, "请先完善简历"),
+    RECOMMEND_PUSHER_ERROR(15, "推荐人信息错误");
 
     private Integer code;
 

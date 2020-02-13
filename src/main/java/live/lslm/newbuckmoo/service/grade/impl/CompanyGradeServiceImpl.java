@@ -1,9 +1,12 @@
 package live.lslm.newbuckmoo.service.grade.impl;
 
 import live.lslm.newbuckmoo.entity.CompanyInfo;
+import live.lslm.newbuckmoo.entity.RecommendSign;
 import live.lslm.newbuckmoo.entity.UserGrade;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
+import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
+import live.lslm.newbuckmoo.repository.RecommendSignRepository;
 import live.lslm.newbuckmoo.repository.UserGradeRepository;
 import live.lslm.newbuckmoo.service.grade.CompanyGradeService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +26,29 @@ public class CompanyGradeServiceImpl implements CompanyGradeService {
     @Autowired
     private UserGradeRepository userGradeRepository;
 
+    @Autowired
+    private RecommendSignRepository recommendSignRepository;
     @Override
-    public void registerNewUser(String openId) {
+    public void registerNewUserRewardGrade(String openId) {
+        RecommendSign recommendSign = recommendSignRepository.findFirstBySignOpenIdAndRecommendType(openId, RecommendTypeEnum.COMPANY_RECOMMEND.getCode());
+        if(recommendSign != null){
+            String pushOpenId = recommendSign.getPushOpenId();
+            Optional<UserGrade> userGradeOptional = userGradeRepository.findById(pushOpenId);
+            if(userGradeOptional.isPresent()){
+                UserGrade userGrade = userGradeOptional.get();
+                //TODO 赠送50积分
+                userGrade.setCompanyGrade(userGrade.getCompanyGrade() + 50);
+                userGradeRepository.save(userGrade);
+            }else{
+                log.error("【奖励积分：推荐企业注册通过】积分表中找不到推荐人");
+            }
+        }else {
+            log.error("【奖励积分：推荐企业注册通过】推荐表中找不到推荐人");
+        }
+    }
+
+    @Override
+    public void registerNewUserInitGrade(String openId) {
         if(StringUtils.isEmpty(openId)) return;
         Optional<CompanyInfo> companyInfoOptional = companyInfoRepository.findById(openId);
         if(companyInfoOptional.isPresent()){

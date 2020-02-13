@@ -41,9 +41,6 @@
                         通过时间
                     </th>
                     <th>
-                        邀请码
-                    </th>
-                    <th>
                         审核状态
                     </th>
                     <th>
@@ -58,7 +55,6 @@
                         <td>${approve.ownerName}</td>
                         <td>${approve.userBasicInfo.userPhone !}</td>
                         <td>${approve.getUpdateTime()}</td>
-                        <td>${approve.clubCode}</td>
                         <td>${approve.getStatusEnum().getMessage()}</td>
                         <td>
                             <a href="${request.contextPath}/admin/club/show-detail?openId=${approve.openId}" class="btn btn-sm btn-info">详情</a>

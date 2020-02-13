@@ -55,10 +55,6 @@
                     <td>${clubApproveDTO.getUpdateTime()}</td>
                 </tr>
                 <tr>
-                    <td>邀请码</td>
-                    <td>${clubApproveDTO.clubCode}</td>
-                </tr>
-                <tr>
                     <td>审核次数</td>
                     <td>${clubApproveDTO.auditMarkDTO.auditClubCount}</td>
                 </tr>

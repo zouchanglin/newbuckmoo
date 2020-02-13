@@ -41,9 +41,6 @@
                         申请时间
                     </th>
                     <th>
-                        邀请码
-                    </th>
-                    <th>
                         审核状态
                     </th>
                     <th>
@@ -64,7 +61,6 @@
                         <td>${approve.ownerName}</td>
                         <td>${approve.userBasicInfo.userPhone !}</td>
                         <td>${approve.getUpdateTime()}</td>
-                        <td>${approve.clubCode}</td>
                         <td>${approve.getStatusEnum().getMessage()}</td>
                         <td>
                             <a id="modal-770007" href="#modal-container-770007" role="button" class="btn btn-sm btn-default" data-toggle="modal"

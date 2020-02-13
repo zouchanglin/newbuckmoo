@@ -1,8 +1,11 @@
 package live.lslm.newbuckmoo.service.grade.impl;
 
+import live.lslm.newbuckmoo.entity.RecommendSign;
 import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.entity.UserGrade;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
+import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
+import live.lslm.newbuckmoo.repository.RecommendSignRepository;
 import live.lslm.newbuckmoo.repository.StudentInfoRepository;
 import live.lslm.newbuckmoo.repository.UserGradeRepository;
 import live.lslm.newbuckmoo.service.grade.StudentGradeService;
@@ -23,8 +26,30 @@ public class StudentGradeServiceImpl implements StudentGradeService {
     @Autowired
     private UserGradeRepository userGradeRepository;
 
+    @Autowired
+    private RecommendSignRepository recommendSignRepository;
+
     @Override
-    public void registerNewUser(String openId) {
+    public void registerNewUserRewardGrade(String openId) {
+        RecommendSign recommendSign = recommendSignRepository.findFirstBySignOpenIdAndRecommendType(openId, RecommendTypeEnum.STUDENT_RECOMMEND.getCode());
+        if(recommendSign != null){
+            String pushOpenId = recommendSign.getPushOpenId();
+            Optional<UserGrade> userGradeOptional = userGradeRepository.findById(pushOpenId);
+            if(userGradeOptional.isPresent()){
+                UserGrade userGrade = userGradeOptional.get();
+                //TODO 赠送25积分
+                userGrade.setStudentGrade(userGrade.getStudentGrade() + 25);
+                userGradeRepository.save(userGrade);
+            }else{
+                log.error("【奖励积分：推荐学生注册通过】积分表中找不到推荐人");
+            }
+        }else {
+            log.error("【奖励积分：推荐学生注册通过】推荐表中找不到推荐人");
+        }
+    }
+
+    @Override
+    public void registerNewUserInitGrade(String openId) {
         if(StringUtils.isEmpty(openId)) return;
         Optional<StudentInfo> studentInfoOptional = studentInfoRepository.findById(openId);
         if(studentInfoOptional.isPresent()){

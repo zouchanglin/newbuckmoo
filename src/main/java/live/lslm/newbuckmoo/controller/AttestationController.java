@@ -4,14 +4,12 @@ import com.google.common.collect.Maps;
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
-import live.lslm.newbuckmoo.entity.SystemSettings;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.ResultEnum;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.CompanyAttestationForm;
 import live.lslm.newbuckmoo.form.SchoolClubAttestationForm;
 import live.lslm.newbuckmoo.form.StudentAttestationForm;
-import live.lslm.newbuckmoo.repository.StudentInfoRepository;
 import live.lslm.newbuckmoo.repository.SystemSettingsRepository;
 import live.lslm.newbuckmoo.service.*;
 import live.lslm.newbuckmoo.utils.EnumUtil;
@@ -23,7 +21,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 
@@ -39,9 +36,6 @@ public class AttestationController {
 
     @Autowired
     private CompanyInfoService companyInfoService;
-
-    @Autowired
-    private StudentInfoRepository studentInfoRepository;
 
     @Autowired
     private SchoolClubInfoService schoolClubInfoService;
@@ -69,7 +63,6 @@ public class AttestationController {
             throw new BuckmooException(ResultEnum.PARAM_ERROR.getCode(),
                     Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
-        log.info("[AttestationController] schoolClubForm={}", schoolClubForm);
         StudentApproveDTO studentApproveDTO = studentsInfoService.getStudentInfoByOpenId(schoolClubForm.getOpenId());
         if(studentApproveDTO == null) return ResultVOUtil.error(1, "注册为学生用户才可以注册社团");
         if(!studentApproveDTO.getAuditStatus().equals(AuditStatusEnum.AUDIT_SUCCESS.getCode())){
@@ -86,6 +79,7 @@ public class AttestationController {
 
         //通知后台管理
         webSocket.sendMessage("新的社团注册信息有待审核哟 &/admin/approve/club-list");
+
         String[] split = settingsRepository.getOne("admin_open_id").getSystemValue().split("#");
         wechatPushMessageService.newUserRegister(split);
 
@@ -110,7 +104,6 @@ public class AttestationController {
         }
 
         log.info("[AttestationController] companyAttestationForm={}", companyAttestationForm);
-
         CompanyApproveDTO approveDTO = companyInfoService.createOrUpdateInfo(companyAttestationForm);
 
         //返回数据填充
@@ -161,8 +154,10 @@ public class AttestationController {
         //通知注册用户状态
         wechatPushMessageService.studentApproveResultStatus(approveDTO);
 
+        //微信通知管理员审核
         String[] split = settingsRepository.getOne("admin_open_id").getSystemValue().split("#");
         wechatPushMessageService.newUserRegister(split);
+
         return ResultVOUtil.success(map);
     }
 }

@@ -1,12 +1,17 @@
 package live.lslm.newbuckmoo.service.grade.impl;
 
+import live.lslm.newbuckmoo.entity.RecommendSign;
 import live.lslm.newbuckmoo.entity.SchoolClubInfo;
+import live.lslm.newbuckmoo.entity.StudentInfo;
 import live.lslm.newbuckmoo.entity.UserGrade;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
+import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
+import live.lslm.newbuckmoo.repository.RecommendSignRepository;
 import live.lslm.newbuckmoo.repository.SchoolClubInfoRepository;
 import live.lslm.newbuckmoo.repository.UserGradeRepository;
 import live.lslm.newbuckmoo.service.grade.ClubGradService;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +28,30 @@ public class ClubGradServiceImpl implements ClubGradService {
     @Autowired
     private UserGradeRepository userGradeRepository;
 
+    @Autowired
+    private RecommendSignRepository recommendSignRepository;
+
     @Override
-    public void registerNewUser(String openId) {
+    public void registerNewUserRewardGrade(String openId) {
+        RecommendSign recommendSign = recommendSignRepository.findFirstBySignOpenIdAndRecommendType(openId, RecommendTypeEnum.CLUB_RECOMMEND.getCode());
+        if(recommendSign != null){
+            String pushOpenId = recommendSign.getPushOpenId();
+            Optional<UserGrade> userGradeOptional = userGradeRepository.findById(pushOpenId);
+            if(userGradeOptional.isPresent()){
+                UserGrade userGrade = userGradeOptional.get();
+                //TODO 赠送50积分
+                userGrade.setClubGrade(userGrade.getClubGrade() + 50);
+                userGradeRepository.save(userGrade);
+            }else{
+                log.error("【奖励积分：推荐社团注册通过】积分表中找不到推荐人");
+            }
+        }else {
+            log.error("【奖励积分：推荐社团注册通过】推荐表中找不到推荐人");
+        }
+    }
+
+    @Override
+    public void registerNewUserInitGrade(String openId) {
         if(StringUtils.isEmpty(openId)) return;
         Optional<SchoolClubInfo> clubInfoOptional = schoolClubInfoRepository.findById(openId);
         if(clubInfoOptional.isPresent()){
@@ -43,8 +70,9 @@ public class ClubGradServiceImpl implements ClubGradService {
                 saveGrade.setClubGrade(0);
                 UserGrade save = userGradeRepository.save(saveGrade);
                 log.info("【社团初始化积分】 {}", save);
+            }else{
+                log.error("【社团初始化积分】社团审核状态不正确");
             }
-            log.error("【社团初始化积分】社团审核状态不正确");
         }else{
             log.error("【社团初始化积分】 社团信息表中无信息");
         }
