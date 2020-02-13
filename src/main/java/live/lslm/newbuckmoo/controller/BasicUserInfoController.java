@@ -46,7 +46,6 @@ public class BasicUserInfoController {
         String openId = (String) map.get("openId");
         if(StringUtils.isEmpty(openId)) throw new BuckmooException(ResultEnum.PARAM_ERROR);
 
-
         StudentVO studentVO = studentInfoService.getStudentVOByOpenId(openId);
         CompanyVO companyVO = companyInfoService.getCompanyVOByOpenId(openId);
         SchoolClubVO schoolClubVO = clubInfoService.getClubVOByOpenId(openId);
@@ -61,6 +60,8 @@ public class BasicUserInfoController {
         resultMap.put("studentInfo", studentVO==null ? new StudentVO():studentVO);
         return ResultVOUtil.success(resultMap);
     }
+
+
 
 
     /**

@@ -50,6 +50,7 @@
                 <li><a href="#">用户相关</a></li>
                 <li><a href="#">支付相关</a></li>
                 <li><a href="#">审核相关</a></li>
+                <li><a href="${request.contextPath}/admin/clause/edit">服务协议</a></li>
             </ul>
         </li>
 
