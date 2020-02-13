@@ -19,7 +19,7 @@ public class BuckmooAuthorizeExceptionHandler {
      */
     @ExceptionHandler(value = BuckmooAuthorizeException.class)
     public ModelAndView handlerBuckmooException(BuckmooAuthorizeException e){
-        log.error("[管理员登录的异常拦截] {}", e);
+        log.error("【管理员登录的异常拦截】{}", e);
         Map<String, Object> map = Maps.newHashMap();
         map.put("msg", "请先登录后台系统");
         map.put("url", "admin/login/page");

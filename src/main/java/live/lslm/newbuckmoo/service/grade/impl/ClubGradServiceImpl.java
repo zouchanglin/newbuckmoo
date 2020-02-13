@@ -1,17 +1,15 @@
 package live.lslm.newbuckmoo.service.grade.impl;
 
-import live.lslm.newbuckmoo.entity.RecommendSign;
-import live.lslm.newbuckmoo.entity.SchoolClubInfo;
-import live.lslm.newbuckmoo.entity.StudentInfo;
-import live.lslm.newbuckmoo.entity.UserGrade;
+import live.lslm.newbuckmoo.entity.*;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
 import live.lslm.newbuckmoo.repository.RecommendSignRepository;
 import live.lslm.newbuckmoo.repository.SchoolClubInfoRepository;
 import live.lslm.newbuckmoo.repository.UserGradeRepository;
+import live.lslm.newbuckmoo.service.admin.SettingEnum;
+import live.lslm.newbuckmoo.service.admin.SettingService;
 import live.lslm.newbuckmoo.service.grade.ClubGradService;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +29,9 @@ public class ClubGradServiceImpl implements ClubGradService {
     @Autowired
     private RecommendSignRepository recommendSignRepository;
 
+    @Autowired
+    private SettingService settingService;
+
     @Override
     public void registerNewUserRewardGrade(String openId) {
         RecommendSign recommendSign = recommendSignRepository.findFirstBySignOpenIdAndRecommendType(openId, RecommendTypeEnum.CLUB_RECOMMEND.getCode());
@@ -39,8 +40,8 @@ public class ClubGradServiceImpl implements ClubGradService {
             Optional<UserGrade> userGradeOptional = userGradeRepository.findById(pushOpenId);
             if(userGradeOptional.isPresent()){
                 UserGrade userGrade = userGradeOptional.get();
-                //TODO 赠送50积分
-                userGrade.setClubGrade(userGrade.getClubGrade() + 50);
+                SystemSettings newClubGradeSetting = settingService.getOneSetting(SettingEnum.RECOMMEND_CLUB);
+                userGrade.setClubGrade(userGrade.getClubGrade() + Integer.parseInt(newClubGradeSetting.getSystemValue()));
                 userGradeRepository.save(userGrade);
             }else{
                 log.error("【奖励积分：推荐社团注册通过】积分表中找不到推荐人");
@@ -66,8 +67,8 @@ public class ClubGradServiceImpl implements ClubGradService {
                     saveGrade.setStudentGrade(0);
                     saveGrade.setCompanyGrade(0);
                 }
-                //TODO 数据库设置社团0积分
-                saveGrade.setClubGrade(0);
+                SystemSettings newClubGradeSetting = settingService.getOneSetting(SettingEnum.NEW_CLUB);
+                saveGrade.setClubGrade(Integer.parseInt(newClubGradeSetting.getSystemValue()));
                 UserGrade save = userGradeRepository.save(saveGrade);
                 log.info("【社团初始化积分】 {}", save);
             }else{

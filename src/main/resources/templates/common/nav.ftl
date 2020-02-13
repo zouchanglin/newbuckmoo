@@ -44,12 +44,12 @@
 
         <li class="dropdown open">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                <i class="fa fa-fw fa-plus"></i>参数配置<span class="caret"></span></a>
+                <i class="fa fa-fw fa-plus"></i>系统设置<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li class="dropdown-header">参数修改</li>
-                <li><a href="#">用户相关</a></li>
-                <li><a href="#">支付相关</a></li>
-                <li><a href="#">审核相关</a></li>
+                <li><a href="${request.contextPath}/admin/setting/grade/editor">积分奖励</a></li>
+                <li><a href="#">积分支付</a></li>
+                <li><a href="#">用户审核</a></li>
                 <li><a href="${request.contextPath}/admin/clause/edit">服务协议</a></li>
             </ul>
         </li>

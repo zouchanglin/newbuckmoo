@@ -2,12 +2,15 @@ package live.lslm.newbuckmoo.service.grade.impl;
 
 import live.lslm.newbuckmoo.entity.CompanyInfo;
 import live.lslm.newbuckmoo.entity.RecommendSign;
+import live.lslm.newbuckmoo.entity.SystemSettings;
 import live.lslm.newbuckmoo.entity.UserGrade;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
 import live.lslm.newbuckmoo.repository.CompanyInfoRepository;
 import live.lslm.newbuckmoo.repository.RecommendSignRepository;
 import live.lslm.newbuckmoo.repository.UserGradeRepository;
+import live.lslm.newbuckmoo.service.admin.SettingEnum;
+import live.lslm.newbuckmoo.service.admin.SettingService;
 import live.lslm.newbuckmoo.service.grade.CompanyGradeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +31,10 @@ public class CompanyGradeServiceImpl implements CompanyGradeService {
 
     @Autowired
     private RecommendSignRepository recommendSignRepository;
+
+    @Autowired
+    private SettingService settingService;
+
     @Override
     public void registerNewUserRewardGrade(String openId) {
         RecommendSign recommendSign = recommendSignRepository.findFirstBySignOpenIdAndRecommendType(openId, RecommendTypeEnum.COMPANY_RECOMMEND.getCode());
@@ -36,8 +43,8 @@ public class CompanyGradeServiceImpl implements CompanyGradeService {
             Optional<UserGrade> userGradeOptional = userGradeRepository.findById(pushOpenId);
             if(userGradeOptional.isPresent()){
                 UserGrade userGrade = userGradeOptional.get();
-                //TODO 赠送50积分
-                userGrade.setCompanyGrade(userGrade.getCompanyGrade() + 50);
+                SystemSettings newCompanyGradeSetting = settingService.getOneSetting(SettingEnum.RECOMMEND_COMPANY);
+                userGrade.setCompanyGrade(userGrade.getCompanyGrade() + Integer.parseInt(newCompanyGradeSetting.getSystemValue()));
                 userGradeRepository.save(userGrade);
             }else{
                 log.error("【奖励积分：推荐企业注册通过】积分表中找不到推荐人");
@@ -63,8 +70,8 @@ public class CompanyGradeServiceImpl implements CompanyGradeService {
                     saveGrade.setStudentGrade(0);
                     saveGrade.setClubGrade(0);
                 }
-                //TODO 数据库设置企业100积分
-                saveGrade.setCompanyGrade(100);
+                SystemSettings newCompanyGradeSetting = settingService.getOneSetting(SettingEnum.NEW_COMPANY);
+                saveGrade.setCompanyGrade(Integer.parseInt(newCompanyGradeSetting.getSystemValue()));
                 UserGrade save = userGradeRepository.save(saveGrade);
                 log.info("【企业初始化积分】 {}", save);
             }

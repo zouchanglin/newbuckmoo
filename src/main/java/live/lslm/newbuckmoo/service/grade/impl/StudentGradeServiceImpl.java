@@ -2,12 +2,15 @@ package live.lslm.newbuckmoo.service.grade.impl;
 
 import live.lslm.newbuckmoo.entity.RecommendSign;
 import live.lslm.newbuckmoo.entity.StudentInfo;
+import live.lslm.newbuckmoo.entity.SystemSettings;
 import live.lslm.newbuckmoo.entity.UserGrade;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
 import live.lslm.newbuckmoo.repository.RecommendSignRepository;
 import live.lslm.newbuckmoo.repository.StudentInfoRepository;
 import live.lslm.newbuckmoo.repository.UserGradeRepository;
+import live.lslm.newbuckmoo.service.admin.SettingEnum;
+import live.lslm.newbuckmoo.service.admin.SettingService;
 import live.lslm.newbuckmoo.service.grade.StudentGradeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -29,6 +32,9 @@ public class StudentGradeServiceImpl implements StudentGradeService {
     @Autowired
     private RecommendSignRepository recommendSignRepository;
 
+    @Autowired
+    private SettingService settingService;
+
     @Override
     public void registerNewUserRewardGrade(String openId) {
         RecommendSign recommendSign = recommendSignRepository.findFirstBySignOpenIdAndRecommendType(openId, RecommendTypeEnum.STUDENT_RECOMMEND.getCode());
@@ -37,8 +43,8 @@ public class StudentGradeServiceImpl implements StudentGradeService {
             Optional<UserGrade> userGradeOptional = userGradeRepository.findById(pushOpenId);
             if(userGradeOptional.isPresent()){
                 UserGrade userGrade = userGradeOptional.get();
-                //TODO 赠送25积分
-                userGrade.setStudentGrade(userGrade.getStudentGrade() + 25);
+                SystemSettings setting = settingService.getOneSetting(SettingEnum.RECOMMEND_STUDENT);
+                userGrade.setStudentGrade(userGrade.getStudentGrade() + Integer.parseInt(setting.getSystemValue()));
                 userGradeRepository.save(userGrade);
             }else{
                 log.error("【奖励积分：推荐学生注册通过】积分表中找不到推荐人");
@@ -64,8 +70,8 @@ public class StudentGradeServiceImpl implements StudentGradeService {
                     saveGrade.setClubGrade(0);
                     saveGrade.setCompanyGrade(0);
                 }
-                //TODO 数据库设置学生25积分
-                saveGrade.setStudentGrade(25);
+                SystemSettings setting = settingService.getOneSetting(SettingEnum.NEW_STUDENT);
+                saveGrade.setStudentGrade(Integer.parseInt(setting.getSystemValue()));
                 UserGrade save = userGradeRepository.save(saveGrade);
                 log.info("【学生初始化积分】 {}", save);
             }

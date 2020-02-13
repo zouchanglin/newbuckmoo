@@ -40,7 +40,6 @@ public class CompanyPositionController {
     @Autowired
     private StudentResumeService studentResumeService;
 
-
     /**
      * 发布兼职
      */
