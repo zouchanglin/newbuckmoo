@@ -32,6 +32,7 @@ public class InitOrRecommendUserGrade {
         studentGradeService.registerNewUserInitGrade(openId);
         studentGradeService.registerNewUserRewardGrade(openId);
     }
+    
 
     @After("execution(public * live.lslm.newbuckmoo.controller.admin.CompanyController.auditPass(..))")
     public void initCompanyUserGradle(JoinPoint joinPoint){
