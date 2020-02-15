@@ -6,6 +6,7 @@ import live.lslm.newbuckmoo.form.admin.GradeSettingForm;
 import live.lslm.newbuckmoo.repository.SystemSettingsRepository;
 import live.lslm.newbuckmoo.service.admin.SettingEnum;
 import live.lslm.newbuckmoo.service.admin.SettingService;
+import live.lslm.newbuckmoo.utils.EnumUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,7 @@ public class SettingServiceImpl implements SettingService {
     }
 
     @Override
-    public List<SystemSettings> saveAllGradeSetting(GradeSettingForm gradeSettingForm) {
-
+    public void saveAllGradeSetting(GradeSettingForm gradeSettingForm) {
         List<SystemSettings> settingList = settingsRepository.findAll();
         for(SystemSettings setting: settingList){
             String systemKey = setting.getSystemKey();
@@ -55,24 +55,32 @@ public class SettingServiceImpl implements SettingService {
                     setting.setSystemValue(gradeSettingForm.getRecommend_company());
                     settingsRepository.save(setting);
                     break;
+                case "root_id":
+                    break;
+                case "root_pwd":
+                    break;
+                case "admin_open_id":
+                    break;
                 default:
                     log.error("【更新配置】更新配置时遇到不合法配置");
             }
         }
-        return getAllGradeSetting();
     }
 
     @Override
     public List<SystemSettings> getAllGradeSetting() {
         List<SystemSettings> retList = Lists.newArrayList();
-
-        retList.add(settingsRepository.getOne("new_club"));
-        retList.add(settingsRepository.getOne("new_student"));
-        retList.add(settingsRepository.getOne("new_company"));
-
-        retList.add(settingsRepository.getOne("recommend_club"));
-        retList.add(settingsRepository.getOne("recommend_student"));
-        retList.add(settingsRepository.getOne("recommend_company"));
+        SettingEnum[] allEnums = EnumUtil.getAllEnums(SettingEnum.class);
+        for(SettingEnum settingEnum: allEnums){
+            retList.add(settingsRepository.getOne(settingEnum.getKey()));
+        }
+//        retList.add(settingsRepository.getOne(SettingEnum.NEW_CLUB.getKey()));
+//        retList.add(settingsRepository.getOne(SettingEnum.NEW_STUDENT.getKey()));
+//        retList.add(settingsRepository.getOne(SettingEnum.NEW_COMPANY.getKey()));
+//
+//        retList.add(settingsRepository.getOne(SettingEnum.RECOMMEND_CLUB.getKey()));
+//        retList.add(settingsRepository.getOne(SettingEnum.RECOMMEND_STUDENT.getKey()));
+//        retList.add(settingsRepository.getOne(SettingEnum.RECOMMEND_COMPANY.getKey()));
 
         return retList;
     }

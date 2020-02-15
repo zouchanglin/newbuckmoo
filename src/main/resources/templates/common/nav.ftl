@@ -1,8 +1,10 @@
+<#--<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">-->
 <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+<#--    <ul class="nav sidebar-nav">-->
     <ul class="nav sidebar-nav">
         <li class="sidebar-brand">
             <a>
-                后台管理系统
+                管理系统
             </a>
         </li>
         <li>
@@ -22,6 +24,7 @@
                 <li><a href="${request.contextPath}/admin/club/club-list">社团管理</a></li>
             </ul>
         </li>
+
         <li class="dropdown open">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                 <i class="fa fa-fw fa-plus"></i>兼职管理<span class="caret"></span></a>
@@ -47,8 +50,8 @@
                 <i class="fa fa-fw fa-plus"></i>系统设置<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li class="dropdown-header">参数修改</li>
-                <li><a href="${request.contextPath}/admin/setting/grade/editor">积分奖励</a></li>
-                <li><a href="#">积分支付</a></li>
+                <li><a href="${request.contextPath}/admin/setting/grade-award/editor">积分奖励</a></li>
+                <li><a href="${request.contextPath}/admin/setting/grade-combo/editor">积分套餐</a></li>
                 <li><a href="#">用户审核</a></li>
                 <li><a href="${request.contextPath}/admin/clause/edit">服务协议</a></li>
             </ul>

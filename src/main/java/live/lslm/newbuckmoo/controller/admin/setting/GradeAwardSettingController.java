@@ -13,9 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/admin/setting/grade")
-public class UserGradeSettingController {
-
+@RequestMapping("/admin/setting/grade-award")
+public class GradeAwardSettingController {
     @Autowired
     private SettingService settingService;
 
@@ -23,15 +22,12 @@ public class UserGradeSettingController {
     public ModelAndView getEditPage(Map<String, Object> map){
         List<SystemSettings> settingsList = settingService.getAllGradeSetting();
         map.put("settingList", settingsList);
-        return new ModelAndView("/setting/user-setting", map);
+        return new ModelAndView("setting/grade-award-setting", map);
     }
 
     @GetMapping("save")
-    public ModelAndView saveSettings(GradeSettingForm gradeSettingForm,
-                                     Map<String, Object> map){
-        System.out.println(gradeSettingForm);
-        List<SystemSettings> settingsList = settingService.saveAllGradeSetting(gradeSettingForm);
-        map.put("settingList", settingsList);
-        return new ModelAndView("/setting/user-setting", map);
+    public ModelAndView saveSettings(GradeSettingForm gradeSettingForm){
+        settingService.saveAllGradeSetting(gradeSettingForm);
+        return new ModelAndView("redirect:/admin/setting/grade-award/editor");
     }
 }

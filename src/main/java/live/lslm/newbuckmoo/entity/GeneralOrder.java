@@ -22,7 +22,7 @@ public class GeneralOrder {
     /**
      * 订单类型
      */
-    private Integer orderType = OrderTypeEnum.BUY_365YEAR_MEMBER.getCode();
+    private Integer orderType = OrderTypeEnum.OTHER_BUY_GRADE.getCode();
 
     /**
      * 订单金额

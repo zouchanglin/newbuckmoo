@@ -4,11 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum OrderTypeEnum implements CodeEnum{
-    BUY_365YEAR_MEMBER(0, "365/年费会员"),
-    ONE_ACTIVITY_TOP_WEAK(1, "单条活动置顶一周"),
-    ONE_POSITION_TOP_WEAK(2, "单条兼职置顶一周"),
-    ONE_ACTIVITY_TOP_MONTH(3, "单条活动置顶一周"),
-    ONE_POSITION_TOP_MONTH(4, "单条兼职置顶一周");
+    STUDENT_BUY_GRADE(0, "学生用户购买积分"),
+    COMPANY_BUY_GRADE(1, "企业用户购买积分"),
+    CLUB_BUY_GRADE(2, "社团用户购买积分"),
+    OTHER_BUY_GRADE(3, "社团用户购买积分");
 
     private Integer code;
     private String message;

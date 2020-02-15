@@ -8,7 +8,7 @@
         <div class="col-md-8 column">
             <div class="page-header">
                 <h4>
-                    用户积分配置 <small>List of unaccredited students</small>
+                    积分奖励配置 <small>List of unaccredited students</small>
                 </h4>
             </div>
             <table class="table table-bordered">
@@ -25,11 +25,11 @@
                     </th>
                 </tr>
                 </thead>
-                <form action="${request.contextPath}/admin/setting/grade/save" method="get">
+                <form action="${request.contextPath}/admin/setting/grade-award/save" method="get">
                 <tbody>
 
                     <#list settingList as setting>
-                        <form action="${request.contextPath}/admin/setting/grade/save" method="get">
+                        <form action="${request.contextPath}/admin/setting/grade-award/save" method="get">
                         <tr>
                             <td>${setting.systemRemark}</td>
                             <td>

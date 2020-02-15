@@ -1319,6 +1319,8 @@ GET newbuckmoo/total/show/service-agree
 }
 ```
 
+## 22、用户积分充值
+
 
 
 # 三、运行参数
@@ -1614,6 +1616,7 @@ data 具体的字段
 * 2020-02-11 微信通知模板更新
 * 2020-02-13 管理与注册不再分Controller
 * 2020-02-13 后台新增编写协议的模块
+* 2020-02-15 后台关于用户初始化的积分和积分套餐的设置页面完成
 
 # 六、数据库表说明
 
@@ -1802,3 +1805,15 @@ recommend_type 代表推荐类型，0 学生推荐、 1 企业推荐、2 社团�
 args_name 存储的字段名称
 
 args_text 存储的具体内容
+
+## 15、grade_combo
+
+积分套餐表
+
+grade_id 主键
+
+grade_money 套餐金额
+
+grade_num 套餐积分
+
+grade_name 套餐名称

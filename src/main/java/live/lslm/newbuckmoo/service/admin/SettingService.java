@@ -1,9 +1,7 @@
 package live.lslm.newbuckmoo.service.admin;
 
-import com.google.gson.internal.$Gson$Types;
 import live.lslm.newbuckmoo.entity.SystemSettings;
 import live.lslm.newbuckmoo.form.admin.GradeSettingForm;
-import lombok.Data;
 
 import java.util.List;
 
@@ -14,7 +12,7 @@ public interface SettingService {
     List<SystemSettings> getAllGradeSetting();
 
     /* 保存积分相关配置 */
-    List<SystemSettings> saveAllGradeSetting(GradeSettingForm gradeSettingForm);
+    void saveAllGradeSetting(GradeSettingForm gradeSettingForm);
 
     /* 获取某一项设置 */
     SystemSettings getOneSetting(SettingEnum settingEnum);

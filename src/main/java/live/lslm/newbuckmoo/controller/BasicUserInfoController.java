@@ -61,9 +61,6 @@ public class BasicUserInfoController {
         return ResultVOUtil.success(resultMap);
     }
 
-
-
-
     /**
      * 获取验证码
      * @param map 其中的唯一字段：手机号

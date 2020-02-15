@@ -11,4 +11,8 @@ public class EnumUtil {
         }
         return null;
     }
+
+    public static <T> T[] getAllEnums(Class<T> enumClass) {
+        return enumClass.getEnumConstants();
+    }
 }
