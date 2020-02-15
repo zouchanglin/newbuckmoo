@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 15/02/2020 16:46:40
+ Date: 15/02/2020 22:34:51
 */
 
 SET NAMES utf8mb4;
@@ -65,6 +65,28 @@ CREATE TABLE `audit_mark`  (
 -- Records of audit_mark
 -- ----------------------------
 INSERT INTO `audit_mark` VALUES ('oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', '去除自动填充', '信息很完整AAA', '邹长林，你好', 1581421484700, 1581400841377, 1581402763332, 4, 1, 3);
+
+-- ----------------------------
+-- Table structure for buy_grade_order
+-- ----------------------------
+DROP TABLE IF EXISTS `buy_grade_order`;
+CREATE TABLE `buy_grade_order`  (
+  `order_id` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `grade_combo_id` int(11) DEFAULT NULL,
+  `buyer_open_id` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `order_other` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`order_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of buy_grade_order
+-- ----------------------------
+INSERT INTO `buy_grade_order` VALUES ('1581772172319323351', 6, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', '');
+INSERT INTO `buy_grade_order` VALUES ('1581772332016962312', 6, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', '');
+INSERT INTO `buy_grade_order` VALUES ('1581772365175869979', 6, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', '');
+INSERT INTO `buy_grade_order` VALUES ('1581772380586668898', 6, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', '');
+INSERT INTO `buy_grade_order` VALUES ('1581772510163442342', 6, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', '');
+INSERT INTO `buy_grade_order` VALUES ('1581774660416542672', 6, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', '');
 
 -- ----------------------------
 -- Table structure for category_info
@@ -126,8 +148,20 @@ CREATE TABLE `general_order`  (
   `order_money` decimal(11, 2) DEFAULT NULL,
   `order_open_id` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `order_pay_status` tinyint(11) DEFAULT NULL,
+  `create_time` bigint(11) DEFAULT NULL,
+  `update_time` bigint(11) DEFAULT NULL,
   PRIMARY KEY (`order_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of general_order
+-- ----------------------------
+INSERT INTO `general_order` VALUES ('1581772172319323351', '购买: 测试套餐套餐', 1, 0.01, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 0, 1581772172320, 1581772172320);
+INSERT INTO `general_order` VALUES ('1581772332016962312', '购买: 测试套餐套餐', 0, 0.01, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 1, 1581772332016, 1581772341000);
+INSERT INTO `general_order` VALUES ('1581772365175869979', '购买: 测试套餐套餐', 0, 0.01, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 0, 1581772365175, 1581772365175);
+INSERT INTO `general_order` VALUES ('1581772380586668898', '购买: 测试套餐套餐', 0, 0.01, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 1, 1581772380586, 1581772393000);
+INSERT INTO `general_order` VALUES ('1581772510163442342', '购买: 测试套餐学生积分套餐', 0, 0.01, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 0, 1581772510163, 1581772510163);
+INSERT INTO `general_order` VALUES ('1581774660416542672', '购买: 测试套餐学生积分套餐', 0, 0.01, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 1, 1581774660416, 1581774668000);
 
 -- ----------------------------
 -- Table structure for grade_combo
@@ -135,19 +169,20 @@ CREATE TABLE `general_order`  (
 DROP TABLE IF EXISTS `grade_combo`;
 CREATE TABLE `grade_combo`  (
   `grade_id` int(11) NOT NULL AUTO_INCREMENT,
-  `grade_money` int(11) DEFAULT NULL,
+  `grade_money` decimal(11, 2) DEFAULT NULL,
   `grade_num` int(11) DEFAULT NULL,
   `grade_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`grade_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of grade_combo
 -- ----------------------------
-INSERT INTO `grade_combo` VALUES (1, 300, 600, '300充600积分');
-INSERT INTO `grade_combo` VALUES (2, 500, 1250, '500充1250积分');
-INSERT INTO `grade_combo` VALUES (3, 1000, 2800, '1000充2800积分');
-INSERT INTO `grade_combo` VALUES (4, 2000, 6000, '2000充6000积分');
+INSERT INTO `grade_combo` VALUES (1, 300.00, 600, '300充600积分');
+INSERT INTO `grade_combo` VALUES (2, 500.00, 1250, '500充1250积分');
+INSERT INTO `grade_combo` VALUES (3, 1000.00, 2800, '1000充2800积分');
+INSERT INTO `grade_combo` VALUES (4, 2000.00, 6000, '2000充6000积分');
+INSERT INTO `grade_combo` VALUES (5, 0.01, 100, '测试套餐');
 
 -- ----------------------------
 -- Table structure for long_text_storage
@@ -192,7 +227,7 @@ CREATE TABLE `position_info`  (
 -- ----------------------------
 -- Records of position_info
 -- ----------------------------
-INSERT INTO `position_info` VALUES ('1580022960792934855', '周末影院兼职', '600元/天', 0, '13JDE9W0D8EW9D90DWE', 1, '1#3#7#9#', '周末影院兼职,负责检验票据等简单的工作', '临潼太平洋影城3层7号厅', 12, '15291418231', 130, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 1580022960791, 1580728960792, 1, '信息很完整，AAA');
+INSERT INTO `position_info` VALUES ('1580022960792934855', '周末影院兼职', '600元/天', 0, '13JDE9W0D8EW9D90DWE', 1, '1#3#7#9#', '周末影院兼职,负责检验票据等简单的工作', '临潼太平洋影城3层7号厅', 12, '15291418231', 131, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 1580022960791, 1580728960792, 1, '信息很完整，AAA');
 INSERT INTO `position_info` VALUES ('1580022960792934856', '周末影院兼职2', '600元/天', 0, '13JDE9W0D8EW9D90DWE', 1, '1#2#', '周末影院兼职,负责检验票据等简单的工作', '临潼太平洋影城3层7号厅', 12, '15291418231', 30, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 1580022960791, 1580728960792, 1, '信息很完整，AAA');
 INSERT INTO `position_info` VALUES ('1580022960792934857', '周末影院兼职3', '600元/天', 0, '13JDE9W0D8EW9D90DWE', 1, '4#5#6#', '周末影院兼职,负责检验票据等简单的工作', '临潼太平洋影城3层7号厅', 12, '15291418231', 17, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 1580022960791, 1580728960792, 1, '信息很完整，AAA');
 INSERT INTO `position_info` VALUES ('1580022960792934858', '周末影院兼职4', '600元/天', 0, '13JDE9W0D8EW9D90DWE', 1, '3#9#10#', '周末影院兼职,负责检验票据等简单的工作', '临潼太平洋影城3层7号厅', 12, '15291418231', 7, 'oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 1580022960791, 1580728960792, 1, '信息很完整，AAA');
@@ -343,12 +378,14 @@ INSERT INTO `user_basic_info` VALUES ('oxrwq04qsAvL_ww7WXDB2YWspLsU', '伐木磊
 INSERT INTO `user_basic_info` VALUES ('oxrwq05AIltU0GjBppY198QS_au4', '久睡成瘾', '中国氹仔', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTI6emm6Ll2iatooe0vL2OP1lJNWByEUE0Y1s1z3nibobog6RtrYlSp1umaS7tUxicarKkk2uPoM7BcBw/132', 0, 1);
 INSERT INTO `user_basic_info` VALUES ('oxrwq05hQTJ1MTlhTZ8bPXFN73yQ', '南～', '', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/ooYDTtTQHLicRibCM33sK8WlyCUlRibcp0Z5eL4JHlqsm8LXQsh8koFFSb8qEoYyTultKyX5aG0yic4icAPPZfHIZgA/132', 0, 0);
 INSERT INTO `user_basic_info` VALUES ('oxrwq05IREEO8XDlFXnhvNsEcP1k', 'Aries', '中国宝鸡', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/KpMCvItXghU73pnWSgDv2QtxqEWHOw4WvibwVIN1UDVbFoR5uVQn3Gfqrvv7fw150okV1ricw16icfhicNI6KYl4vg/132', 0, 2);
+INSERT INTO `user_basic_info` VALUES ('oxrwq06dk4UzgHOo4XAM1gZHfOXM', '鹏飞', '中国通州', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKUfsWSO3KWUhxB84fww72oJZraD8dAslVZcuYiapwCZznnteB3yUL5p6bfqumAubDSK8CumSMK3Ug/132', 0, 1);
 INSERT INTO `user_basic_info` VALUES ('oxrwq06MVoJNKPkAP2lMqzidSyy8', 'IM', '百慕大', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/YaDBP3rHNXvv3Xyrs7vBZZMA8nyhYycxAd2QrHnurwhicebA8dgxML9HjQZSl1Fs0icTRGFrrFnhnSCgvEsLrUaA/132', 0, 2);
 INSERT INTO `user_basic_info` VALUES ('oxrwq07opMXW_b9eiEQxUyn-7KWk', '会游泳的小猫咪', '中国中卫', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/CQhjoje02HEVqYtqia4bwLQBKoWnoOLImQCtwLicaomokFbAF8T9cA315mhQlS8hFBWGbjXYL5EkK0ibNqeLH1HibQ/132', 0, 1);
 INSERT INTO `user_basic_info` VALUES ('oxrwq085GglTHnfRcED8q58wRy0o', 'Zei Zei ', '', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/avIxhY0Rmg5M4svSAQ2bJYRPiaR8PQDDy3r4qOjDYUTfgRyY95Pz2OBxlibtbuKiapP2FWhEboSbYoQMjmXnK3OeQ/132', 0, 0);
 INSERT INTO `user_basic_info` VALUES ('oxrwq08uBnQD2I6jNj3ZCrN1OyEg', '啊！杨胖子', '百慕大', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/C4Qhy5XHSe7MjhSkrIw9gUX1Diaj0UKPoHMGyvfc56L6kiacTXlYMuK9o98uERK1vhrRcLEkLZPDUmJ1XWuOibQ5A/132', 0, 2);
 INSERT INTO `user_basic_info` VALUES ('oxrwq09vdgSlpT775HkGq1yc_2m0', '另维', '不丹', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/MSMLyPK5WgkX6PZ1R0k5LulbGZLuvZBw1YXIFAhohRq29eJg1pNkOB25eLJoOdJUff98Fz9HMslvadXsDLD3sg/132', 0, 2);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0w-4WzBtEz9uJXt9E01bVk4', 'Reid', '阿曼', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/CGBLWGHLkSxP50iahaQX7LGxI3pHhJ3p6mAuT2MbibGB9nrEYJJKn8sicksDgtr4hem0g5SzPagQ0mtSGibKg2OiboA/132', 0, 2);
+INSERT INTO `user_basic_info` VALUES ('oxrwq0wDAApvwRaDltPWWtffXJ5k', '流氓兔与邋遢猫', '中国西安', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/XNducIOoNmJPW8mBOHKVhS8ZgM8YDibkgPyFSHCyzV9h62iaW3KSXs0juQQUXcEicial8VA6c006TECH1nbibol0qxg/132', 0, 2);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0wSwjwYbbdx6Dtjtc2Ym0ME', '栽西红柿的人', '', '13409544219', 'http://thirdwx.qlogo.cn/mmopen/vi_32/GkMk4gBlfZdFonXFQaW87qraV1XMD6ibDHs10mX7AsJV1oYALogbib4wOfdTIbbR7yjMibj1ORVNN0fl1Rb6huohg/132', 0, 2);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0wVnozvgOhy_72QUnnuRfng', '.', '圣诞岛', '18292831771', 'http://thirdwx.qlogo.cn/mmopen/vi_32/j2wow3nLf8NZ0ibXSl6nE7QeyuwJXSrAWxW2ovp8FqOKmwSc5AD3p6OqEcQwVqwmvawF44ja1pc1vOEm10hdNNg/132', 0, 2);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0x1ePdIVfQlq6Ld6ZKYnYNs', '校企合作 人力资源_程', '中国西安', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJgT86lpEiajXHNgQ7fb81M34I40OyXHbKWic4Pgicxick9xegHSuGHokmN6jcpbwDakrrCAndmZEtsHw/132', 0, 1);
@@ -356,10 +393,13 @@ INSERT INTO `user_basic_info` VALUES ('oxrwq0xnvviKpELIQqA_v4HCtem4', ' 晨�
 INSERT INTO `user_basic_info` VALUES ('oxrwq0xoqMAbN8talAmYnaaSkAn4', '沐音', '中国', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLdCtHuhCC3Im7nIich98Tt5ibMGsku3yr6LuuPtibErxV9kSdGCpL4xicjQZibBKl9Yn26g0zCY4AcZxQ/132', 0, 2);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0xrKKyqiAGE8O9TM3L1yaQY', 'ahojcn', '中国', '15229720759', 'http://thirdwx.qlogo.cn/mmopen/vi_32/hyCfOptGJaWH4dYwqJNlCSBnPmJqJHBJ32FtxIjia3yQonGLHjQu1BYq9EBQ2BjM5u1VLfLN6fX3CXGcqG5CP2g/132', 0, 1);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0xxxlV5fVFf6PQqqEAEdYgs', '爱阅读', '中国', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/ib5tdfjtLUT85TnibwXpiayHhfstVC83z7NMvw990kH9ickE7FlarKa22cLE8s5A3iah2ZInMvIIF3TiaeSvZTZYfGyg/132', 0, 2);
+INSERT INTO `user_basic_info` VALUES ('oxrwq0yp_E42G7lZ90x-hzxCzUxA', '我叫馬先生', '中国海淀', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKKPq0CPAGoQNuv7h76iaBHd59MRhia5OR4kXPlG0TLIfwEniblbia849hDLS9XhkXzvhh4sBXkRdRicxg/132', 0, 1);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0yxYSGFtm4wMHSdnJ-Ut7Mg', '十年', '爱尔兰', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Bqtgic0AFvuHjmw8CfibYTXVTOcEClfsQRnbfr5Mp5IejA8WvV8LNjolscWEJrwvNTnx38PmXaCNb4PT4JjvUnNQ/132', 0, 2);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0zaS8lC1PgJReAlUC6lbrWU', 'sunshine', '法国', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DpXRpkSsmWxfibUmI66TKT4T9GUe5cHWn3NVtGkkenic0Z9smvnia0KB7nduF2cqtWyjXWsmZEqkNrzIlL5t1CvtQ/132', 0, 1);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 'Tim', '泽西岛', '15291418231', 'http://thirdwx.qlogo.cn/mmopen/vi_32/bxVEQxwmOLibgHtYurJxvW0yicXLVcTCUiaDQDqibEyoIKwS7ZRdOsZL02RibF79vdNt6GgFKMr4fuDNV8T7X3ficTfg/132', 0, 1);
+INSERT INTO `user_basic_info` VALUES ('oxrwq0_7KmCyL1R2BzHs6TUoPWJA', '洛僷潇潇.', '中国西安', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJFoVHjvQ1v94U4Vvrpxl9w8ts5icl186NFtpTuqgg5LtnOibjbiaju3BILjH6jd1pAfeYQ39I85gEjQ/132', 0, 2);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0_C0HPDloTmvpncY7TucQQg', '٩๑乛㉨乛๑', '泽西岛', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/xUvibH1XlwuJN70PjKKMSoes5IvvYjVicSPXe0XmXp9RIwEWkwljnTia1CiaT0ESq5Uj4BK60WXVn8EGV40ybS20Aw/132', 0, 2);
+INSERT INTO `user_basic_info` VALUES ('oxrwq0_wxIp_CLIaSYoSXf__VO94', '我是Tb', '', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/vA8UysX9HPAjBc58LE0lq1t8Nd3tgeyOJ3AT1RFQffbCtuBYvAX9qy6S9lcD1VN02AYCpJOBib7MF1Rv1cgoRoQ/132', 0, 0);
 INSERT INTO `user_basic_info` VALUES ('oxrwq0_zXhDizuK9BLxcwbCYgGZc', '......', '柬埔寨', NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erF1G2howbLZ7CnX91QMaBhTNZgsztw65ALp2Ax52Qiab4V3CQPTYMsTflF2zCqXrYG19THRqmEM8g/132', 0, 2);
 
 -- ----------------------------
@@ -373,5 +413,11 @@ CREATE TABLE `user_grade`  (
   `club_grade` int(11) DEFAULT 0,
   PRIMARY KEY (`open_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_grade
+-- ----------------------------
+INSERT INTO `user_grade` VALUES ('oxrwq0xrKKyqiAGE8O9TM3L1yaQY', 25, 0, 0);
+INSERT INTO `user_grade` VALUES ('oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk', 25, 0, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
