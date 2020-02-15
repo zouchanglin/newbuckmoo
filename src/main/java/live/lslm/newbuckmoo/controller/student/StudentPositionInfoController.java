@@ -41,7 +41,6 @@ public class StudentPositionInfoController {
     }
 
     @PostMapping("list")
-    //@Cacheable(cacheNames = "positionDTOPage", key = "001")
     public ResultVO getPositionList(@RequestBody @Valid PositionListRequestByPageForm requestByPageForm,
                                     BindingResult bindingResult){
         if (bindingResult.hasErrors()) {

@@ -1319,7 +1319,84 @@ GET newbuckmoo/total/show/service-agree
 }
 ```
 
-## 22、用户积分充值
+## 22、用户获取积分套餐
+
+```http
+GET newbuckmoo/total/show/grade-combo
+```
+
+参数
+
+```
+无
+```
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": [
+        {
+            "gradeId": "1",
+            "gradeMoney": "300",
+            "gradeNum": "600",
+            "gradeName": "300充600积分"
+        },
+        {
+            "gradeId": "2",
+            "gradeMoney": "500",
+            "gradeNum": "1250",
+            "gradeName": "500充1250积分"
+        },
+        {
+            "gradeId": "3",
+            "gradeMoney": "1000",
+            "gradeNum": "2800",
+            "gradeName": "1000充2800积分"
+        },
+        {
+            "gradeId": "4",
+            "gradeMoney": "2000",
+            "gradeNum": "6000",
+            "gradeName": "2000充6000积分"
+        }
+    ]
+}
+```
+
+返回值字段解释：
+
+gradeId 套餐ID
+
+gradeMoney 套餐金额
+
+gradeNum 套餐积分
+
+gradeName 套餐名称
+
+
+
+## 23、学生用户购买积分
+
+```http
+newbuckmoo/student/buy/grade-test
+```
+
+参数
+
+```json
+{
+    "openId":"",
+    "gradeComboId":1,
+    "returnUrl":"http://www.baidu.com"
+}
+```
+
+返回值
+
+支付页面
 
 
 

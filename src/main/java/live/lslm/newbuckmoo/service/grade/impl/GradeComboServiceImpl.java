@@ -18,6 +18,11 @@ public class GradeComboServiceImpl implements GradeComboService {
     private GradeComboRepository gradeComboRepository;
 
     @Override
+    public GradeCombo getOneComboById(Integer gradeComboId) {
+        return gradeComboRepository.getOne(gradeComboId);
+    }
+
+    @Override
     public void deleteOneCombo(Integer gradeComboId) {
         gradeComboRepository.deleteById(gradeComboId);
     }

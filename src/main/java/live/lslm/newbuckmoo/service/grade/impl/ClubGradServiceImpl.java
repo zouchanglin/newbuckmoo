@@ -3,6 +3,7 @@ package live.lslm.newbuckmoo.service.grade.impl;
 import live.lslm.newbuckmoo.entity.*;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
+import live.lslm.newbuckmoo.form.UserBuyGradeForm;
 import live.lslm.newbuckmoo.repository.RecommendSignRepository;
 import live.lslm.newbuckmoo.repository.SchoolClubInfoRepository;
 import live.lslm.newbuckmoo.repository.UserGradeRepository;
@@ -31,6 +32,11 @@ public class ClubGradServiceImpl implements ClubGradService {
 
     @Autowired
     private SettingService settingService;
+
+    @Override
+    public GeneralOrder createBuyGradeOrder(UserBuyGradeForm userBuyGradeForm) {
+        return null;
+    }
 
     @Override
     public void registerNewUserRewardGrade(String openId) {

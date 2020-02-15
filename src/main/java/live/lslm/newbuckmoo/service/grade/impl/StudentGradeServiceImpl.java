@@ -1,23 +1,28 @@
 package live.lslm.newbuckmoo.service.grade.impl;
 
-import live.lslm.newbuckmoo.entity.RecommendSign;
-import live.lslm.newbuckmoo.entity.StudentInfo;
-import live.lslm.newbuckmoo.entity.SystemSettings;
-import live.lslm.newbuckmoo.entity.UserGrade;
-import live.lslm.newbuckmoo.enums.AuditStatusEnum;
-import live.lslm.newbuckmoo.enums.RecommendTypeEnum;
+import live.lslm.newbuckmoo.entity.*;
+import live.lslm.newbuckmoo.enums.*;
+import live.lslm.newbuckmoo.exception.BuckmooException;
+import live.lslm.newbuckmoo.form.UserBuyGradeForm;
 import live.lslm.newbuckmoo.repository.RecommendSignRepository;
 import live.lslm.newbuckmoo.repository.StudentInfoRepository;
 import live.lslm.newbuckmoo.repository.UserGradeRepository;
+import live.lslm.newbuckmoo.service.StudentsInfoService;
 import live.lslm.newbuckmoo.service.admin.SettingEnum;
 import live.lslm.newbuckmoo.service.admin.SettingService;
+import live.lslm.newbuckmoo.service.grade.GradeComboService;
 import live.lslm.newbuckmoo.service.grade.StudentGradeService;
+import live.lslm.newbuckmoo.service.grade.UserGradeService;
+import live.lslm.newbuckmoo.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Slf4j
@@ -27,6 +32,9 @@ public class StudentGradeServiceImpl implements StudentGradeService {
     private StudentInfoRepository studentInfoRepository;
 
     @Autowired
+    private StudentsInfoService studentsInfoService;
+
+    @Autowired
     private UserGradeRepository userGradeRepository;
 
     @Autowired
@@ -34,6 +42,28 @@ public class StudentGradeServiceImpl implements StudentGradeService {
 
     @Autowired
     private SettingService settingService;
+
+    @Autowired
+    private GradeComboService gradeComboService;
+
+    @Override
+    public GeneralOrder createBuyGradeOrder(UserBuyGradeForm userBuyGradeForm) {
+        String openId = userBuyGradeForm.getOpenId();
+        if(!studentsInfoService.isAuditPassUser(openId)){
+            log.error("【学生购买积分套餐】非学生用户/学生审核未通过");
+            throw new BuckmooException(ResultEnum.PERMISSION_ERROR);
+        }
+        GradeCombo gradeCombo = gradeComboService.getOneComboById(userBuyGradeForm.getGradeComboId());
+
+        GeneralOrder order = new GeneralOrder();
+        order.setOrderId(KeyUtil.genUniqueKey());
+        order.setOrderMoney(BigDecimal.valueOf(gradeCombo.getGradeMoney()));
+        order.setOrderName(String.format("购买: %s套餐", gradeCombo.getGradeName()));
+        order.setOrderOpenId(userBuyGradeForm.getOpenId());
+        order.setOrderPayStatus(PayStatusEnum.WILL_PAY.getCode());
+        order.setOrderType(OrderTypeEnum.COMPANY_BUY_GRADE.getCode());
+        return order;
+    }
 
     @Override
     public void registerNewUserRewardGrade(String openId) {

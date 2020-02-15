@@ -1,6 +1,5 @@
 package live.lslm.newbuckmoo.controller.total;
 
-import live.lslm.newbuckmoo.entity.GradeCombo;
 import live.lslm.newbuckmoo.entity.LongTextStorage;
 import live.lslm.newbuckmoo.repository.LongTextStorageRepository;
 import live.lslm.newbuckmoo.service.grade.GradeComboService;
