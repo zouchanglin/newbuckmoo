@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -14,7 +15,7 @@ public class GradeCombo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer gradeId;
 
-    private Integer gradeMoney;
+    private BigDecimal gradeMoney;
 
     private Integer gradeNum;
 

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -22,7 +24,7 @@ public class GradeComboRepositoryTest {
     public void init(){
         gradeComboRepository.deleteAll();
         GradeCombo gradeCombo = new GradeCombo();
-        gradeCombo.setGradeMoney(300);
+        gradeCombo.setGradeMoney(new BigDecimal(20));
         gradeCombo.setGradeNum(600);
         gradeCombo.setGradeName("300充600积分");
         gradeComboRepository.save(gradeCombo);

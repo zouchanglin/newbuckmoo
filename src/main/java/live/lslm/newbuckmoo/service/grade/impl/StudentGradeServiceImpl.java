@@ -4,6 +4,7 @@ import live.lslm.newbuckmoo.entity.*;
 import live.lslm.newbuckmoo.enums.*;
 import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.form.UserBuyGradeForm;
+import live.lslm.newbuckmoo.repository.GeneralOrderRepository;
 import live.lslm.newbuckmoo.repository.RecommendSignRepository;
 import live.lslm.newbuckmoo.repository.StudentInfoRepository;
 import live.lslm.newbuckmoo.repository.UserGradeRepository;
@@ -12,17 +13,13 @@ import live.lslm.newbuckmoo.service.admin.SettingEnum;
 import live.lslm.newbuckmoo.service.admin.SettingService;
 import live.lslm.newbuckmoo.service.grade.GradeComboService;
 import live.lslm.newbuckmoo.service.grade.StudentGradeService;
-import live.lslm.newbuckmoo.service.grade.UserGradeService;
 import live.lslm.newbuckmoo.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.validation.constraints.NotEmpty;
-import java.math.BigDecimal;
 import java.util.Optional;
 
 @Slf4j
@@ -46,6 +43,9 @@ public class StudentGradeServiceImpl implements StudentGradeService {
     @Autowired
     private GradeComboService gradeComboService;
 
+    @Autowired
+    private GeneralOrderRepository generalOrderRepository;
+
     @Override
     public GeneralOrder createBuyGradeOrder(UserBuyGradeForm userBuyGradeForm) {
         String openId = userBuyGradeForm.getOpenId();
@@ -57,12 +57,15 @@ public class StudentGradeServiceImpl implements StudentGradeService {
 
         GeneralOrder order = new GeneralOrder();
         order.setOrderId(KeyUtil.genUniqueKey());
-        order.setOrderMoney(BigDecimal.valueOf(gradeCombo.getGradeMoney()));
+        order.setOrderMoney(gradeCombo.getGradeMoney());
         order.setOrderName(String.format("购买: %s套餐", gradeCombo.getGradeName()));
         order.setOrderOpenId(userBuyGradeForm.getOpenId());
         order.setOrderPayStatus(PayStatusEnum.WILL_PAY.getCode());
         order.setOrderType(OrderTypeEnum.COMPANY_BUY_GRADE.getCode());
-        return order;
+
+        GeneralOrder generalOrder = generalOrderRepository.save(order);
+        log.info("【学生购买积分套餐】 订单生成结果 {}", generalOrder);
+        return generalOrder;
     }
 
     @Override

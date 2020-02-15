@@ -16,7 +16,10 @@ public interface UserGradeService {
      */
     void registerNewUserRewardGrade(String openId);
 
-
+    /**
+     * 购买积分生成通用订单
+     * @param userBuyGradeForm 用户购买积分表单
+     * @return 通用订单信息
+     */
     GeneralOrder createBuyGradeOrder(UserBuyGradeForm userBuyGradeForm);
-
 }

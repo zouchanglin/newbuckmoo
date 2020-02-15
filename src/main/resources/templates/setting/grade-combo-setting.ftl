@@ -40,7 +40,7 @@
                             </td>
                             <td>
                                 <label>
-                                    <input class="form-control" type="number" name="gradeMoney" value="${grade.gradeMoney}">
+                                    <input class="form-control" type="number" name="gradeMoney" step = "0.01" min="0.01" value="${grade.gradeMoney}">
                                 </label>
                             </td>
                             <td>
@@ -70,7 +70,7 @@
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-1 control-label">套餐金额</label>
                     <div class="col-sm-4">
-                        <input class="form-control" type="number" name="gradeMoney" id="inputPassword3">
+                        <input class="form-control" type="number" step = "0.01" min="0.01" name="gradeMoney" id="inputPassword3">
                     </div>
                 </div>
                 <div class="form-group">
