@@ -19,7 +19,10 @@ public enum  ResultEnum {
     PERMISSION_ERROR(12, "权限拒绝"),
     REPETITION_ERROR(13, "重复操作"),
     PERFECT_RESUME(14, "请先完善简历"),
-    RECOMMEND_PUSHER_ERROR(15, "推荐人信息错误");
+    RECOMMEND_PUSHER_ERROR(15, "推荐人信息错误"),
+    ORDER_ID_ERROR(16, "订单找不到"),
+    ORDER_MONEY_ERROR(17, "订单金额错误"),
+    ORDER_OPENID_ERROR(18, "订单金额错误");
 
     private Integer code;
 

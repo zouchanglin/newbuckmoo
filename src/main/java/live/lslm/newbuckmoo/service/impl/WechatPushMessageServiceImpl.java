@@ -2,6 +2,7 @@ package live.lslm.newbuckmoo.service.impl;
 
 import live.lslm.newbuckmoo.config.WechatAccountConfig;
 import live.lslm.newbuckmoo.dto.*;
+import live.lslm.newbuckmoo.entity.GeneralOrder;
 import live.lslm.newbuckmoo.enums.AuditStatusEnum;
 import live.lslm.newbuckmoo.service.WechatPushMessageService;
 import live.lslm.newbuckmoo.utils.ConstUtilPoll;
@@ -13,7 +14,6 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +27,27 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
 
     @Autowired
     private WechatAccountConfig wechatAccountConfig;
+
+    @Override
+    public void studentPayGradeSuccess(GeneralOrder generalOrder) {
+        WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+        String rechargeTemplateId = wechatAccountConfig.getTemplateId().get("recharge");
+        templateMessage.setTemplateId(rechargeTemplateId);
+        templateMessage.setToUser(generalOrder.getOrderOpenId());
+        List<WxMpTemplateData> data = Arrays.asList(
+                new WxMpTemplateData("first", "亲，积分已充值成功"),
+                new WxMpTemplateData("keyword1", String.format("%s元", generalOrder.getOrderMoney().toString())),
+                new WxMpTemplateData("keyword2", ConstUtilPoll.dateFormat.format(new Date(generalOrder.getCreateTime()))),
+                new WxMpTemplateData("keyword3", generalOrder.getOrderId()),
+                new WxMpTemplateData("remark", "请核对账户积分，如有疑问请拨打177-9563-3226 或在公众号中留言。")
+        );
+        templateMessage.setData(data);
+        try {
+            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+        } catch (WxErrorException e) {
+            log.error("【微信模板消息】发送失败 ,{}", e);
+        }
+    }
 
     @Override
     public void newUserRegister(String[] notificationOpenIdList) {

@@ -42,10 +42,11 @@ wechat:
   mchId: 1545797881
   mchKey: lhl123456anxlhl123456anxlhl12345
   mchPath: D:\develop\wechatPayKey\apiclient_cert.p12
-  notifyUrl: http://lslm.live/newbuckmoo/allpay/notify
+  notifyUrl: http://lslm.live/newbuckmoo/all-pay/notify
   templateId:
     auditResult: ruHAwxC-rtOVvFvib9LSNtr_ldqioTKfM2qpwf1gYXc
     newRegister: GGyGLHKgw1dnO7aOlnDkR2NOR9y1Vq7K5w6EbIpqSr4
+    recharge: jSLsYp-V6t1dItOFXuldcJY9CJfF6HT9uevxamBQQ3c
 
 aliyun:
   regionId: cn-hangzhou

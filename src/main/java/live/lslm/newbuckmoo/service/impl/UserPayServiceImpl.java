@@ -1,6 +1,5 @@
 package live.lslm.newbuckmoo.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lly835.bestpay.enums.BestPayTypeEnum;
 import com.lly835.bestpay.model.PayRequest;
 import com.lly835.bestpay.model.PayResponse;
@@ -27,10 +26,6 @@ public class UserPayServiceImpl implements UserPayService {
         payRequest.setOrderAmount(generalOrder.getOrderMoney().doubleValue());
         payRequest.setOrderName(EnumUtil.getByCode(generalOrder.getOrderType(), OrderTypeEnum.class).getMessage());
         payRequest.setPayTypeEnum(BestPayTypeEnum.WXPAY_H5);
-
-        log.info("【UserPayServiceImpl】payRequest={}", JSONObject.toJSON(payRequest));
-        PayResponse payResponse = bestPayService.pay(payRequest);
-        log.info("【UserPayServiceImpl】 payResponse={}", JSONObject.toJSON(payResponse));
-        return payResponse;
+        return bestPayService.pay(payRequest);
     }
 }

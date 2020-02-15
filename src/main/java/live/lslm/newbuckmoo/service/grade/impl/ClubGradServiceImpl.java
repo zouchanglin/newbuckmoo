@@ -34,6 +34,11 @@ public class ClubGradServiceImpl implements ClubGradService {
     private SettingService settingService;
 
     @Override
+    public void finishOrderAndUpdateUserGrade(GeneralOrder generalOrder, String notifyData) {
+
+    }
+
+    @Override
     public GeneralOrder createBuyGradeOrder(UserBuyGradeForm userBuyGradeForm) {
         return null;
     }

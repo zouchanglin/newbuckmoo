@@ -5,6 +5,7 @@ import live.lslm.newbuckmoo.dto.ClubApproveDTO;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.dto.PositionInfoDTO;
 import live.lslm.newbuckmoo.dto.StudentApproveDTO;
+import live.lslm.newbuckmoo.entity.GeneralOrder;
 
 /**
  * 推送消息服务
@@ -35,7 +36,13 @@ public interface WechatPushMessageService {
     void positionApproveResultStatus(PositionInfoDTO positionInfoDTO);
 
     /**
-     * 新用户注册通知
+     * 学生积分充值成功通知
+     * @param generalOrder 通用订单
+     */
+    void studentPayGradeSuccess(GeneralOrder generalOrder);
+
+    /**
+     * 新用户注册通知（给管理员通知）
      */
     void newUserRegister(String[] notificationOpenIdList);
 }

@@ -2,6 +2,8 @@ package live.lslm.newbuckmoo.service.grade.impl;
 
 import com.google.common.collect.Lists;
 import live.lslm.newbuckmoo.entity.GradeCombo;
+import live.lslm.newbuckmoo.enums.ResultEnum;
+import live.lslm.newbuckmoo.exception.BuckmooException;
 import live.lslm.newbuckmoo.repository.GradeComboRepository;
 import live.lslm.newbuckmoo.service.grade.GradeComboService;
 import live.lslm.newbuckmoo.vo.grade.GradeComboVO;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -19,7 +22,13 @@ public class GradeComboServiceImpl implements GradeComboService {
 
     @Override
     public GradeCombo getOneComboById(Integer gradeComboId) {
-        return gradeComboRepository.getOne(gradeComboId);
+        Optional<GradeCombo> gradeComboOptional = gradeComboRepository.findById(gradeComboId);
+        if(gradeComboOptional.isPresent()){
+            return gradeComboOptional.get();
+        }else{
+            log.error("【根据套餐ID查找套餐详情】 查找结果为NULL");
+            throw new BuckmooException(ResultEnum.PARAM_ERROR);
+        }
     }
 
     @Override

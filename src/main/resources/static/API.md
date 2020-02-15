@@ -1381,22 +1381,32 @@ gradeName 套餐名称
 ## 23、学生用户购买积分
 
 ```http
-newbuckmoo/student/buy/grade-test
+POST newbuckmoo/student/buy/grade
 ```
 
 参数
 
 ```json
 {
-    "openId":"",
-    "gradeComboId":1,
+    "openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk",
+    "gradeComboId":5,
     "returnUrl":"http://www.baidu.com"
 }
 ```
 
+参数说明
+
+* openId 支付者的openId
+* gradeComboId 积分套餐的Id
+* returnUrl 支付完成/支付取消的跳转
+
 返回值
 
 支付页面
+
+
+
+> tip ：目前开启了测试地址：newbuckmoo/student/buy/grade，参数为openId、typeId（其实就是gradeComboId参数）、returnUrl，比如我的一个测试连接就是：`http://lslm.live/newbuckmoo/student/buy/grade-test?openId=oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk&typeId=5&returnUrl=http://www.baidu.com`  测试通过
 
 
 

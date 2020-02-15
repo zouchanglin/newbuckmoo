@@ -22,4 +22,10 @@ public interface UserGradeService {
      * @return 通用订单信息
      */
     GeneralOrder createBuyGradeOrder(UserBuyGradeForm userBuyGradeForm);
+
+    /**
+     * 订单完结并更新用户积分
+     * @param generalOrder 通用订单对象
+     */
+    void finishOrderAndUpdateUserGrade(GeneralOrder generalOrder, String notifyData);
 }

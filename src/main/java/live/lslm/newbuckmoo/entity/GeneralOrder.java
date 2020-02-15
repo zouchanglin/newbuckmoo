@@ -38,4 +38,8 @@ public class GeneralOrder {
      * 支付状态
      */
     private Integer orderPayStatus = PayStatusEnum.WILL_PAY.getCode();
+
+    private Long createTime;
+
+    private Long updateTime;
 }

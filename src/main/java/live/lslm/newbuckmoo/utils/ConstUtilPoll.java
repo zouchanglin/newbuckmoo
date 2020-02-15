@@ -7,4 +7,5 @@ import java.text.SimpleDateFormat;
  */
 public class ConstUtilPoll {
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+    public static final SimpleDateFormat wechatOrderDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 }
