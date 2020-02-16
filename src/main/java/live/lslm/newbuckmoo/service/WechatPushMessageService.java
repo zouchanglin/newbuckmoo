@@ -1,6 +1,5 @@
 package live.lslm.newbuckmoo.service;
 
-
 import live.lslm.newbuckmoo.dto.ClubApproveDTO;
 import live.lslm.newbuckmoo.dto.CompanyApproveDTO;
 import live.lslm.newbuckmoo.dto.PositionInfoDTO;
@@ -36,10 +35,16 @@ public interface WechatPushMessageService {
     void positionApproveResultStatus(PositionInfoDTO positionInfoDTO);
 
     /**
-     * 学生积分充值成功通知
+     * 积分充值成功通知
      * @param generalOrder 通用订单
      */
-    void studentPayGradeSuccess(GeneralOrder generalOrder);
+    void userPayGradeSuccess(GeneralOrder generalOrder);
+
+    /**
+     * 支付未完成通知
+     * @param generalOrder 通用订单ID
+     */
+    void userPayNotFinish(GeneralOrder generalOrder);
 
     /**
      * 新用户注册通知（给管理员通知）

@@ -29,7 +29,27 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
     private WechatAccountConfig wechatAccountConfig;
 
     @Override
-    public void studentPayGradeSuccess(GeneralOrder generalOrder) {
+    public void userPayNotFinish(GeneralOrder generalOrder) {
+        WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+        String notFinishPay = wechatAccountConfig.getTemplateId().get("notFinishPay");
+        templateMessage.setTemplateId(notFinishPay);
+        templateMessage.setToUser(generalOrder.getOrderOpenId());
+        List<WxMpTemplateData> data = Arrays.asList(
+                new WxMpTemplateData("first", "您提交的订单尚未支付，为了不影响您的业务，请尽快支付，订单有效期30分钟"),
+                new WxMpTemplateData("keyword1", ConstUtilPoll.dateFormat.format(new Date(generalOrder.getCreateTime()))),
+                new WxMpTemplateData("keyword2", String.format("%s元人民币", generalOrder.getOrderMoney().toString())),
+                new WxMpTemplateData("remark", "请核对未支付账单，如有疑问请拨打177-9563-3226 或在公众号中留言")
+        );
+        templateMessage.setData(data);
+        try {
+            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+        } catch (WxErrorException e) {
+            log.error("【微信模板消息】发送失败");
+        }
+    }
+
+    @Override
+    public void userPayGradeSuccess(GeneralOrder generalOrder) {
         WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
         String rechargeTemplateId = wechatAccountConfig.getTemplateId().get("recharge");
         templateMessage.setTemplateId(rechargeTemplateId);
@@ -45,7 +65,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         try {
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
         } catch (WxErrorException e) {
-            log.error("【微信模板消息】发送失败 ,{}", e);
+            log.error("【微信模板消息】发送失败");
         }
     }
 
@@ -69,7 +89,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
             try {
                 wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
             } catch (WxErrorException e) {
-                log.error("【微信模板消息】发送失败 ,{}", e);
+                log.error("【微信模板消息】发送失败");
             }
         }
     }
@@ -116,7 +136,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         try {
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
         } catch (WxErrorException e) {
-            log.error("【微信模板消息】发送失败 {}", e);
+            log.error("【微信模板消息】发送失败");
         }
     }
 
@@ -162,7 +182,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         try {
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
         } catch (WxErrorException e) {
-            log.error("【微信模板消息】发送失败 ,{}", e);
+            log.error("【微信模板消息】发送失败");
         }
     }
 
@@ -208,7 +228,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         try {
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
         } catch (WxErrorException e) {
-            log.error("【微信模板消息】发送失败 ,{}", e);
+            log.error("【微信模板消息】发送失败");
         }
     }
 
@@ -257,7 +277,7 @@ public class WechatPushMessageServiceImpl implements WechatPushMessageService {
         try {
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
         } catch (WxErrorException e) {
-            log.error("【微信模板消息】发送失败 ,{}", e);
+            log.error("【微信模板消息】发送失败");
         }
     }
 }

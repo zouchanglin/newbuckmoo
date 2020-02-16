@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("/all-pay")
+@RequestMapping("/all-pay/notify")
 public class PayNotifyCallbackController {
-
     @Autowired
     private PayNotifyCallback payNotifyCallback;
 
-    @PostMapping("notify")
+    @PostMapping
     public String payNotify(@RequestBody String notifyData){
         log.info("【支付完成统一反馈】{}", notifyData);
         payNotifyCallback.payNotify(notifyData);

@@ -38,7 +38,6 @@ public class PositionManageController {
                                      Map<String, Object> map){
         PageRequest pageRequest = PageRequest.of(page-1, size);
         Page<PositionInfoDTO> positionPage = positionInfoService.getAllByAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageRequest);
-        log.info("[获取的数据] {}", positionPage.getContent());
 
         map.put("positionPage", positionPage);
         map.put("currentPage", page);
@@ -55,14 +54,12 @@ public class PositionManageController {
                                   Map<String, Object> map){
         PageRequest pageRequest = PageRequest.of(page-1, size);
         Page<PositionInfoDTO> positionPage = positionInfoService.getAllByNotAuditStatus(AuditStatusEnum.AUDIT_SUCCESS.getCode(), pageRequest);
-        log.info("[获取的数据] {}", positionPage.getContent());
 
         map.put("positionPage", positionPage);
         map.put("currentPage", page);
         map.put("size", size);
         return new ModelAndView("position/approve-list");
     }
-
 
     @PostMapping("pass")
     //@CacheEvict(cacheNames = "positionDTOPage", allEntries = true)

@@ -1410,6 +1410,123 @@ POST newbuckmoo/student/buy/grade
 
 
 
+## 24、获取学生购买积分历史订单
+
+```http
+POST newbuckmoo/student/buy/order-list
+```
+
+参数
+
+```json
+{
+	"openId":"oxrwq0zPbgTB-gV9Y4Q-hN4g25Fk"
+}
+```
+
+返回值
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": [
+        {
+            "orderId": "1581836059567569685",
+            "orderName": "购买: 测试套餐学生积分套餐",
+            "orderTypeStr": "学生用户购买积分",
+            "gradeName": "测试套餐",
+            "gradeNum": 200,
+            "orderMoneyStr": "0.01",
+            "orderPayStatusStr": "未支付",
+            "createTime": 1581836059567,
+            "createTimeStr": "2020年02月16日 14:54:19",
+            "updateTime": 1581836059567,
+            "updateTimeStr": "2020年02月16日 14:54:19"
+        },
+        {
+            "orderId": "1581836153306513877",
+            "orderName": "购买: 测试套餐学生积分套餐",
+            "orderTypeStr": "学生用户购买积分",
+            "gradeName": "测试套餐",
+            "gradeNum": 200,
+            "orderMoneyStr": "0.01",
+            "orderPayStatusStr": "未支付",
+            "createTime": 1581836153306,
+            "createTimeStr": "2020年02月16日 14:55:53",
+            "updateTime": 1581836153306,
+            "updateTimeStr": "2020年02月16日 14:55:53"
+        },
+        {
+            "orderId": "1581836174786221515",
+            "orderName": "购买: 测试套餐学生积分套餐",
+            "orderTypeStr": "学生用户购买积分",
+            "gradeName": "测试套餐",
+            "gradeNum": 200,
+            "orderMoneyStr": "0.01",
+            "orderPayStatusStr": "已支付",
+            "createTime": 1581836174786,
+            "createTimeStr": "2020年02月16日 14:56:14",
+            "updateTime": 1581836216000,
+            "updateTimeStr": "2020年02月16日 14:56:56"
+        }
+    ]
+}
+```
+
+返回值字段解释：
+
+orderId 订单的Id
+
+orderName 订单名称
+
+orderTypeStr 订单类型
+
+gradeName 积分套餐名称
+
+gradeNum 本次购买的积分数量
+
+orderMoneyStr 订单金额（单位：元 人民币）
+
+orderPayStatusStr 订单支付状态
+
+createTime 订单创建时间
+
+updateTime 订单更新时间
+
+## 25、学生支付未支付的购买积分订单
+
+未支付订单30分钟超时，超时订单将从数据库移除
+
+```http
+POST newbuckmoo/student/buy/not-finish
+```
+
+**参数**
+
+```json
+{
+    "orderId": "1581836174786221515",
+    "returnUrl": "http://lslm.live:8721/..."
+}
+```
+
+参数解释：
+
+orderId 未支付订单的Id，由24号接口获得
+
+returnUrl 支付完成后跳转地址
+
+**返回值**
+
+支付页面
+
+> tip:目前开启了测试地址：newbuckmoo/student/buy/not-finish-test，参数为openId、returnUrl，比如我的一个测试连接就是：`http://tim.natapp1.cc/newbuckmoo/student/buy/not-finish-test?orderId=1581831009746399466&returnUrl=http://www.baidu.com`  测试通过
+
+
+
+
+
 # 三、运行参数
 
 MySQL IP：

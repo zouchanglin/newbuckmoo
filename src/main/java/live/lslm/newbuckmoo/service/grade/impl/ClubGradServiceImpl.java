@@ -10,12 +10,14 @@ import live.lslm.newbuckmoo.repository.UserGradeRepository;
 import live.lslm.newbuckmoo.service.admin.SettingEnum;
 import live.lslm.newbuckmoo.service.admin.SettingService;
 import live.lslm.newbuckmoo.service.grade.ClubGradService;
+import live.lslm.newbuckmoo.vo.BuyGradeOrderVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -36,6 +38,11 @@ public class ClubGradServiceImpl implements ClubGradService {
     @Override
     public void finishOrderAndUpdateUserGrade(GeneralOrder generalOrder, String notifyData) {
 
+    }
+
+    @Override
+    public List<BuyGradeOrderVO> getAllBuyGradeOrder(String openId) {
+        return null;
     }
 
     @Override

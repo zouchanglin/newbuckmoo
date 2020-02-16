@@ -1,5 +1,7 @@
 package live.lslm.newbuckmoo.service.grade.impl;
 
+import com.google.common.collect.Lists;
+import com.lly835.bestpay.model.PayResponse;
 import live.lslm.newbuckmoo.entity.*;
 import live.lslm.newbuckmoo.enums.*;
 import live.lslm.newbuckmoo.exception.BuckmooException;
@@ -12,13 +14,16 @@ import live.lslm.newbuckmoo.service.admin.SettingService;
 import live.lslm.newbuckmoo.service.grade.GradeComboService;
 import live.lslm.newbuckmoo.service.grade.StudentGradeService;
 import live.lslm.newbuckmoo.utils.ConstUtilPoll;
+import live.lslm.newbuckmoo.utils.EnumUtil;
 import live.lslm.newbuckmoo.utils.KeyUtil;
+import live.lslm.newbuckmoo.vo.BuyGradeOrderVO;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -26,7 +31,10 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -57,6 +65,32 @@ public class StudentGradeServiceImpl implements StudentGradeService {
 
     @Autowired
     private WechatPushMessageService wechatPushMessageService;
+
+    @Autowired
+    private RedisTemplate<Object, PayResponse> payResponseRedisTemplate;
+
+
+    @Override
+    public List<BuyGradeOrderVO> getAllBuyGradeOrder(String openId) {
+        List<GeneralOrder> generalOrderList = generalOrderRepository.findAllByOrderOpenIdOrderByCreateTime(openId);
+        List<BuyGradeOrderVO> buyGradeOrderVOList = Lists.newArrayListWithCapacity(generalOrderList.size());
+        BuyGradeOrderVO buyGradeOrderVO;
+        for(GeneralOrder generalOrder: generalOrderList){
+            buyGradeOrderVO = new BuyGradeOrderVO();
+            BuyGradeOrder gradeOrder = buyGradeOrderRepository.getOne(generalOrder.getOrderId());
+            BeanUtils.copyProperties(generalOrder, buyGradeOrderVO);
+            buyGradeOrderVO.setCreateTimeStr(ConstUtilPoll.dateFormat.format(new Date(generalOrder.getCreateTime())));
+            buyGradeOrderVO.setUpdateTimeStr(ConstUtilPoll.dateFormat.format(new Date(generalOrder.getUpdateTime())));
+            GradeCombo gradeCombo = gradeComboService.getOneComboById(gradeOrder.getGradeComboId());
+            buyGradeOrderVO.setGradeName(gradeCombo.getGradeName());
+            buyGradeOrderVO.setGradeNum(gradeCombo.getGradeNum());
+            buyGradeOrderVO.setOrderMoneyStr(generalOrder.getOrderMoney().toString());
+            buyGradeOrderVO.setOrderPayStatusStr(EnumUtil.getByCode(generalOrder.getOrderPayStatus(), PayStatusEnum.class).getMessage());
+            buyGradeOrderVO.setOrderTypeStr(EnumUtil.getByCode(generalOrder.getOrderType(), OrderTypeEnum.class).getMessage());
+            buyGradeOrderVOList.add(buyGradeOrderVO);
+        }
+        return buyGradeOrderVOList;
+    }
 
     @Override
     @Transactional
@@ -111,9 +145,10 @@ public class StudentGradeServiceImpl implements StudentGradeService {
             log.error("【学生用户积分充值】暂无该用户的积分表");
             throw new BuckmooException(ResultEnum.PARAM_ERROR);
         }
-
+        //删除Redis的支付对象
+        payResponseRedisTemplate.opsForValue().set(generalOrder.getOrderId(), null, 2, TimeUnit.SECONDS);
         //微信模板消息推送
-        wechatPushMessageService.studentPayGradeSuccess(generalOrder);
+        wechatPushMessageService.userPayGradeSuccess(generalOrder);
     }
 
     @Override
@@ -137,7 +172,7 @@ public class StudentGradeServiceImpl implements StudentGradeService {
         order.setUpdateTime(System.currentTimeMillis());
 
         GeneralOrder generalOrder = generalOrderRepository.save(order);
-        log.info("【学生用户积分充值】 订单生成结果 {}", generalOrder);
+        log.info("【学生用户积分充值】 统一订单生成结果 {}", generalOrder);
 
         //生成购买积分专用订单
         BuyGradeOrder buyGradeOrder = new BuyGradeOrder();
@@ -146,7 +181,7 @@ public class StudentGradeServiceImpl implements StudentGradeService {
         buyGradeOrder.setBuyerOpenId(openId);
         buyGradeOrder.setGradeComboId(userBuyGradeForm.getGradeComboId());
         BuyGradeOrder savedBuyGradeOrder = buyGradeOrderRepository.save(buyGradeOrder);
-        log.info("【学生用户积分充值】 专用订单生成结果 {}", savedBuyGradeOrder);
+        log.info("【学生用户积分充值】 具体订单生成结果 {}", savedBuyGradeOrder);
 
         return generalOrder;
     }

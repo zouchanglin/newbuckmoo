@@ -2,6 +2,9 @@ package live.lslm.newbuckmoo.service.grade;
 
 import live.lslm.newbuckmoo.entity.GeneralOrder;
 import live.lslm.newbuckmoo.form.UserBuyGradeForm;
+import live.lslm.newbuckmoo.vo.BuyGradeOrderVO;
+
+import java.util.List;
 
 public interface UserGradeService {
     /**
@@ -28,4 +31,11 @@ public interface UserGradeService {
      * @param generalOrder 通用订单对象
      */
     void finishOrderAndUpdateUserGrade(GeneralOrder generalOrder, String notifyData);
+
+    /**
+     * 获取购买积分的全部订单
+     * @param openId 用户openId
+     * @return 订单集合
+     */
+    List<BuyGradeOrderVO> getAllBuyGradeOrder(String openId);
 }

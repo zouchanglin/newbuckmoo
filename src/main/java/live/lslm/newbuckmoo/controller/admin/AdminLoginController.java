@@ -69,10 +69,10 @@ public class AdminLoginController {
 
         //查看数据库Admin账户配置
         Optional<SystemSettings> idOpt = settingsRepository.findById("root_id");
-        if(!idOpt.isPresent()) throw new RuntimeException("[数据库设置 root_id丢失]");
+        if(!idOpt.isPresent()) throw new RuntimeException("【数据库设置项丢失】root_id");
 
         Optional<SystemSettings> pwdOpt = settingsRepository.findById("root_pwd");
-        if(!pwdOpt.isPresent()) throw new RuntimeException("[数据库设置 root_pwd丢失]");
+        if(!pwdOpt.isPresent()) throw new RuntimeException("【数据库设置项丢失】root_pwd");
 
         //去数据库匹配
         if(!idOpt.get().getSystemValue().equals(adminId) || !pwdOpt.get().getSystemValue().equals(adminPass)){

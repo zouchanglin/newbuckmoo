@@ -46,6 +46,7 @@ wechat:
     auditResult: ruHAwxC-rtOVvFvib9LSNtr_ldqioTKfM2qpwf1gYXc
     newRegister: GGyGLHKgw1dnO7aOlnDkR2NOR9y1Vq7K5w6EbIpqSr4
     recharge: jSLsYp-V6t1dItOFXuldcJY9CJfF6HT9uevxamBQQ3c
+    notFinishPay: 7C66Nl9OI2qYP1Wy_OF2WjB_dRO08ZvxnYbMbEDOA0c
 
 aliyun:
   regionId: cn-hangzhou

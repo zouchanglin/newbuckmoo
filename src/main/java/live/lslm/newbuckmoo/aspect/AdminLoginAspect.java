@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Component
 public class AdminLoginAspect {
+
     @Autowired
     private StringRedisTemplate redisTemplate;
 
@@ -31,7 +32,7 @@ public class AdminLoginAspect {
     @Before("execution(public * live.lslm.newbuckmoo.controller.admin.*.*(..))" +
     "&& !execution(public * live.lslm.newbuckmoo.controller.admin.AdminLoginController.*(..))")
     public void isAdmin() {
-        log.info("【进入管理员操作验证切面】 AdminSessionAspect");
+        log.info("【管理员操作验证】");
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert requestAttributes != null;
         HttpServletRequest request = requestAttributes.getRequest();
@@ -49,5 +50,10 @@ public class AdminLoginAspect {
             log.warn("【管理员登录校验】 Redis中查不到token");
             throw new BuckmooAuthorizeException();
         }
+    }
+
+    @Before("execution(public * live.lslm.newbuckmoo.controller.admin.setting.*.*(..))")
+    public void isAdminSetting(){
+        isAdmin();
     }
 }
