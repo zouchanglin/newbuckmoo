@@ -1,10 +1,10 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/buckmoo?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/bwqnewokuckmoo?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
-    password: 123456
-    type: com.alibaba.druid.pool.DruidDataSource
+    password: 123231231456
+    type: com.alibaba.drsuid.pool.DruidDataSource
     druid:
       initial-size: 5
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -32,28 +32,6 @@ spring:
 
 server:
   servlet:
-    context-path: /newbuckmoo
+    context-path: /newbswswqqquckmoo
   port: 8080
 
-wechat:
-  mpAppId: wxb39b42f5fd93c167
-  mpAppSecret: 3d63c96f84e4587baa5e4a6f85d1a515
-  mchId: 1545797881
-  mchKey: lhl123456anxlhl123456anxlhl12345
-  mchPath: D:\develop\wechatPayKey\apiclient_cert.p12
-  notifyUrl: http://tim.natapp1.cc/newbuckmoo/all-pay/notify
-  templateId:
-    auditResult: ruHAwxC-rtOVvFvib9LSNtr_ldqioTKfM2qpwf1gYXc
-    newRegister: GGyGLHKgw1dnO7aOlnDkR2NOR9y1Vq7K5w6EbIpqSr4
-    recharge: jSLsYp-V6t1dItOFXuldcJY9CJfF6HT9uevxamBQQ3c
-    notFinishPay: 7C66Nl9OI2qYP1Wy_OF2WjB_dRO08ZvxnYbMbEDOA0c
-
-aliyun:
-  regionId: cn-hangzhou
-  accessKeyId: LTAIAlvA2P2ekeha
-  secret: 6KIoQD2X33V78JSYbp0wGLaUMUm18l
-
-projecturl:
-  wechatMpAuthorize: http://tim.natapp1.cc
-  newbuckmoo: http://tim.natapp1.cc/newbuckmoo
-  websocket: localhost:8080

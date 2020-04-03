@@ -111,7 +111,6 @@ public class StudentBuyGradeController {
 
     @GetMapping("grade-test")
     public ModelAndView testStudentBuyGrade(String openId, Integer typeId, String returnUrl, Map<String, Object> map){
-
         UserBuyGradeForm userBuyGradeForm = new UserBuyGradeForm();
         userBuyGradeForm.setOpenId(openId);
         userBuyGradeForm.setGradeComboId(typeId);

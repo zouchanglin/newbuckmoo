@@ -17,8 +17,6 @@ public class CustomRedisTemplate {
         //是自己制定序列化
         FastJsonRedisSerializer<PayResponse> serializer = new FastJsonRedisSerializer<>(PayResponse.class);
         template.setDefaultSerializer(serializer);
-        // Jackson2JsonRedisSerializer<Employee> employeeJackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Employee>(Employee.class);
-        // template.setDefaultSerializer(employeeJackson2JsonRedisSerializer);
         return template;
     }
 }

@@ -37,24 +37,24 @@ server:
   port: 80
 
 wechat:
-  mpAppId: wxb39b42f5fd93c167
-  mpAppSecret: 3d63c96f84e4587baa5e4a6f85d1a515
-  mchId: 1545797881
-  mchKey: lhl123456anxlhl123456anxlhl12345
+  mpAppId: njfhrohakdheuhde
+  mpAppSecret: 78397534251111121
+  mchId: 7829714nidoheiofreo
+  mchKey: lhl1212321312312hl1ftbhalshdjkcr2345
   mchPath: D:\develop\wechatPayKey\apiclient_cert.p12
   notifyUrl: http://lslm.live/newbuckmoo/all-pay/notify
   templateId:
-    auditResult: ruHAwxC-rtOVvFvib9LSNtr_ldqioTKfM2qpwf1gYXc
-    newRegister: GGyGLHKgw1dnO7aOlnDkR2NOR9y1Vq7K5w6EbIpqSr4
-    recharge: jSLsYp-V6t1dItOFXuldcJY9CJfF6HT9uevxamBQQ3c
+    auditResult: ruHAwxC-rtOVvFv2121ib9LSNtr_ldqioTKfM2qpwf1gYXc
+    newRegister: GGyGLHKgw1dnO7a12OlnDkR2NOR9y1Vq7K5w6EbIpqSr4
+    recharge: jSLsYp-V6t1dItOFXu211111111ldcJY9CJfF6HT9uevxamBQQ3c
     notFinishPay: 7C66Nl9OI2qYP1Wy_OF2WjB_dRO08ZvxnYbMbEDOA0c
 
 aliyun:
   regionId: cn-hangzhou
-  accessKeyId: LTAIAlvA2P2ekeha
-  secret: 6KIoQD2X33V78JSYbp0wGLaUMUm18l
+  accessKeyId: 2134332111111111111111125345233443
+  secret: 6KIoQ89301829038212222222229401l23
 
 projecturl:
-  wechatMpAuthorize: http://lslm.live
-  newbuckmoo: http://lslm.live/newbuckmoo
-  websocket: lslm.live:80
+  wechatMpAuthorize: http://ls12lm.live
+  newbuckmoo: http://l.comde.iv0e/21new2121bu21c21k21moo
+  websocket: lslswsqw21212100m.l21imove:80
